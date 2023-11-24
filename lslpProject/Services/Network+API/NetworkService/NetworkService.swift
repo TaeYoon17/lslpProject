@@ -9,6 +9,7 @@ import Foundation
 import Alamofire
 import RxSwift
 final class NetworkService{
+    static let accessExpireSeconds:Double = 60
     static let shared = NetworkService()
     var errSubject:PublishSubject<ErrMsg>?
     private init(){}
