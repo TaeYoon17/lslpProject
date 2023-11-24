@@ -7,7 +7,17 @@
 
 import Foundation
 
-struct User{
-    let id: String
-    let pw: String
+struct User:Codable{
+    let email: String
+    let password: String
+    let nick : String
+    let phoneNum: String?
+    let birthDay: String?
+    init(email: String, password: String, nick: String, phoneNum: String? = nil, birthDay: String? = nil) {
+        self.email = email
+        self.password = password
+        self.nick = nick
+        self.phoneNum = phoneNum
+        self.birthDay = birthDay
+    }
 }

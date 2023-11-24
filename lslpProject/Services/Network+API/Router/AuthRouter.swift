@@ -32,9 +32,9 @@ enum AuthRouter:URLRequestConvertible{
             headers["SesacKey"] = App.sesacKey
         case .refreshToken:
             headers["Refresh"] = "RefreshToken넣기"
-        case .emailValidation,.signIn,.signUp:
-            headers["Content-Type"] = "application/json"
-            headers["SesacKey"] = App.sesacKey
+        case .emailValidation,.signIn,.signUp: break
+//            headers["Content-Type"] = "application/json"
+//            headers["SesacKey"] = App.sesacKey
         }
         return headers
     }

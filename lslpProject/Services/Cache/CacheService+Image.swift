@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+//MARK: -- UIImage에 Extension으로 나머지 수정해야한다.[
 extension CacheService{
     func appendImage(type: App.CacheType,names:[String],size:CGSize? = nil) async throws{
         await withThrowingTaskGroup(of: Void.self) {[weak self] group in
@@ -17,7 +18,6 @@ extension CacheService{
             }
         }
     }
-    
     func appendImage(type: App.CacheType,name:String,size:CGSize? = nil) async throws{
         let keyName = if let size{
             "\(name)_\(Int(size.width))_\(Int(size.height))"
@@ -39,8 +39,24 @@ extension CacheService{
             throw error
         }
     }
-    
-    @MainActor func fetchByCache(type:SourceType,name: String, size:CGSize? = nil) async throws -> UIImage?{
+    func appendImage(type: App.CacheType,name:String,maxSize:CGSize) async throws{
+        let keyName = "\(name)_max_\(Int(maxSize.width))_\(Int(maxSize.height))"
+        let image = switch type{
+        case .albumImage: UIImage()
+//            try await UIImage.fetchBy(link: name)
+        case .documentImage: UIImage()
+//            try await UIImage.fetchBy(fileName: name)
+        case .webImage: UIImage()
+//            await UIImage.fetchBy(identifier: name)
+        }
+//        guard let image else {throw FetchError.fetch}
+        let size = CGSize(original: image.size, max: maxSize)
+        guard let img = await image.byPreparingThumbnail(ofSize: size) else { return}
+        cacheTable[type]?.setObject(img, forKey: keyName as NSString)
+    }
+}
+extension CacheService{
+    @MainActor func imageFetch(type:App.CacheType,name: String, size:CGSize? = nil) async throws -> UIImage?{
         let keyStr = if let size{ "\(name)_\(Int(size.width))_\(Int(size.height))"
         }else { name }
         let image = if let size{
@@ -51,7 +67,7 @@ extension CacheService{
         if let image{
             return image
         }else{
-            try await appendCache(type: type, name: name, size: size)
+            try await appendImage(type: type, name: name, size: size)
         }
         try await Task.sleep(nanoseconds: 1000)
         return if let size{
@@ -60,24 +76,13 @@ extension CacheService{
             await cacheTable[type]?.object(forKey: keyStr as NSString)?.byPreparingForDisplay()
         }
     }
-    func appendCache(type: SourceType,name:String,maxSize:CGSize) async throws{
-        let keyName = "\(name)_max_\(Int(maxSize.width))_\(Int(maxSize.height))"
-        let image = switch type{
-        case .album: try await UIImage.fetchBy(link: name)
-        case .file: try await UIImage.fetchBy(fileName: name)
-        case .search: await UIImage.fetchBy(identifier: name)
-        }
-        guard let image else {throw FetchError.fetch}
-        let size = CGSize(original: image.size, max: maxSize)
-        guard let img = await image.byPreparingThumbnail(ofSize: size) else { return}
-        cacheTable[type]?.setObject(img, forKey: keyName as NSString)
-    }
-    @MainActor func fetchByCache(type:SourceType,name: String, maxSize:CGSize) async throws -> UIImage?{
+    
+    @MainActor func iamgeFetch(type:App.CacheType,name: String, maxSize:CGSize) async throws -> UIImage?{
         let keyName = "\(name)_max_\(Int(maxSize.width))_\(Int(maxSize.height))"
         if let image = cacheTable[type]?.object(forKey: keyName as NSString){
             return image
         }else{
-            try await appendCache(type: type, name: name, maxSize: maxSize)
+            try await appendImage(type: type, name: name, maxSize: maxSize)
         }
         do{ try await Task.sleep(nanoseconds: 1000)
         }catch{ print(error)

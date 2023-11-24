@@ -6,3 +6,9 @@
 //
 
 import Foundation
+extension CGSize{
+    init(original:CGSize,max maxSize:CGSize) {
+        let ratio = min(1,min(maxSize.height / original.height, maxSize.width / original.width))
+        self.init(width: original.width * ratio, height: original.height * ratio)
+    }
+}

@@ -8,21 +8,29 @@
 import Foundation
 import RxSwift
 import RxCocoa
-import UIKit
+import CoreImage
 final class UploadVM{
-    let imageSubject: PublishSubject<UIImage> = .init()
+    //MARK: -- ViewStator
+    var dismiss = BehaviorSubject(value: false)
+    //MARK: -- Interactor
+    let viewFinderImageSubject: PublishSubject<CIImage> = .init()
     var disposeBag = DisposeBag()
+    
     init(){
-        CameraService.shared.viewFinderSubject.subscribe(on: MainScheduler.asyncInstance)
-            .bind(to: imageSubject)
+        CameraService.shared.viewFinderSubject
+            .bind(to: viewFinderImageSubject)
             .disposed(by: disposeBag)
     }
+}
+
+extension UploadVM{
     struct Input{
+        
     }
-    @MainActor struct Output{
-        let imageSubject: PublishSubject<UIImage>
+    struct Output{
+        var dismiss = BehaviorSubject(value: false)
     }
-    func outer(_ input: Input)->Output{
-        return Output(imageSubject: imageSubject)
+    func outputActor(_ input: Input)-> Output{
+        Output(dismiss: dismiss)
     }
 }

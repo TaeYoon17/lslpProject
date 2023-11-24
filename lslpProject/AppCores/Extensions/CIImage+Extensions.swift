@@ -6,3 +6,10 @@
 //
 
 import Foundation
+import CoreImage
+import UIKit
+extension CIImage{
+    var uiImage:UIImage{
+        UIImage(ciImage: self)
+    }
+}

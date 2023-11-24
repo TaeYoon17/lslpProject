@@ -21,3 +21,13 @@ struct DefaultsState<Value>{
         self.path = location
     }
 }
+extension UserDefaults{
+    var accessToken: String{
+        get{ self.string(forKey: "accessToken") ?? "" }
+        set{self.set(newValue,forKey: "accessToken")}
+    }
+    var refreshToken: String{
+        get{ self.string(forKey: "refreshToken") ?? "" }
+        set{self.set(newValue,forKey: "refreshToken")}
+    }
+}

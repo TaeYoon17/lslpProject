@@ -12,6 +12,7 @@ import RxCocoa
 final class TabVC: UITabBarController{
     private var createVM = CreatingVM()
     var disposeBag = DisposeBag()
+    weak var nowVC: UIViewController?
     struct TabbarString{
         let title: String?
         let defaultIcon: String
@@ -25,64 +26,15 @@ final class TabVC: UITabBarController{
     override func viewDidLoad() {
         self.tabBar.backgroundColor = .systemBackground
         tabBar.tintColor = .text
-        super.viewDidLoad()
-        let vc1 = DiscoverVC()
-        vc1.title = "Today"
-        let vc2 = FeedVC()
-        vc2.title = "Feed"
-        let vc3 = ViewController()
-        let vc4 = SearchVC()
-        vc4.title = "Search"
-        let vc5 = AccountVC()
-        vc5.title = "Account"
-        let naviControllers = zip([vc1,vc2,vc3,vc4,vc5],
-                                  [TabbarString(title: "Discover", defaultIcon: "house", selectedIcon: "house.fill"),
-                                   TabbarString(title: "Feed", defaultIcon: "rectangle.stack", selectedIcon: "rectangle.stack.fill"),
-                                   TabbarString(title: nil, defaultIcon: "", selectedIcon: ""),
-                                   TabbarString(title: "Search", defaultIcon: "magnifyingglass", selectedIcon: "magnifyingglass"),
-                                   TabbarString(title: "Account", defaultIcon: "person", selectedIcon: "person.fill")
-                                  ]).map{
-            $0.0.navigationItem.largeTitleDisplayMode = .always
-            let nav = UINavigationController(rootViewController: $0.0)
-            nav.tabBarItem = $0.1.getTabbarItem()
-            nav.navigationBar.prefersLargeTitles = true
-            return nav
-        }
-        setViewControllers(naviControllers, animated: false)
+        setTabItems()
         middleBtn()
         let createOutput = createVM.transform()
         createOutput.startCreateType.subscribe(with: self){ owner, val in
             owner.createAction(type: val)
-        }
+        }.disposed(by: disposeBag)
     }
-    weak var nowVC: UIViewController?
-    func middleBtn(){
-        let frame = CGRect(x: 0.0, y: 0.0,
-                           width: tabBar.frame.width / 5,
-                           height: tabBar.frame.height)
-        
-        let button = UIButton(frame: frame)
-        var btnConfig = UIButton.Configuration.plain()
-        btnConfig.image = UIImage(systemName: "plus.circle",withConfiguration: UIImage.SymbolConfiguration(pointSize: 24))
-        let handler: UIButton.ConfigurationUpdateHandler = { button in // 1
-            switch button.state { // 2
-            case [.selected, .highlighted]:
-                button.configuration?.image = UIImage(systemName: "plus.circle.fill",withConfiguration: UIImage.SymbolConfiguration(pointSize: 24))
-            case .selected,.highlighted:
-                button.configuration?.image = UIImage(systemName: "plus.circle.fill",withConfiguration: UIImage.SymbolConfiguration(pointSize: 24))
-            default:
-                button.configuration?.image = UIImage(systemName: "plus.circle",withConfiguration: UIImage.SymbolConfiguration(pointSize: 24))
-            }
-        }
-        button.configurationUpdateHandler = handler
-        button.backgroundColor = .systemBackground
-        button.configuration = btnConfig
-        button.center = CGPoint(x: self.tabBar.center.x,
-                                y: tabBar.frame.height / 2)
-        button.layer.zPosition = 2
-        button.addTarget(self, action: #selector(changeTabToMiddleTab), for: UIControl.Event.touchUpInside)
-        self.tabBar.addSubview(button)
-    }
+    
+    
     @objc func changeTabToMiddleTab(){
         guard let nowVC else {return}
         let vc = CreatingVC()
@@ -99,11 +51,19 @@ final class TabVC: UITabBarController{
     }
 }
 fileprivate extension TabVC{
+    
     func createAction(type: App.CreateType){
+        guard let nowVC else {return}
         switch type{
         case .board: break
         case .collage: break
         case .pin:
+            print("present!!")
+            Task{@MainActor in
+                let vc = CreatingPinVC()
+                let nav = UINavigationController(rootViewController: vc)
+                nowVC.present(nav, animated: true)
+            }
         }
     }
 }

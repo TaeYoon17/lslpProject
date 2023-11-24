@@ -7,5 +7,5 @@
 
 import Foundation
 struct TokenResponse: Codable {
-    let toekn: String
+    let token: String
 }
