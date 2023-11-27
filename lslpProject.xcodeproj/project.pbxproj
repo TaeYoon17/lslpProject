@@ -80,6 +80,13 @@
 		63E92AB02B0F5C7200CBEB2F /* DequeModule in Frameworks */ = {isa = PBXBuildFile; productRef = 63E92AAF2B0F5C7200CBEB2F /* DequeModule */; };
 		63E92AB22B0F5C7200CBEB2F /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 63E92AB12B0F5C7200CBEB2F /* OrderedCollections */; };
 		63E92AB52B0F6E4600CBEB2F /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E92AB42B0F6E4600CBEB2F /* Post.swift */; };
+		63F4F2AA2B14988E00CE4E92 /* EmailInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F4F2A92B14988E00CE4E92 /* EmailInput.swift */; };
+		63F4F2AC2B1498D100CE4E92 /* PasswordInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F4F2AB2B1498D100CE4E92 /* PasswordInput.swift */; };
+		63F4F2AE2B1498F200CE4E92 /* TextInputBindings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F4F2AD2B1498F200CE4E92 /* TextInputBindings.swift */; };
+		63F4F2B02B14AC0A00CE4E92 /* LogInBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F4F2AF2B14AC0A00CE4E92 /* LogInBtn.swift */; };
+		63F4F2B22B14D64F00CE4E92 /* EmailEnterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F4F2B12B14D64F00CE4E92 /* EmailEnterCell.swift */; };
+		63F4F2B42B14DD0700CE4E92 /* UICollectionView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F4F2B32B14DD0700CE4E92 /* UICollectionView+Extensions.swift */; };
+		63F4F2B62B14E60400CE4E92 /* SignUpCollectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F4F2B52B14E60400CE4E92 /* SignUpCollectionModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -150,6 +157,13 @@
 		63E92AA82B0F47C500CBEB2F /* CacheService+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CacheService+Image.swift"; sourceTree = "<group>"; };
 		63E92AAA2B0F49D500CBEB2F /* CGImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGImage+Extensions.swift"; sourceTree = "<group>"; };
 		63E92AB42B0F6E4600CBEB2F /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		63F4F2A92B14988E00CE4E92 /* EmailInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailInput.swift; sourceTree = "<group>"; };
+		63F4F2AB2B1498D100CE4E92 /* PasswordInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordInput.swift; sourceTree = "<group>"; };
+		63F4F2AD2B1498F200CE4E92 /* TextInputBindings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputBindings.swift; sourceTree = "<group>"; };
+		63F4F2AF2B14AC0A00CE4E92 /* LogInBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInBtn.swift; sourceTree = "<group>"; };
+		63F4F2B12B14D64F00CE4E92 /* EmailEnterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailEnterCell.swift; sourceTree = "<group>"; };
+		63F4F2B32B14DD0700CE4E92 /* UICollectionView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extensions.swift"; sourceTree = "<group>"; };
+		63F4F2B52B14E60400CE4E92 /* SignUpCollectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCollectionModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +189,8 @@
 			isa = PBXGroup;
 			children = (
 				63AC04092B036EBF0067BAEA /* SignUpVC.swift */,
+				63F4F2B12B14D64F00CE4E92 /* EmailEnterCell.swift */,
+				63F4F2B52B14E60400CE4E92 /* SignUpCollectionModel.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -433,6 +449,7 @@
 		6390AF952B11068800201BF1 /* SignIn */ = {
 			isa = PBXGroup;
 			children = (
+				63F4F2A82B14987C00CE4E92 /* SubComponents */,
 				6390AF962B11069000201BF1 /* SignInVC.swift */,
 			);
 			path = SignIn;
@@ -472,6 +489,7 @@
 			children = (
 				63A178F52B0CF1A200A16A2C /* CIImage+Extensions.swift */,
 				63E92AAA2B0F49D500CBEB2F /* CGImage+Extensions.swift */,
+				63F4F2B32B14DD0700CE4E92 /* UICollectionView+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -554,6 +572,17 @@
 				63E92AB42B0F6E4600CBEB2F /* Post.swift */,
 			);
 			path = Post;
+			sourceTree = "<group>";
+		};
+		63F4F2A82B14987C00CE4E92 /* SubComponents */ = {
+			isa = PBXGroup;
+			children = (
+				63F4F2A92B14988E00CE4E92 /* EmailInput.swift */,
+				63F4F2AB2B1498D100CE4E92 /* PasswordInput.swift */,
+				63F4F2AD2B1498F200CE4E92 /* TextInputBindings.swift */,
+				63F4F2AF2B14AC0A00CE4E92 /* LogInBtn.swift */,
+			);
+			path = SubComponents;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -656,15 +685,18 @@
 				63A178EB2B0CD30A00A16A2C /* IndexViewController.swift in Sources */,
 				63E92A932B0F24A900CBEB2F /* CreatingPinVC.swift in Sources */,
 				6390AF942B10C6F900201BF1 /* OnboardingVM.swift in Sources */,
+				63F4F2B42B14DD0700CE4E92 /* UICollectionView+Extensions.swift in Sources */,
 				6390AF9B2B110CA700201BF1 /* NewworkService+Auth.swift in Sources */,
 				63A178FB2B0CF90900A16A2C /* CameraCaptureView.swift in Sources */,
 				63A178F32B0CE4E800A16A2C /* CameraService.swift in Sources */,
 				636CFFC12B035CD600B03159 /* App.swift in Sources */,
 				634178762B103B5E0098201D /* AuthCredentail.swift in Sources */,
 				63E92AAB2B0F49D500CBEB2F /* CGImage+Extensions.swift in Sources */,
+				63F4F2AA2B14988E00CE4E92 /* EmailInput.swift in Sources */,
 				63A178EE2B0CD7E600A16A2C /* UploadVC.swift in Sources */,
 				63E92AA72B0F46D600CBEB2F /* CacheService.swift in Sources */,
 				63E92AA42B0F3DA200CBEB2F /* CreatingPinVM.swift in Sources */,
+				63F4F2AE2B1498F200CE4E92 /* TextInputBindings.swift in Sources */,
 				6390AF8F2B10B50B00201BF1 /* OnboardingVC.swift in Sources */,
 				636CFF802B0351EE00B03159 /* AppDelegate.swift in Sources */,
 				63282CE22B08DB98006E7771 /* CompositionalExtension.swift in Sources */,
@@ -678,7 +710,9 @@
 				63A179052B0D111A00A16A2C /* CameraCaptureVM.swift in Sources */,
 				638E10212B0B49D3006D27C0 /* TabVC.swift in Sources */,
 				63282CDA2B08BA29006E7771 /* FeedVC.swift in Sources */,
+				63F4F2AC2B1498D100CE4E92 /* PasswordInput.swift in Sources */,
 				63A178FD2B0CF92800A16A2C /* VideoUploadView.swift in Sources */,
+				63F4F2B22B14D64F00CE4E92 /* EmailEnterCell.swift in Sources */,
 				6373BF7D2B0F23BC006DE10C /* CreatingVC.swift in Sources */,
 				6390AF9E2B110D6100201BF1 /* SignInRespone.swift in Sources */,
 				634178722B1039950098201D /* UserDefaults+State.swift in Sources */,
@@ -693,9 +727,11 @@
 				63A178F92B0CF3FE00A16A2C /* UploadVM.swift in Sources */,
 				63282CD82B08B999006E7771 /* DiscoverVM.swift in Sources */,
 				636CFF822B0351EE00B03159 /* SceneDelegate.swift in Sources */,
+				63F4F2B02B14AC0A00CE4E92 /* LogInBtn.swift in Sources */,
 				6389C1CD2B0A07050011666C /* TabManTempVC.swift in Sources */,
 				63E92A9A2B0F2FFA00CBEB2F /* TabVC+ViewSetting.swift in Sources */,
 				6390AF992B1109D500201BF1 /* SignInVM.swift in Sources */,
+				63F4F2B62B14E60400CE4E92 /* SignUpCollectionModel.swift in Sources */,
 				63282CDC2B08BA67006E7771 /* FeedVM.swift in Sources */,
 				638E10252B0B5418006D27C0 /* AccountVC.swift in Sources */,
 				6390AF912B10B82E00201BF1 /* ButtonAnimations.swift in Sources */,

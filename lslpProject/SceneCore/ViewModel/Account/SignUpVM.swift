@@ -10,16 +10,31 @@ import RxSwift
 import RxCocoa
 import Alamofire
 final class SignUpVM{
+    let userInfo = BehaviorSubject(value: User(email: "", password: "", nick: ""))
+    let pageNumber = BehaviorSubject(value: 0)
     var disposeBag = DisposeBag()
-    
+    let nextTapped: PublishSubject<Void> = .init()
+    init(){ }
     struct Input{
         
     }
-    
     struct Output{
-        
+        let nextTapped: PublishSubject<Void>
     }
-    init(){
+    
+    func output(_ input:Input) -> Output{
+        return Output(nextTapped: nextTapped)
+    }
+}
+
+struct SignUpResponse:Codable{
+    let _id: String
+    let email:String
+    let nick: String
+    enum CodingKeys: String, CodingKey {
+        case _id = "_id",email = "email",nick = "nick"
+    }
+}
 //        disposeBag = DisposeBag()
 //        print("")
 //        Task{
@@ -32,14 +47,3 @@ final class SignUpVM{
 //        NetworkService.shared.errSubject?.subscribe(with: self){ owner, val in
 //            print(val.message)
 //        }.disposed(by: disposeBag)
-    }
-}
-
-struct SignUpResponse:Codable{
-    let _id: String
-    let email:String
-    let nick: String
-    enum CodingKeys: String, CodingKey {
-        case _id = "_id",email = "email",nick = "nick"
-    }
-}
