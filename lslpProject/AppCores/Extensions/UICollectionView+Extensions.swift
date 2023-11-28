@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 extension UICollectionView {
     enum ScrollType{case x,y}
     func scrollToNextItem(axis: ScrollType) {
@@ -51,5 +52,6 @@ extension UICollectionView {
         let lastRow = numberOfItems(inSection: lastSection)
         let indexPath = IndexPath(row: lastRow - 1, section: lastSection)
         scrollToItem(at: indexPath, at: .bottom, animated: true)
+        
     }
 }

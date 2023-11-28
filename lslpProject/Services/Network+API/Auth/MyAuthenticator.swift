@@ -17,9 +17,9 @@ final class MyAuthenticator: Authenticator{
     func apply(_ credential: Credential, to urlRequest: inout URLRequest) {
         urlRequest.addValue(credential.accessToken, forHTTPHeaderField: "Authorization")
     }
-    // 인터셉터에서는 요청 결과를 401 코드로 받으면 요청을 재검사할 필요가 있다고 본다.
+    // 인터셉터에서는 요청 결과를 419 코드로 받으면 요청을 재검사할 필요가 있다고 본다.
     func didRequest(_ urlRequest: URLRequest, with response: HTTPURLResponse, failDueToAuthenticationError error: Error) -> Bool {
-        return response.statusCode == 401
+        return response.statusCode == 419
     }
     // 요청한 결과에 대해서 다시한번 재확인
     func isRequest(_ urlRequest: URLRequest, authenticatedWith credential: Credential) -> Bool {

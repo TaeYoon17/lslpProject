@@ -9,9 +9,13 @@ import UIKit
 import SnapKit
 import RxSwift
 import RxCocoa
-
-final class EmailEnterCell: UICollectionViewCell{
-    var disposeBag = DisposeBag()
+final class EmailEnterVC: BaseVC{
+    weak var vm: SignUpVM!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        inputField.rx.text.orEmpty.bind(to: vm.emailSubject).disposed(by: disposeBag)
+        nextBtn.rx.tap.bind(to: vm.nextTapped).disposed(by: disposeBag)
+    }
     let titleLabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20,weight: .bold)
@@ -25,10 +29,15 @@ final class EmailEnterCell: UICollectionViewCell{
         return field
     }()
     var nextBtn = LogInBtn(text: "Next", textColor: .white, bgColor: .systemGreen, holderColor: .systemGray5, holderBgColor: .lightGray)
-    init(){
-        super.init(frame: .zero)
-        [titleLabel,inputField].forEach { contentView.addSubview($0) }
+    
+    override func configureLayout() {
+        [titleLabel,inputField].forEach { view.addSubview($0) }
         inputField.inputAccessoryView?.addSubview(nextBtn)
+    }
+    override func configureNavigation() {
+        
+    }
+    override func configureConstraints() {
         titleLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().inset(8)
@@ -42,12 +51,11 @@ final class EmailEnterCell: UICollectionViewCell{
             make.horizontalEdges.equalToSuperview().inset(16)
             make.height.equalTo(44)
         }
+    }
+    override func configureView() {
         titleLabel.text = "What's your email?"
         inputField.tintColor = .systemGreen
         inputField.rx.text.orEmpty.map { !$0.isEmpty }
             .bind(to: nextBtn.isAvailableLogIn).disposed(by: disposeBag)
-    }
-    required init?(coder: NSCoder) {
-        fatalError("Don't use storyboard")
     }
 }

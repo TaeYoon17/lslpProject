@@ -8,11 +8,11 @@
 import Foundation
 
 struct User:Codable{
-    let email: String
-    let password: String
-    let nick : String
-    let phoneNum: String?
-    let birthDay: String?
+    var email: String
+    var password: String
+    var nick : String
+    var phoneNum: String?
+    var birthDay: String?
     init(email: String, password: String, nick: String, phoneNum: String? = nil, birthDay: String? = nil) {
         self.email = email
         self.password = password

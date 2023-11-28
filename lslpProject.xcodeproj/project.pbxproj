@@ -66,6 +66,9 @@
 		63AC040D2B036EDB0067BAEA /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AC040C2B036EDB0067BAEA /* BaseVC.swift */; };
 		63AC040F2B0370A00067BAEA /* SignUpVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AC040E2B0370A00067BAEA /* SignUpVM.swift */; };
 		63AC04122B038B1A0067BAEA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 63AC04112B038B1A0067BAEA /* Alamofire */; };
+		63B7B2B42B15BF3800A991F4 /* PWEnterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B7B2B32B15BF3800A991F4 /* PWEnterVC.swift */; };
+		63B7B2B72B15C38500A991F4 /* NickNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B7B2B62B15C38500A991F4 /* NickNameVC.swift */; };
+		63B7B2B92B15C4B500A991F4 /* OptionEnterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B7B2B82B15C4B500A991F4 /* OptionEnterVC.swift */; };
 		63E92A932B0F24A900CBEB2F /* CreatingPinVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E92A922B0F24A900CBEB2F /* CreatingPinVC.swift */; };
 		63E92A962B0F2D1B00CBEB2F /* CreatingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E92A952B0F2D1B00CBEB2F /* CreatingVM.swift */; };
 		63E92A9A2B0F2FFA00CBEB2F /* TabVC+ViewSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E92A992B0F2FFA00CBEB2F /* TabVC+ViewSetting.swift */; };
@@ -84,7 +87,7 @@
 		63F4F2AC2B1498D100CE4E92 /* PasswordInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F4F2AB2B1498D100CE4E92 /* PasswordInput.swift */; };
 		63F4F2AE2B1498F200CE4E92 /* TextInputBindings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F4F2AD2B1498F200CE4E92 /* TextInputBindings.swift */; };
 		63F4F2B02B14AC0A00CE4E92 /* LogInBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F4F2AF2B14AC0A00CE4E92 /* LogInBtn.swift */; };
-		63F4F2B22B14D64F00CE4E92 /* EmailEnterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F4F2B12B14D64F00CE4E92 /* EmailEnterCell.swift */; };
+		63F4F2B22B14D64F00CE4E92 /* EmailEnterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F4F2B12B14D64F00CE4E92 /* EmailEnterVC.swift */; };
 		63F4F2B42B14DD0700CE4E92 /* UICollectionView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F4F2B32B14DD0700CE4E92 /* UICollectionView+Extensions.swift */; };
 		63F4F2B62B14E60400CE4E92 /* SignUpCollectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F4F2B52B14E60400CE4E92 /* SignUpCollectionModel.swift */; };
 /* End PBXBuildFile section */
@@ -146,6 +149,9 @@
 		63AC04092B036EBF0067BAEA /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		63AC040C2B036EDB0067BAEA /* BaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
 		63AC040E2B0370A00067BAEA /* SignUpVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVM.swift; sourceTree = "<group>"; };
+		63B7B2B32B15BF3800A991F4 /* PWEnterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PWEnterVC.swift; sourceTree = "<group>"; };
+		63B7B2B62B15C38500A991F4 /* NickNameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameVC.swift; sourceTree = "<group>"; };
+		63B7B2B82B15C4B500A991F4 /* OptionEnterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionEnterVC.swift; sourceTree = "<group>"; };
 		63E92A922B0F24A900CBEB2F /* CreatingPinVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatingPinVC.swift; sourceTree = "<group>"; };
 		63E92A952B0F2D1B00CBEB2F /* CreatingVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatingVM.swift; sourceTree = "<group>"; };
 		63E92A992B0F2FFA00CBEB2F /* TabVC+ViewSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TabVC+ViewSetting.swift"; sourceTree = "<group>"; };
@@ -161,7 +167,7 @@
 		63F4F2AB2B1498D100CE4E92 /* PasswordInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordInput.swift; sourceTree = "<group>"; };
 		63F4F2AD2B1498F200CE4E92 /* TextInputBindings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputBindings.swift; sourceTree = "<group>"; };
 		63F4F2AF2B14AC0A00CE4E92 /* LogInBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInBtn.swift; sourceTree = "<group>"; };
-		63F4F2B12B14D64F00CE4E92 /* EmailEnterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailEnterCell.swift; sourceTree = "<group>"; };
+		63F4F2B12B14D64F00CE4E92 /* EmailEnterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailEnterVC.swift; sourceTree = "<group>"; };
 		63F4F2B32B14DD0700CE4E92 /* UICollectionView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extensions.swift"; sourceTree = "<group>"; };
 		63F4F2B52B14E60400CE4E92 /* SignUpCollectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCollectionModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -188,8 +194,8 @@
 		63282CDD2B08BAC6006E7771 /* SignUp */ = {
 			isa = PBXGroup;
 			children = (
+				63B7B2B52B15C25600A991F4 /* SubVC */,
 				63AC04092B036EBF0067BAEA /* SignUpVC.swift */,
-				63F4F2B12B14D64F00CE4E92 /* EmailEnterCell.swift */,
 				63F4F2B52B14E60400CE4E92 /* SignUpCollectionModel.swift */,
 			);
 			path = SignUp;
@@ -513,6 +519,17 @@
 			path = Bases;
 			sourceTree = "<group>";
 		};
+		63B7B2B52B15C25600A991F4 /* SubVC */ = {
+			isa = PBXGroup;
+			children = (
+				63F4F2B12B14D64F00CE4E92 /* EmailEnterVC.swift */,
+				63B7B2B32B15BF3800A991F4 /* PWEnterVC.swift */,
+				63B7B2B62B15C38500A991F4 /* NickNameVC.swift */,
+				63B7B2B82B15C4B500A991F4 /* OptionEnterVC.swift */,
+			);
+			path = SubVC;
+			sourceTree = "<group>";
+		};
 		63E92A942B0F2D0F00CBEB2F /* Creating */ = {
 			isa = PBXGroup;
 			children = (
@@ -697,6 +714,7 @@
 				63E92AA72B0F46D600CBEB2F /* CacheService.swift in Sources */,
 				63E92AA42B0F3DA200CBEB2F /* CreatingPinVM.swift in Sources */,
 				63F4F2AE2B1498F200CE4E92 /* TextInputBindings.swift in Sources */,
+				63B7B2B42B15BF3800A991F4 /* PWEnterVC.swift in Sources */,
 				6390AF8F2B10B50B00201BF1 /* OnboardingVC.swift in Sources */,
 				636CFF802B0351EE00B03159 /* AppDelegate.swift in Sources */,
 				63282CE22B08DB98006E7771 /* CompositionalExtension.swift in Sources */,
@@ -712,7 +730,7 @@
 				63282CDA2B08BA29006E7771 /* FeedVC.swift in Sources */,
 				63F4F2AC2B1498D100CE4E92 /* PasswordInput.swift in Sources */,
 				63A178FD2B0CF92800A16A2C /* VideoUploadView.swift in Sources */,
-				63F4F2B22B14D64F00CE4E92 /* EmailEnterCell.swift in Sources */,
+				63F4F2B22B14D64F00CE4E92 /* EmailEnterVC.swift in Sources */,
 				6373BF7D2B0F23BC006DE10C /* CreatingVC.swift in Sources */,
 				6390AF9E2B110D6100201BF1 /* SignInRespone.swift in Sources */,
 				634178722B1039950098201D /* UserDefaults+State.swift in Sources */,
@@ -721,6 +739,7 @@
 				6390AF882B10A6FD00201BF1 /* MyAuthenticator.swift in Sources */,
 				638E10282B0B55EE006D27C0 /* SearchVC.swift in Sources */,
 				63E92A962B0F2D1B00CBEB2F /* CreatingVM.swift in Sources */,
+				63B7B2B72B15C38500A991F4 /* NickNameVC.swift in Sources */,
 				636CFFAE2B03528C00B03159 /* NetworkService.swift in Sources */,
 				63A178C12B0C878900A16A2C /* ParchmentVC.swift in Sources */,
 				63E92A9F2B0F399400CBEB2F /* CreatingPin+MainItemCell.swift in Sources */,
@@ -741,6 +760,7 @@
 				63A178F62B0CF1A200A16A2C /* CIImage+Extensions.swift in Sources */,
 				63282CE42B08E649006E7771 /* TopTabViewer.swift in Sources */,
 				634178782B10413E0098201D /* BaseInterceptor.swift in Sources */,
+				63B7B2B92B15C4B500A991F4 /* OptionEnterVC.swift in Sources */,
 				63282CD62B08B94F006E7771 /* DiscoverVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
