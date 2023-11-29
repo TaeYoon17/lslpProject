@@ -7,11 +7,14 @@
 
 import Foundation
 import UIKit
+import SwiftUI
 extension TabVC{
     func setTabItems(){
         super.viewDidLoad()
+//        let vc1 = DiscoverVC()
         let vc1 = DiscoverVC()
         vc1.title = "Today"
+//        UIHostingController(rootView: DiscoverView())
         let vc2 = FeedVC()
         vc2.title = "Feed"
         let vc3 = ViewController()

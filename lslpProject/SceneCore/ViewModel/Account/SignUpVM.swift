@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 import Alamofire
 final class SignUpVM{
+    
     let emailSubject = BehaviorSubject(value: "")
     let pwSubject = BehaviorSubject(value: "")
     let nickSubject = BehaviorSubject(value: "")

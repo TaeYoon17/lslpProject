@@ -44,6 +44,7 @@ final class CreatingVC: BaseVC{
     }()
     
     override func configureView() {
+        view.backgroundColor = .systemBackground
     }
     override func configureLayout() {
         view.addSubview(stView)
@@ -79,49 +80,15 @@ final class ItemButton: UIButton{
         config.background.cornerRadius = 16
         config.background.visualEffect = UIBlurEffect(style: .light)
         config.preferredSymbolConfigurationForImage = imageConfig
-        let handler: UIButton.ConfigurationUpdateHandler = {[weak self] button in // 1
-            guard let self else {return}
-            switch button.state {
-            case .selected,.highlighted,[.selected,.highlighted]:
-                UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.5,initialSpringVelocity: 0.5,options: .curveEaseIn) {
-                            button.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-                        }completion: { _ in
-                            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.5,initialSpringVelocity: 0.5,options: .curveEaseIn){
-                                button.transform = CGAffineTransform(scaleX: 1, y: 1)
-                            }
-                        }
-            default: break
-            }
-        }
-        self.configurationUpdateHandler = handler
+        var anim = self.animationSnapshot.scaleEffect(ratio: 0.95)
         self.configuration = config
+        do{
+            try self.apply(animationSnapshot: anim)
+        }catch{
+            print(error)
+        }
     }
     required init?(coder: NSCoder) {
         fatalError("Don't use Storyboard")
     }
-//    @MainActor override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        Task{
-//            self.transform = CGAffineTransform(scaleX: 1, y: 1 )
-//            UIView.animate(withDuration: 0.4,delay: 0,options: .curveLinear) {
-//                self.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-//            }
-//        }
-//    }
-//    @MainActor override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        Task{
-//            self.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-//            UIView.animate(withDuration: 0.4, delay: 0, options: .curveLinear) {
-//                self.transform = CGAffineTransform(scaleX: 1, y: 1 )
-//            }
-//        }
-//    }
-//    @MainActor override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        Task{
-//            self.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-//            UIView.animate(withDuration: 0.4, delay: 0, options: .curveLinear) {
-//                self.transform = CGAffineTransform(scaleX: 1, y: 1 )
-//            }
-//
-//        }
-//    }
 }

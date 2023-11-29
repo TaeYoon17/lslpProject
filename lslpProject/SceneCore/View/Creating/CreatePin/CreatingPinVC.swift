@@ -10,13 +10,19 @@ import SnapKit
 import RxSwift
 import RxCocoa
 import RxDataSources
+import Photos
+import PhotosUI
+
 final class CreatingPinVC: BaseVC{
     let vm = CreatingPinVM()
+    fileprivate let imageManager = PHCachingImageManager()
+    var fetchResult: PHFetchResult<PHAsset>!
+    var assetCollection: PHAssetCollection!
+    
+    
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
     lazy var rxDataSource = RxCollectionViewSectionedReloadDataSource<AlbumSection> {  dataSource, collectionView, indexPath, item in
-        guard let cell = collectionView
-            .dequeueReusableCell(withReuseIdentifier: "BasicCell",
-                                 for: indexPath) as? MainItemCell else {return .init()}
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BasicCell",for: indexPath) as? MainItemCell else {return .init()}
         cell.albumItem = item
         return cell
     }
@@ -49,6 +55,7 @@ final class CreatingPinVC: BaseVC{
     }
     override func configureView() {
         configureCollectionView()
+        view.backgroundColor = .systemBackground
     }
     @objc func closeTapped(){
         self.closeAction()

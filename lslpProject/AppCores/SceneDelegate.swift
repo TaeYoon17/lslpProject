@@ -21,9 +21,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        _ = CameraService.shared
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
-//        TabVC()
-        
-        window?.rootViewController = OnboardingVC()
+//
+//        OnboardingVC()
+        window?.rootViewController = TabVC()
         window?.makeKeyAndVisible()
     }
 
