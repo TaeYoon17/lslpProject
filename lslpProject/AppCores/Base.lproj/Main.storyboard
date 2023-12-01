@@ -6,6 +6,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="UIMenu" message="Requires Xcode 11 or later." minToolsVersion="11.0" requiredIntegratedClassName="UICommandDiff"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -22,7 +23,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="17.557251908396946" y="-111.26760563380282"/>
+            <point key="canvasLocation" x="944.27480916030527" y="-111.26760563380282"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="KEP-Ju-cFL">
@@ -34,10 +35,42 @@
                         <viewLayoutGuide key="safeArea" id="1hv-ci-2bP"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" id="eSu-rR-Z8i">
+                        <nil key="title"/>
+                        <button key="titleView" opaque="NO" contentMode="scaleToFill" misplaced="YES" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="Mr5-Ry-EsG">
+                            <rect key="frame" x="173.66666666666666" y="7" width="46" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <menu key="menu" id="EhH-bK-8fq">
+                                <children>
+                                    <command title="Item 1" id="ZP5-YF-dB6"/>
+                                    <command title="Item 2" id="eDE-fS-riF"/>
+                                </children>
+                            </menu>
+                            <state key="normal" title="Button"/>
+                        </button>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dFv-1g-SAT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-693" y="-110"/>
+            <point key="canvasLocation" x="232.82442748091603" y="-110.56338028169014"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="bBb-Ml-YPB">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="PM7-6E-R7S" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="4id-dP-I6V">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="D5z-Cf-e3a" kind="relationship" relationship="rootViewController" id="BxZ-iw-gQc"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DEt-jL-sS1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-693.89312977099235" y="-110.56338028169014"/>
         </scene>
     </scenes>
     <resources>

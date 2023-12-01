@@ -9,6 +9,9 @@ import Foundation
 class DiscoverVM: ObservableObject{
     @Published var boardItems:[Board] = [.init(name: "Computing",pinnedImage:  ["ARKit","AsyncSwift","C++","macOS","Metal"]),
                                          .init(name: "iDol",pinnedImage: ["picture_demo"])]
+    deinit{
+        print("DiscoverVM은 걱정 말라구~")
+    }
 }
 struct Board{
     let name: String

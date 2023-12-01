@@ -12,6 +12,7 @@ import RxCocoa
 final class TabVC: UITabBarController{
     private var createVM = CreatingVM()
     var disposeBag = DisposeBag()
+
     weak var nowVC: UIViewController?
     struct TabbarString{
         let title: String?
@@ -22,7 +23,6 @@ final class TabVC: UITabBarController{
             
         }
     }
-    
     override func viewDidLoad() {
         self.tabBar.backgroundColor = .systemBackground
         tabBar.tintColor = .text
@@ -33,8 +33,6 @@ final class TabVC: UITabBarController{
             owner.createAction(type: val)
         }.disposed(by: disposeBag)
     }
-    
-    
     @objc func changeTabToMiddleTab(){
         guard let nowVC else {return}
         let vc = CreatingVC()
@@ -51,14 +49,17 @@ final class TabVC: UITabBarController{
     }
 }
 fileprivate extension TabVC{
-    
     func createAction(type: App.CreateType){
         guard let nowVC else {return}
         switch type{
         case .board: break
-        case .collage: break
+        case .collage:
+            Task{@MainActor in
+                let vc = CreatingPinVC()
+                let nav = UINavigationController(rootViewController: vc)
+                nowVC.present(nav, animated: true)
+            }
         case .pin:
-            print("present!!")
             Task{@MainActor in
                 let vc = CreatingPinVC()
                 let nav = UINavigationController(rootViewController: vc)

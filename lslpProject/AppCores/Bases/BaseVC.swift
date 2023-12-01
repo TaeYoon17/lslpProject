@@ -30,7 +30,8 @@ class BaseVC: UIViewController{
         super.viewWillAppear(animated)
         guard let tabBarController else {return}
         self.tabBarController?.tabBar.isHidden = false
-        let tabbarController = self.tabBarController as! TabVC
-        tabbarController.tabBarDidLoad(vc: self)
+        if let tabbarController = self.tabBarController as? TabVC{
+            tabbarController.tabBarDidLoad(vc: self)
+        }
     }
 }

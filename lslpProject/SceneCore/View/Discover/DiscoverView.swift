@@ -9,8 +9,11 @@ import SwiftUI
 import UIKit
 import RxSwift
 struct DiscoverView:View{
-    @StateObject var vm = DiscoverVM()
+    @StateObject var vm:DiscoverVM = .init()
     @State private var selectedIdx = 0
+//    init(vm: DiscoverVM, selectedIdx: Int = 0) {
+//        self._vm = StateObject(wrappedValue: vm)
+//    }
     var body: some View{
         VStack(spacing:0){
             DiscoverTabbar(tabbarItems: vm.boardItems.map{$0.name}
@@ -25,14 +28,10 @@ struct DiscoverView:View{
 
     }
 }
-#Preview {
-    DiscoverView()
-}
-
-
-
 final class DiscoverVC: UIHostingController<DiscoverView>{
+//    let vm = DiscoverVM()
     init() {
+//        super.init(rootView: DiscoverView(vm: vm))
         super.init(rootView: DiscoverView())
     }
     required init?(coder aDecoder: NSCoder) {
@@ -41,5 +40,13 @@ final class DiscoverVC: UIHostingController<DiscoverView>{
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        guard let tabBarController else {return}
+        self.tabBarController?.tabBar.isHidden = false
+        if let tabbarController = self.tabBarController as? TabVC{
+            tabbarController.tabBarDidLoad(vc: self)
+        }
     }
 }

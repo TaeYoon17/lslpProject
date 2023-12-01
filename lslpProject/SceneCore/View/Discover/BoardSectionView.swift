@@ -14,16 +14,12 @@ struct BoardSectionView: View{
         self.board = board
         self.ratios = board.pinnedImage.map{
             let size = UIImage(named: $0)?.size ?? .zero
-            let ratio = size.height / size.width
-            print(ratio)
-            return ratio
+            return size.height / size.width
         }
     }
     var body: some View{
         ScrollView {
             GeometryReader(content: { geometry in
-//                let gridItem = GridItem(.adaptive(minimum: geometry.size.width / 2
-//                                                  , maximum: geometry.size.width / 2),spacing: 16)
                 let gridItem = GridItem(.fixed(geometry.size.width / 2),spacing: 16)
                 let columns = [gridItem,gridItem]
                 LazyVGrid(columns: columns, spacing: 16,content: {

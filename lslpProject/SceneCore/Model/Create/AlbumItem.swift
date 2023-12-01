@@ -22,14 +22,14 @@ extension AlbumSection: SectionModelType {
     }
 }
 struct AlbumItem:Identifiable,Hashable{
-    var id:String {albumID}
-    var albumID:String
+    var id:String{ photoAsset.identifier }
+    let photoAsset: PhotoAsset
     var selectedIdx: Int
-    init(albumID: String, selectedIdx: Int) {
-        self.albumID = albumID
+    init(photoAsset: PhotoAsset, selectedIdx: Int) {
+        self.photoAsset = photoAsset
         self.selectedIdx = selectedIdx
     }
-    init(albumID:String) {
-        self.init(albumID: albumID, selectedIdx: -1)
+    init(photoAsset:PhotoAsset) {
+        self.init(photoAsset: photoAsset, selectedIdx: -1)
     }
 }

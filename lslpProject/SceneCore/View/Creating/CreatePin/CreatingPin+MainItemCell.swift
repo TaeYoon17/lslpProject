@@ -10,12 +10,12 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-extension CreatingPinVC{
+//extension CreatingPinVC{
     final class MainItemCell: UICollectionViewCell{
         var albumItem: AlbumItem?{
             didSet{
                 guard let albumItem else {return}
-                imageView.image = UIImage(named: albumItem.albumID)
+                imageView.image = UIImage(named: albumItem.id)
                 if albumItem.selectedIdx < 0{
                     maskLayer.removeFromSuperlayer()
                     selectedLabel.text = ""
@@ -50,4 +50,4 @@ extension CreatingPinVC{
             fatalError("Don't use storyboard")
         }
     }
-}
+//}
