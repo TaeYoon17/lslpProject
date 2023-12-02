@@ -6,7 +6,7 @@
 //
 
 import UIKit
-final class GridViewCell: UICollectionViewCell {
+final class CreatingPinMainCell: UICollectionViewCell {
     var albumItem: AlbumItem?{
         didSet{
             guard let albumItem else {return}

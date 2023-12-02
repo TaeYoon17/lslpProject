@@ -8,18 +8,21 @@
 import Foundation
 import RxSwift
 import Combine
-import Photos
 import OrderedCollections
-final class AlbumVM{
+
+final class CreatingPinVM{
     let photoCollection = PhotoCollection(smartAlbum: .smartAlbumUserLibrary)
     let albums:BehaviorSubject<[AlbumItem]> = BehaviorSubject(value: [])
-    let selectedAlbums: PublishSubject<[AlbumItem]> = .init()
+    let updatedAlbums: BehaviorSubject<[AlbumItem]> = .init(value: [])
+    let selectedAlbums: BehaviorSubject<[AlbumItem]> = .init(value: [])
     
-    private(set) var images:AnyModelStore<AlbumItem> = AnyModelStore([])
+    private(set) var images: AnyModelStore<AlbumItem> = AnyModelStore([])
     private(set) var selectedImage = OrderedDictionary<AlbumItem.ID, AlbumItem>()
     
     private var nowSelected = 0
-    let limitedSelectCnt = 10
+    let limitedSelectCnt = 5
+    
+    let openAlbumSelector = BehaviorSubject(value: false)
     var cancellable = Set<AnyCancellable>()
     var disposeBag = DisposeBag()
     init(){
@@ -58,7 +61,7 @@ final class AlbumVM{
             images.insertModel(item: item)
             reItems.append(item)
         }
-        // 해봤자 10번 돈다...
+        // 해봤자 5번 돈다...
         for (idx,(key, val)) in selectedImage.enumerated(){
             var val = val
             val.selectedIdx = idx + 1
@@ -66,7 +69,8 @@ final class AlbumVM{
             images.insertModel(item: val)
         }
         reItems.append(contentsOf: selectedImage.values.elements)
-        selectedAlbums.onNext(reItems)
+        updatedAlbums.onNext(reItems)
+        selectedAlbums.onNext(selectedImage.values.elements)
     }
 }
 //    private var assetToAlbumStream: ((PHImageRequestID?, UIImage?) -> Void)?

@@ -12,13 +12,13 @@ import RxCocoa
 final class AlbumNaviTitileButton: UIButton{
     let isTappedSubject = BehaviorSubject(value: false)
     private var disposeBag = DisposeBag()
-    let image = UIImage(systemName: "chevron.down",withConfiguration: UIImage.SymbolConfiguration(scale: .small))
+    let image = UIImage(systemName: "chevron.down",withConfiguration: UIImage.SymbolConfiguration(font: UIFont.boldSystemFont(ofSize: 8)))
     init(){
         super.init(frame: .zero)
         var config = UIButton.Configuration.plain()
-        config.title = "All Photos"
         config.imagePlacement = .trailing
         config.imagePadding = 4
+        config.attributedTitle = .init("All Photos", attributes: .init([NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 17)]))
         self.tintColor = .text
         config.image = image
         config.baseBackgroundColor = .text

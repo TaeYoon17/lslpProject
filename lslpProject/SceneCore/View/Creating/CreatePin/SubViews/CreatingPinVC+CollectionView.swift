@@ -14,7 +14,6 @@ extension CreatingPinVC{
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1 / 4)), subitems: [item,item,item,item])
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 2
-//        section.contentInsets = .init(top: 2, leading: 2, bottom: 2, trailing: 2)
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
@@ -27,7 +26,7 @@ extension CreatingPinVC{
             collectionView.dequeueConfiguredReusableCell(using: cellReigi, for: indexPath, item: itemIdentifier)
         })
     }
-    var gridCellRegistration: UICollectionView.CellRegistration<GridViewCell,PhotoAsset.ID>{
+    var gridCellRegistration: UICollectionView.CellRegistration<CreatingPinMainCell,PhotoAsset.ID>{
         UICollectionView.CellRegistration {[weak self] cell, indexPath, itemIdentifier in
             Task{[weak self] in
                 guard let self else {return}
@@ -64,7 +63,6 @@ extension CreatingPinVC:UICollectionViewDelegate,UICollectionViewDataSourcePrefe
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let itemIdentifier = dataSource.itemIdentifier(for: indexPath) else {return}
         guard let item = vm.images.fetchByID(itemIdentifier) else {return}
-        print("탭탭탭")
         vm.toggleCheckItem(item)
     }
 }

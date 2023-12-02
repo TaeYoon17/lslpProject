@@ -123,7 +123,14 @@ final class OnboardingVC:BaseVC{
 }
 
 class OnboardingBtn:UIButton{
+    var text: String
+    var font: UIFont = UIFont.systemFont(ofSize: 16, weight: .semibold){
+        didSet{
+            self.configuration?.attributedTitle = .init(text, attributes: .init([NSAttributedString.Key.font : font]))
+        }
+    }
     init(text:String,textColor:UIColor,bgColor:UIColor){
+        self.text = text
         super.init(frame: .zero)
         var configuration = UIButton.Configuration.plain()
         configuration.baseBackgroundColor = bgColor
@@ -131,7 +138,7 @@ class OnboardingBtn:UIButton{
         configuration.baseForegroundColor = textColor
         configuration.cornerStyle = .capsule
         configuration.titleAlignment = .center
-        configuration.attributedTitle = .init(text, attributes: .init([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16, weight: .semibold)]))
+        configuration.attributedTitle = .init(text, attributes: .init([NSAttributedString.Key.font : font]))
         self.configuration = configuration
         let animSnapshot = self.animationSnapshot.scaleEffect(ratio: 0.95)
         do{
