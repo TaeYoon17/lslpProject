@@ -11,7 +11,6 @@ import UIKit
 final class PinInfoVC: BaseVC{
     let vm = CreatingPinInfoVM()
     let scrollView = UIScrollView()
-    let imageView = UIImageView(image: .init(named: "picture_demo"))
     lazy var pinInfoView = PinInfoTitleView(vm: vm)
     lazy var pinDataView = PinInfoDataView(vm: vm)
     lazy var stackView = {
@@ -20,8 +19,6 @@ final class PinInfoVC: BaseVC{
         arr.forEach { $0.snp.makeConstraints { make in
             make.width.equalToSuperview().inset(16)
         } }
-        imageView.contentMode = .scaleAspectFit
-        imageView.clipsToBounds = true
         stView.axis = .vertical
         stView.distribution = .fillProportionally
         stView.alignment = .center

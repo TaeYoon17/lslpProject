@@ -27,8 +27,9 @@ struct BoardSectionView: View{
                         Image(board.pinnedImage[idx], bundle: nil)
                             .resizable()
                             .scaledToFit()
-                            .frame(height: ratios[idx] * geometry.size.width / 2)
-                            .clipShape(RoundedRectangle(cornerRadius: 16))                    }
+                            .frame(height: min(.greatestFiniteMagnitude, ratios[idx] * geometry.size.width / 2))
+                            .clipShape(RoundedRectangle(cornerRadius: 16))
+                    }
                 })
             })
         }.padding(.horizontal)

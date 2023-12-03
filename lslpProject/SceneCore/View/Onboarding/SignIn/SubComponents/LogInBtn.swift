@@ -28,8 +28,7 @@ class LogInBtn: OnboardingBtn{
             owner.configuration?.background.backgroundColor = isAvailable ? bgColor : holderBgColor
             owner.configuration?.baseForegroundColor = isAvailable ? textColor : holderColor
         }.disposed(by: disposeBag)
-        var animSnap = self.animationSnapshot
-        animSnap.scaleEffect(ratio: 0.95)
+        let animSnap = self.animationSnapshot.scaleEffect(ratio: 0.95)
         do{
             try self.apply(animationSnapshot: animSnap)
         }catch{
