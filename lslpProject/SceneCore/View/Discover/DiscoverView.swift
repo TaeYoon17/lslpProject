@@ -11,27 +11,22 @@ import RxSwift
 struct DiscoverView:View{
     @StateObject var vm:DiscoverVM = .init()
     @State private var selectedIdx = 0
-//    init(vm: DiscoverVM, selectedIdx: Int = 0) {
-//        self._vm = StateObject(wrappedValue: vm)
-//    }
     var body: some View{
         VStack(spacing:0){
-            DiscoverTabbar(tabbarItems: vm.boardItems.map{$0.name}
+            TopTabbar(tabbarItems: vm.boardItems.map{$0.name}
                        ,selected: $selectedIdx)
             TabView(selection:$selectedIdx) {
-                ForEach(vm.boardItems.indices,id:\.self){ idx in
-                    BoardSectionView(board: vm.boardItems[idx])
-                        .environmentObject(vm)
-                }
+                    ForEach(vm.boardItems.indices,id:\.self){ idx in
+                        BoardSectionView(board: vm.boardItems[idx])
+                            .environmentObject(vm)
+                    }
             }.tabViewStyle(.page(indexDisplayMode: .never)).ignoresSafeArea()
         }
 
     }
 }
 final class DiscoverVC: UIHostingController<DiscoverView>{
-//    let vm = DiscoverVM()
     init() {
-//        super.init(rootView: DiscoverView(vm: vm))
         super.init(rootView: DiscoverView())
     }
     required init?(coder aDecoder: NSCoder) {
