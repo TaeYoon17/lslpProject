@@ -12,7 +12,6 @@ import RxCocoa
 final class TabVC: UITabBarController{
     private var createVM = CreatingVM()
     var disposeBag = DisposeBag()
-
     weak var nowVC: UIViewController?
     struct TabbarString{
         let title: String?
@@ -20,8 +19,10 @@ final class TabVC: UITabBarController{
         let selectedIcon: String
         func getTabbarItem()-> UITabBarItem{
             UITabBarItem(title: title, image: UIImage(systemName: defaultIcon), selectedImage: UIImage(systemName: selectedIcon))
-            
         }
+    }
+    deinit{
+        print("TabVC는 사라진다구~")
     }
     override func viewDidLoad() {
         self.tabBar.backgroundColor = .systemBackground

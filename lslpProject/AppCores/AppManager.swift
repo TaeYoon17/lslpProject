@@ -13,6 +13,8 @@ extension App{
     final class Manager{
         static let shared = Manager()
         let addAction = PublishSubject<Void>()
+        let userAccount = PublishSubject<Bool>()
         private init(){}
+        
     }
 }

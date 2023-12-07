@@ -37,7 +37,6 @@ final class OnboardingVC:BaseVC{
            .init(red: 1, green: 1, blue: 1, alpha: 0.33),
            .init(red: 1, green: 1, blue: 1, alpha: 0.0)
         ]
-//        gradientLayer.locations = [0.4,0.8]
         gradientLayer.colors = colors
         v.layer.addSublayer(gradientLayer)
         Task{ gradientLayer.frame = v.bounds }
@@ -75,10 +74,22 @@ final class OnboardingVC:BaseVC{
         label.textAlignment = .center
         return label
     }()
-    
+    lazy var goLogInBtn = {
+        let btn = UIButton(configuration: .filled())
+//        btn.setTitle("로그인 냠냠", for: .normal)
+        btn.setTitle("로그인 냠냠", for: .normal)
+        btn.addAction(.init(handler: { [weak self] _ in
+            App.Manager.shared.userAccount.onNext(true)
+        }), for: .touchUpInside)
+        return btn
+    }()
     override func configureLayout() {
         [infoAnimView,shadowView,descriptionView,btnStView,welcomeLabel,logoImageView].forEach { view in
             self.view.addSubview(view)
+        }
+        self.view.addSubview(goLogInBtn)
+        goLogInBtn.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
     }
     override func configureConstraints() {

@@ -6,11 +6,14 @@
 //
 
 import SwiftUI
+import Combine
 extension AccountView{
     struct AccountTopHeader:View{
         @Namespace private var sectionTransition
         @Binding var selected: Int
+        @Binding var presentType:PresentType?
         @State private var selectedIdx = 0
+        var publisher: PassthroughSubject<ScrollType, Never>
         var tabbarItems:[String]
         var size:CGFloat = 48
         var body: some View{
@@ -63,7 +66,8 @@ extension AccountView.AccountTopHeader{
             .background(.thinMaterial)
             .clipShape(Circle())
             .wrapBtn {
-                print("프로필 탭탭탭")
+//                scrollType = .profile
+                publisher.send(.profile)
             }
     }
     var settingNaviItem: some View{
@@ -72,7 +76,7 @@ extension AccountView.AccountTopHeader{
             .scaledToFit()
             .frame(width: size,alignment:.trailing)
             .wrapBtn {
-                print("설정 탭탭탭")
+                presentType = .settings
             }
     }
 }

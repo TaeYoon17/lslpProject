@@ -25,6 +25,9 @@ final class CreatingPinVM{
     let openAlbumSelector = BehaviorSubject(value: false)
     var cancellable = Set<AnyCancellable>()
     var disposeBag = DisposeBag()
+    deinit{
+        print("CreatingPinVM은 집에 간다...")
+    }
     init(){
         loadPhotos()
         photoCollection.$photoAssets.sink { [weak self] collection in

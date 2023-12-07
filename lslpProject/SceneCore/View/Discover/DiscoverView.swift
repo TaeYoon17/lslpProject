@@ -13,8 +13,7 @@ struct DiscoverView:View{
     @State private var selectedIdx = 0
     var body: some View{
         VStack(spacing:0){
-            TopTabbar(tabbarItems: vm.boardItems.map{$0.name}
-                       ,selected: $selectedIdx)
+            TopTabbar(tabbarItems: vm.boardItems.map{$0.name},selected: $selectedIdx)
             TabView(selection:$selectedIdx) {
                     ForEach(vm.boardItems.indices,id:\.self){ idx in
                         BoardSectionView(board: vm.boardItems[idx])

@@ -45,6 +45,7 @@ extension TabVC{
         let button = UIButton(frame: frame)
         var btnConfig = UIButton.Configuration.plain()
         btnConfig.image = UIImage(systemName: "plus.circle",withConfiguration: UIImage.SymbolConfiguration(pointSize: 24))
+        
         let handler: UIButton.ConfigurationUpdateHandler = { button in // 1
             switch button.state { // 2
             case [.selected, .highlighted]:

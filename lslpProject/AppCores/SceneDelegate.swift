@@ -6,11 +6,11 @@
 //
 
 import UIKit
-
+import RxSwift
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    let disposeBag = DisposeBag()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -23,6 +23,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: scene)
 //
 //        OnboardingVC()
+        App.Manager.shared.userAccount.subscribe(on: MainScheduler.asyncInstance).bind(with: self) { owner, isLogIn in
+            guard let view = owner.window?.rootViewController?.view else {return}
+            print("발생한다")
+            let vc = if isLogIn{
+               TabVC()
+           }else{
+               OnboardingVC()
+           }
+            let coverView = UIView()
+            coverView.backgroundColor = .systemBackground
+            vc.view.addSubview(coverView)
+            coverView.frame = vc.view.bounds
+            owner.window?.rootViewController = vc
+            owner.window?.makeKeyAndVisible()
+            UIView.animate(withDuration: 0.5) {
+                coverView.alpha = 0
+            }completion: { _ in
+                coverView.removeFromSuperview()
+            }
+//            UIView.animate(with: view, duration: 0.5) {
+//                 
+//                owner.window?.rootViewController
+
+//            }
+        }.disposed(by: disposeBag)
         window?.rootViewController = TabVC()
         window?.makeKeyAndVisible()
     }
