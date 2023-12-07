@@ -381,10 +381,10 @@
 		636CFF7E2B0351EE00B03159 /* lslpProject */ = {
 			isa = PBXGroup;
 			children = (
+				636CFFAC2B03528100B03159 /* AppCores */,
 				634178732B1039BE0098201D /* Helpers */,
 				633FF77E2B17594C003564FB /* Legacy */,
 				636CFFAF2B0352DC00B03159 /* Services */,
-				636CFFAC2B03528100B03159 /* AppCores */,
 				636CFFAB2B03527000B03159 /* SceneCore */,
 				636CFF832B0351EE00B03159 /* ViewController.swift */,
 				630AD5BF2B196CBC00C2FE79 /* MethosSwizzleVC.swift */,

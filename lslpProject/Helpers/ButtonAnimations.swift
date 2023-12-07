@@ -25,14 +25,14 @@ struct ButtonAnimations{
         case highlighed
         case defaults
     }
-    private weak var btn : UIButton!
+    private weak var btn : UIButton?
     init(btn: UIButton) {
         self.btn = btn
         self.actionByState =  ActionType.allCases.reduce(into: [:], { partialResult, type in
             partialResult[type] = []
         })
     }
-    private init(btn: UIButton,anims:[()->()],actionByState:[ActionType:[()->()]]){
+    private init(btn: UIButton?,anims:[()->()],actionByState:[ActionType:[()->()]]){
         self.btn = btn
         self.anims = anims
         self.actionByState = actionByState
@@ -40,30 +40,32 @@ struct ButtonAnimations{
     @discardableResult
     func scaleEffect(ratio:CGFloat = 0.9)->Self{
         var anim = self.anims
+    
         anim.append{
             UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.4,initialSpringVelocity: 1,options: .preferredFramesPerSecond60){
-                btn.transform = CGAffineTransform(scaleX: ratio, y: ratio)
+                btn?.transform = CGAffineTransform(scaleX: ratio, y: ratio)
             }completion: { _ in
                 UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.5,initialSpringVelocity: 0.5,options: .curveEaseIn){
-                    btn.transform = CGAffineTransform(scaleX: 1, y: 1)
+                    btn?.transform = CGAffineTransform(scaleX: 1, y: 1)
                 }
             }
         }
+        
         return ButtonAnimations(btn: self.btn, anims: anim,actionByState: self.actionByState)
     }
     @discardableResult
     func bgEffect(effectColor:UIColor)->Self{
         var actionByStates = self.actionByState
-        let prevColor = self.btn.configuration?.background.backgroundColor
+        let prevColor = self.btn?.configuration?.background.backgroundColor
         let effectAction = {
-            self.btn.configuration?.baseBackgroundColor = effectColor
-            self.btn.configuration?.background.backgroundColor = effectColor
+            self.btn?.configuration?.baseBackgroundColor = effectColor
+            self.btn?.configuration?.background.backgroundColor = effectColor
         }
         actionByStates[.selected]?.append(effectAction)
         actionByStates[.highlighed]?.append(effectAction)
         actionByStates[.defaults]?.append {
-            self.btn.configuration?.baseBackgroundColor = prevColor
-            self.btn.configuration?.background.backgroundColor = prevColor
+            self.btn?.configuration?.baseBackgroundColor = prevColor
+            self.btn?.configuration?.background.backgroundColor = prevColor
         }
         return ButtonAnimations(btn: self.btn, anims: anims,actionByState: actionByStates)
     }

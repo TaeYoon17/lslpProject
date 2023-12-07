@@ -14,7 +14,8 @@ final class SignInVC: BaseVC{
     override func viewDidLoad() {
         super.viewDidLoad()
         let tapAction = loginBtn.rx.tap
-        let output = vm.output(.init(signInTap: tapAction))
+        guard let idText = idInputView.bindings?.text, let pwText = pwInputView.bindings?.text else {return}
+        let output = vm.output(.init(idInput:idText ,pwInput: pwText ,signInTap:tapAction ))
         output.singInResponse
             .debounce(.microseconds(1), scheduler: MainScheduler.instance)
             .bind(with: self) { owner, val in
@@ -23,14 +24,11 @@ final class SignInVC: BaseVC{
                 let action = UIAlertAction(title: "취소", style: .cancel)
                 alert.addAction(action)
                 owner.present(alert, animated: true)
-            }else{
-                let alert = UIAlertController(title: "에러없음", message: nil, preferredStyle: .alert)
-                let action = UIAlertAction(title: "오케", style: .cancel)
-                alert.addAction(action)
-                owner.present(alert, animated: true)
+            }else{ // 로그인 성공
+//                owner.closeAction()
             }
         }.disposed(by: disposeBag)
-        guard let idText = idInputView.bindings?.text, let pwText = pwInputView.bindings?.text else {return}
+        
         Observable.combineLatest(idText, pwText).map { left,right in
             !left.isEmpty && !right.isEmpty
         }.bind(to: loginBtn.isAvailableLogIn).disposed(by: disposeBag)

@@ -11,10 +11,20 @@ import RxSwift
 import RxCocoa
 extension App{
     final class Manager{
+        @DefaultsState(\.accessToken) var accessToken
+        @DefaultsState(\.refreshToken) var refreshToken
         static let shared = Manager()
         let addAction = PublishSubject<Void>()
         let userAccount = PublishSubject<Bool>()
         private init(){}
         
+    }
+}
+
+extension App.Manager{
+    func signIn(_ response:SignInRespone){
+        self.accessToken = response.accessToken
+        self.refreshToken = response.refreshToken
+        self.userAccount.onNext(true)
     }
 }

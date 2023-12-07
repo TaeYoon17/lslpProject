@@ -25,13 +25,6 @@ struct SettingView: View {
                     }label:{
                         NavItem("Log out")
                     }
-                    
-                    //                        .wrapBtn {s
-                    //                        print("Hello world")
-                    //                        App.Manager.shared.userAccount.onNext(false)
-                    //                        self.dismiss()
-                    //                        
-                    //                    }
                 } header: {
                     Text("Login").foregroundStyle(.text)
                 }.tint(.text)

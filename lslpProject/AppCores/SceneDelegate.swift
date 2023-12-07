@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: scene)
 //
 //        OnboardingVC()
-        App.Manager.shared.userAccount.subscribe(on: MainScheduler.asyncInstance).bind(with: self) { owner, isLogIn in
+        App.Manager.shared.userAccount.debounce(.milliseconds(100), scheduler: MainScheduler.asyncInstance).bind(with: self) {@MainActor owner, isLogIn in
             guard let view = owner.window?.rootViewController?.view else {return}
             print("발생한다")
             let vc = if isLogIn{
