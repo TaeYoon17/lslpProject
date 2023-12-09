@@ -16,7 +16,7 @@ final class NetworkService{
     var errSubject:PublishSubject<ErrMsg>?
     private init(){}
     
-    func uploadPost(_ post:PostUpload){
+    func uploadPost(_ post:PinPostUpload){
         let postRouter = PostRouter.create(post: post)
         AF.upload(multipartFormData: postRouter.multipartFormData, with: postRouter).uploadProgress(closure: { (progress) in
             print("\(progress)")

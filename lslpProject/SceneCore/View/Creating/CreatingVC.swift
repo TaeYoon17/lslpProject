@@ -81,7 +81,7 @@ final class ItemButton: UIButton{
         config.background.cornerRadius = 16
         config.background.visualEffect = UIBlurEffect(style: .light)
         config.preferredSymbolConfigurationForImage = imageConfig
-        var anim = self.animationSnapshot.scaleEffect(ratio: 0.95)
+        let anim = self.animationSnapshot.scaleEffect(ratio: 0.95)
         self.configuration = config
         do{
             try self.apply(animationSnapshot: anim)

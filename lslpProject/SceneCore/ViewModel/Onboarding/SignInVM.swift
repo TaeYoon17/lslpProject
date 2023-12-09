@@ -11,6 +11,9 @@ import RxCocoa
 
 final class SignInVM{
     var disposeBag = DisposeBag()
+    deinit{
+        print("SignInVM은 집갔다!!")
+    }
     struct Input{
         let idInput:  BehaviorSubject<String>
         let pwInput: BehaviorSubject<String>
@@ -27,10 +30,10 @@ final class SignInVM{
                 for try await _ in signInTappedStream{
                     let id = try input.idInput.value()
                     let pw = try input.pwInput.value()
-                    print(id,pw)
-                    //MARK: -- 서비스 실험시 바꿈
+//                    print(id,pw)
+                    //MARK: -- 서비스 실제 사용 시 바꿈
                     let response:SignInRespone = try await NetworkService.shared.signIn(email: App.virtualEmail, pw: App.virtualPW)
-                    print("------------",response)
+//                    print("------------",response)
                     App.Manager.shared.signIn(response)
                     signInResponse.onNext(nil)
                 }

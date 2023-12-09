@@ -8,7 +8,7 @@
 import Foundation
 import Alamofire
 enum PostRouter:URLRequestConvertible{
-    case create(post:PostUpload),read,update,delete(id: String)
+    case create(post:PinPostUpload),read,update,delete(id: String)
     var endPoint: String{
         switch self{
         case .create: "/post"

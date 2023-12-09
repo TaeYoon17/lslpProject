@@ -9,9 +9,11 @@ import Foundation
 import RxSwift
 import Combine
 import OrderedCollections
-
+import Photos
+import UIKit
 final class CreatingPinVM{
     let photoCollection = PhotoCollection(smartAlbum: .smartAlbumUserLibrary)
+    let selectedImageCache = CachedImageManager(isCachingHighQuality: true)
     let albums:BehaviorSubject<[AlbumItem]> = BehaviorSubject(value: [])
     let updatedAlbums: BehaviorSubject<[AlbumItem]> = .init(value: [])
     let selectedAlbums: BehaviorSubject<[AlbumItem]> = .init(value: [])
@@ -20,7 +22,7 @@ final class CreatingPinVM{
     private(set) var selectedImage = OrderedDictionary<AlbumItem.ID, AlbumItem>()
     
     private var nowSelected = 0
-    let limitedSelectCnt = 5
+    let limitedSelectCnt = 5 
     
     let openAlbumSelector = BehaviorSubject(value: false)
     var cancellable = Set<AnyCancellable>()
@@ -57,6 +59,10 @@ final class CreatingPinVM{
             nowSelected += 1
             item.selectedIdx = nowSelected
             selectedImage[item.id] = item
+            let photoAsset = item.photoAsset
+            Task{
+                await selectedImageCache.startCaching(for: [photoAsset], targetSize: PHImageManagerMaximumSize)
+            }
         }else{ //false면 지워줘야하지
             nowSelected -= 1
             selectedImage.removeValue(forKey: item.id)
@@ -75,12 +81,17 @@ final class CreatingPinVM{
         updatedAlbums.onNext(reItems)
         selectedAlbums.onNext(selectedImage.values.elements)
     }
-}
-//    private var assetToAlbumStream: ((PHImageRequestID?, UIImage?) -> Void)?
-//    lazy var assetsStream: AsyncStream<(PHImageRequestID?, UIImage?)> = {
-//        AsyncStream { continuation in
-//            assetToAlbumStream = { val,image in
-//                continuation.yield((val,image))
+    
+//    func getSelectedImages()async{
+//        Task{
+//            var images:[UIImage] = []
+//            for album in selectedImage.values{
+//                await selectedManager.requestImage(for: album.photoAsset, targetSize: PHImageManagerMaximumSize) { arg in
+//                    if let arg,let image = arg.image{
+//                        images.append(image)
+//                    }
+//                }
 //            }
 //        }
-//    }()
+//    }
+}

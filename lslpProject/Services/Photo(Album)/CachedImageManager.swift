@@ -9,12 +9,12 @@ import UIKit
 import Photos
 
 actor CachedImageManager {
-//    미리보기 썸네일을 쉽게 검색하거나 생성할 수 있는 오브젝트로, 많은 수의 에셋을 일괄적으로 미리 로드하는 데 최적화되어 있습니다.
-//    개별 에셋에 대한 이미지가 필요한 경우 requestImage(for:targetSize:콘텐츠모드:옵션:결과처리기:) 메서드를 호출하고 해당 에셋을 준비할 때 사용한 것과 동일한 매개변수를 전달합니다.
+    //    미리보기 썸네일을 쉽게 검색하거나 생성할 수 있는 오브젝트로, 많은 수의 에셋을 일괄적으로 미리 로드하는 데 최적화되어 있습니다.
+    //    개별 에셋에 대한 이미지가 필요한 경우 requestImage(for:targetSize:콘텐츠모드:옵션:결과처리기:) 메서드를 호출하고 해당 에셋을 준비할 때 사용한 것과 동일한 매개변수를 전달합니다.
     private let imageManager = PHCachingImageManager()
-    
-//    Options for fitting an image’s aspect ratio to a requested size, used by the requestImage(for:targetSize:contentMode:options:resultHandler:) method.
-// 미리 앨범에서 불러올 이미지의 콘텐츠 모드를 설정한다.
+    let counter = TaskCounter()
+    //    Options for fitting an image’s aspect ratio to a requested size, used by the requestImage(for:targetSize:contentMode:options:resultHandler:) method.
+    // 미리 앨범에서 불러올 이미지의 콘텐츠 모드를 설정한다.
     private var imageContentMode = PHImageContentMode.default
     
     enum CachedImageManagerError: LocalizedError {
@@ -36,7 +36,17 @@ actor CachedImageManager {
     init() {
         imageManager.allowsCachingHighQualityImages = false
     }
-    
+    init(isCachingHighQuality: Bool){
+        imageManager.allowsCachingHighQualityImages = true
+    }
+    var allowsCachingHighQualityImages:Bool{
+        get{
+            self.imageManager.allowsCachingHighQualityImages
+        }
+        set{
+            self.imageManager.allowsCachingHighQualityImages = newValue
+        }
+    }
     var cachedImageCount: Int {
         cachedAssetIdentifiers.keys.count
     }
@@ -48,7 +58,7 @@ actor CachedImageManager {
         }
         imageManager.startCachingImages(for: phAssets, targetSize: targetSize, contentMode: imageContentMode, options: requestOptions)
     }
-
+    
     func stopCaching(for assets: [PhotoAsset], targetSize: CGSize) {
         let phAssets = assets.compactMap { $0.phAsset }
         phAssets.forEach {
@@ -68,7 +78,6 @@ actor CachedImageManager {
             completion(nil)
             return nil
         }
-        
         let requestID = imageManager.requestImage(for: phAsset, targetSize: targetSize, contentMode: imageContentMode, options: requestOptions) { image, info in
             if let error = info?[PHImageErrorKey] as? Error {
                 print("CachedImageManager requestImage error: \(error.localizedDescription)")
@@ -87,29 +96,39 @@ actor CachedImageManager {
         return requestID
     }
     
+    
+    
     func cancelImageRequest(for requestID: PHImageRequestID) {
         imageManager.cancelImageRequest(requestID)
     }
-    func requestImage(for asset: PhotoAsset, targetSize: CGSize) async -> (PHImageRequestID?, UIImage?){
-        guard let phAsset = asset.phAsset else { return (nil,nil) }
-        var myid:PHImageRequestID?
-        let hello:UIImage? = await withCheckedContinuation { continuation in
+    func requestImage(for asset: PhotoAsset, targetSize: CGSize = PHImageManagerMaximumSize) async throws -> UIImage{
+        guard let phAsset = asset.phAsset else { throw Err.FetchError.fetchEmpty   }
+        return try await  withCheckedThrowingContinuation{ continuation in
             let id = imageManager.requestImage(for: phAsset, targetSize: targetSize, contentMode: imageContentMode, options: requestOptions) { image, info in
-                if let error = info?[PHImageErrorKey] as? Error {
+                if let error: Error = info?[PHImageErrorKey] as? Error {
                     print("CachedImageManager requestImage error: \(error.localizedDescription)")
-                    continuation.resume(returning: nil)
+                    continuation.resume(throwing: error as! Never)
                 } else if let cancelled = (info?[PHImageCancelledKey] as? NSNumber)?.boolValue, cancelled {
                     print("CachedImageManager request canceled")
-                    continuation.resume(returning: nil)
+                    continuation.resume(throwing: Err.FetchError.cancelled)
                 } else if let image = image {
                     continuation.resume(returning: image)
                 } else {
-                    continuation.resume(returning: nil)
+                    continuation.resume(throwing: Err.FetchError.fetchEmpty)
                 }
             }
-            myid = id
         }
-        return (myid,hello)
+    }
+    
+    func requestImages(assets: [PhotoAsset],targetSize: CGSize = PHImageManagerMaximumSize)  async throws -> [UIImage]{
+        return try await counter.run(assets) {[weak self] asset in
+            guard let self else { throw Err.FetchError.weakError}
+            let image = try await requestImage(for: asset, targetSize: targetSize)
+            return image
+        }
     }
 }
 
+extension CachedImageManager{
+
+}

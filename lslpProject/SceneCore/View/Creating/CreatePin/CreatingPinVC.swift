@@ -23,7 +23,6 @@ final class CreatingPinVC: BaseVC{
                     owner.albumSelectorDrawer(isOpen: val)
                 }
         }.disposed(by: disposeBag)
-        
         vm.selectedAlbums.map{$0.isEmpty}.debounce(.milliseconds(200), scheduler: MainScheduler.instance).bind(with: self) { owner, isEmpty in
             Task{@MainActor in
                 if isEmpty{
@@ -43,6 +42,12 @@ final class CreatingPinVC: BaseVC{
                     }
                 }
             }
+        }.disposed(by: disposeBag)
+        //MARK: -- Right Navigation Item Action
+        navigationItem.rightBarButtonItem?.rx.tap.bind(with: self) { owner, _ in
+            let pinInfoVM = CreatingPinInfoVM(owner.vm)
+            let vc = PinInfoVC(vm: pinInfoVM)
+            owner.navigationController?.pushViewController(vc, animated: true)
         }.disposed(by: disposeBag)
     }
     var pinConstraint:Constraint?
@@ -81,10 +86,7 @@ final class CreatingPinVC: BaseVC{
             owner.closeAction()
         }.disposed(by: disposeBag)
         navigationItem.rightBarButtonItem = .init(title: "Next")
-        navigationItem.rightBarButtonItem?.rx.tap.bind(with: self) { owner, _ in
-            let vc = PinInfoVC()
-            owner.navigationController?.pushViewController(vc, animated: true)
-        }.disposed(by: disposeBag)
+        
         self.isModalInPresentation = true
     }
     

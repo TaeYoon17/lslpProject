@@ -7,25 +7,51 @@
 
 import SnapKit
 import UIKit
-
+import RxSwift
+import RxCocoa
 final class PinInfoVC: BaseVC{
-    let vm = CreatingPinInfoVM()
+    let vm: CreatingPinInfoVM
+    init(vm: CreatingPinInfoVM){
+        self.vm = vm
+        super.init(nibName: nil, bundle: nil)
+    }
+    required init?(coder: NSCoder) {
+        fatalError("Don't use Story board")
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .systemBackground
+        vm.hello.subscribe(on: MainScheduler.asyncInstance).bind(with: self) { owner, detail in
+            switch detail{
+            case .board:
+                let vc = PinInfoBoardVC()
+                owner.navigationController?.pushViewController(vc, animated: true)
+            case .tag: break
+            }
+        }.disposed(by: disposeBag)
+    }
     let scrollView = UIScrollView()
     lazy var pinInfoView = PinInfoTitleView(vm: vm)
     lazy var pinDataView = PinInfoDataView(vm: vm)
     lazy var stackView = {
         let arr = [pinInfoView,pinDataView]
         let stView = UIStackView(arrangedSubviews: arr)
-        arr.forEach { $0.snp.makeConstraints { make in
-            make.width.equalToSuperview().inset(16)
-        } }
+        arr.forEach {
+            $0.snp.makeConstraints { make in
+                make.width.equalToSuperview().inset(16)
+            }
+        }
         stView.axis = .vertical
         stView.distribution = .fillProportionally
         stView.alignment = .center
         stView.spacing = 32
         return stView
     }()
-    let bottomView = BottomView()
+    lazy var bottomView = {
+        let v = BottomView()
+        v.vm = vm
+        return v
+    }()
     override func configureLayout() {
         view.addSubview(scrollView)
         view.addSubview(bottomView)
@@ -53,39 +79,6 @@ final class PinInfoVC: BaseVC{
     override func configureNavigation() {
         navigationItem.title = "Hello world"
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-    }
+    
 }
-class BottomView: BaseView{
-    let btn = {
-        let btn = UIButton()
-        var config = UIButton.Configuration.plain()
-        config.contentInsets = .init(top: 12, leading: 12, bottom: 12, trailing: 12)
-        config.attributedTitle = .init("Create", attributes: .init([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .semibold)]))
-        config.cornerStyle = .capsule
-        config.baseBackgroundColor = .systemGreen
-        config.background.backgroundColor = .systemGreen
-        config.baseForegroundColor = .white
-        btn.configuration = config
-        return btn
-    }()
-    override func configureView() {
-        let anim = btn.animationSnapshot.scaleEffect(ratio: 0.95)
-        do{
-            try btn.apply(animationSnapshot: anim)
-        }catch{
-            print(error)
-        }
-    }
-    override func configureLayout() {
-        addSubview(btn)
-    }
-    override func configureConstraints() {
-        btn.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(16.5)
-            make.centerY.equalToSuperview()
-        }
-    }
-}
+

@@ -13,8 +13,3 @@ class DiscoverVM: ObservableObject{
         print("DiscoverVM은 걱정 말라구~")
     }
 }
-struct Board{
-    let name: String
-    // 일단 이미지들의 문자열을 갖도록 하자
-    let pinnedImage: [String]
-}

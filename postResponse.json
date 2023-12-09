@@ -1,0 +1,49 @@
+{
+    "data": [
+        {
+        "likes": [ 
+            "655658cc3913fe98de4b8290",
+            "655657ef3913fe98de4b8261"
+        ],
+        "image": [
+        "uploads/posts/1700158027466.jpeg",
+        "uploads/posts/1700158027486.gif"
+        ],
+        "hashTags": ["오밥","yummy"],
+        "comments": [
+            {
+                "id": "65565b343913fe98de4b8329",
+                "content": " ( )",
+                "time": "2023-11-16T18:11:00.659Z",
+                "creator" : {
+                    "id": "655658cc3913fe98de4b8290",
+                    "nick": " ",
+                    "profile": "uploads/profiles/1700158510000.jpg"
+                }
+            },
+            {
+                "_id": "65565ad83913fe98de4b831e",
+                "content": " lslp !",
+                "time": "2023-11-16T18:09:28.824Z",
+                "profile": "uploads/profiles/1700158510000.jpg",
+                "creator" : {
+                    "id": "655658cc3913fe98de4b8290",
+                    "nick": " ",
+                    "profile": "uploads/profiles/1700158510000.jpg"
+                }
+            }
+        ],
+        "_id": "65565a4b3913fe98de4b8302",
+        "creator" : {
+            "id": "655658cc3913fe98de4b8290",
+            "nick": " ",
+            "profile": "uploads/profiles/1700158510000.jpg"
+        },
+        "time": "2023-11-16T18:09:28.824Z",
+        "title": "배고픈가?",
+        "content": "제육이 먹고싶니?",
+        "content1": "8000원"
+        }
+    ],
+    "next_cursor": "asdfasdfasdfas"
+}
