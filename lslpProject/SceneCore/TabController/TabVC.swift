@@ -52,20 +52,17 @@ final class TabVC: UITabBarController{
 fileprivate extension TabVC{
     func createAction(type: App.CreateType){
         guard let nowVC else {return}
-        switch type{
-        case .board: break
+        let vc = switch type{
+        case .board:
+            CreatingBoardVC()
         case .collage:
-            Task{@MainActor in
-                let vc = CreatingPinVC()
-                let nav = UINavigationController(rootViewController: vc)
-                nowVC.present(nav, animated: true)
-            }
+                CreatingPinVC()
         case .pin:
-            Task{@MainActor in
-                let vc = CreatingPinVC()
-                let nav = UINavigationController(rootViewController: vc)
-                nowVC.present(nav, animated: true)
-            }
+            CreatingPinVC()
+        }
+        Task{@MainActor in
+            let nav = UINavigationController(rootViewController: vc)
+            nowVC.present(nav, animated: true)
         }
     }
 }

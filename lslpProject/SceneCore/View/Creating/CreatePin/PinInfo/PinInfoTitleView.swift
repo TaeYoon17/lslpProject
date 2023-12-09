@@ -15,6 +15,7 @@ final class PinInfoTitleView: UIStackView{
         didSet{ binding() }
     }
     func binding(){
+        disposeBag = DisposeBag()
         vm.title.bind(with: self) { owner,value in
             owner.titleField.attributedText = .init(string: value, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 21, weight: .semibold)])
         }.disposed(by: disposeBag)
