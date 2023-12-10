@@ -15,7 +15,10 @@ extension CreatingBoardVC{
         }
         func binding(){
             disposeBag = DisposeBag()
-            titleField.rx.text.orEmpty.subscribe(on: MainScheduler.asyncInstance).bind(to: vm.name).disposed(by: disposeBag)
+            titleField.rx.text.orEmpty.subscribe(on: MainScheduler.instance).bind(to: vm.name).disposed(by: disposeBag)
+            vm.name.subscribe(on:MainScheduler.asyncInstance).bind { [weak self] name in
+                self?.titleField.attributedText = .init(string:name,attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 21, weight: .semibold)])
+            }.disposed(by: disposeBag)
         }
         var disposeBag = DisposeBag()
         let titleLabel = UILabel()
@@ -34,6 +37,7 @@ extension CreatingBoardVC{
             titleLabel.text = "Board name"
             titleLabel.font = .preferredFont(forTextStyle: .subheadline)
             titleField.attributedPlaceholder = .init(string: "Give your board a title", attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 21, weight: .semibold)])
+            titleField.attributedText = .init(string:"",attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 21, weight: .semibold)])
         }
         func configureConstraints(){
             arr.forEach{ view in

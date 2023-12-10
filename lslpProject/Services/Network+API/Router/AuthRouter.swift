@@ -26,12 +26,13 @@ enum AuthRouter:URLRequestConvertible{
     }
     var headers:HTTPHeaders{
         var headers = HTTPHeaders()
+        @DefaultsState(\.refreshToken) var refreshToken
         switch self{
         case .withdraw:
             headers["Authorization"] = "token 값 넣기"
             headers["SesacKey"] = App.sesacKey
         case .refreshToken:
-            headers["Refresh"] = "RefreshToken넣기"
+            headers["Refresh"] = refreshToken
         case .emailValidation,.signIn,.signUp: break
 //            headers["Content-Type"] = "application/json"
 //            headers["SesacKey"] = App.sesacKey

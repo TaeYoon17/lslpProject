@@ -11,6 +11,15 @@ struct AuthCredential : AuthenticationCredential {
     @DefaultsState(\.accessToken) var accessToken
     @DefaultsState(\.refreshToken) var refreshToken
     let expiration: Date
-    // Require refresh if within 5 minutes of expiration
     var requiresRefresh: Bool { Date(timeIntervalSinceNow: NetworkService.accessExpireSeconds) > expiration }
+    func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
+        
+        var request = urlRequest
+        // 헤더 부분 넣어주기
+        print(urlRequest.httpMethod ?? "")
+        request.addValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json; charset=UTF-8", forHTTPHeaderField: "Accept")
+        request.addValue(App.sesacKey, forHTTPHeaderField: "SesacKey")
+        completion(.success(request))
+    }
 }

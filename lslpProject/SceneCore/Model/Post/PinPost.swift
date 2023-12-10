@@ -39,7 +39,7 @@ struct PinPostUpload:Codable,PinPostable{
 }
 
 struct PinPost:PinPostable{
-    var productId: String = "Pin_\(UUID().uuidString)"
+    var productId: String = "Pin"
     var title: String = ""
     var content: String?
     var link: String?
@@ -55,12 +55,7 @@ struct PinPost:PinPostable{
             board = h
         }
     }
+    var get:Post{
+        Post(title: title,product_id: productId,content: content,file: imageDatas,content1: link,content2: board)
+    }
 }
-//struct PostUpload{
-//    var title: String?
-//    var content: String?
-//    var imageDatas:[Data]
-//    var productId:String {
-//        UUID().uuidString
-//    }
-//}

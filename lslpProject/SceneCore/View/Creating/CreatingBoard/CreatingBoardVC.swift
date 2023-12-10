@@ -9,25 +9,14 @@ import UIKit
 import SnapKit
 import RxSwift
 import RxCocoa
-final class CreatingBoardVM{
-    var board = Board()
-    var disposeBag = DisposeBag()
-    let name = BehaviorSubject(value: "")
-    let isPrivacy = BehaviorSubject(value: false)
-    init(){
-        Observable.combineLatest(name,isPrivacy).bind { [weak self] (name, isprivacy) in
-            guard let self else {return}
-            board.name = name
-            board.isPrivacy = isprivacy
-            print(board)
-        }.disposed(by: disposeBag)
-    }
-    func upload(){
-        
-    }
-}
 final class CreatingBoardVC:BaseVC{
     let vm = CreatingBoardVM()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationItem.rightBarButtonItem?.rx.tap.bind(with: self) { owner, _ in
+            owner.vm.upload()
+        }.disposed(by: disposeBag)
+    }
     let scrollView = UIScrollView()
     lazy var titleView = BoardTitleView(vm: vm)
     lazy var privacyView = PrivacyView(vm: vm)
