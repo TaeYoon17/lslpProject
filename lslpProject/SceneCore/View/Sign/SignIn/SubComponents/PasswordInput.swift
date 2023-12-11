@@ -65,11 +65,6 @@ final class PasswordInput:UIView{
         toggleButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         textField.textContentType = .password
         textField.isSecureTextEntry = isToggle
-//        toggleButton.rx.tap.bind(with: self) { owner, _ in
-//            owner
-//            print("TapTap")
-//            
-//        }.disposed(by: disposeBag)
         toggleButton.addAction(.init(handler: { [weak self] _ in
             self?.isToggle.toggle()
             

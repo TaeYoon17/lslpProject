@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import RxSwift
 import RxCocoa
-final class SignInVC: BaseVC{
+class OnboardSignIn: BaseVC{
     let vm = SignInVM()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,11 +44,9 @@ final class SignInVC: BaseVC{
         return btn
     }()
     override func configureLayout() {
-//        view.addSubview(tempBtn)
         [idInputView,pwInputView,pwInputView,loginBtn,forgotBtn].forEach{view.addSubview($0)}
     }
     override func configureConstraints() {
-        print("actioned!!")
         idInputView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide )
             make.horizontalEdges.equalToSuperview().inset(16)

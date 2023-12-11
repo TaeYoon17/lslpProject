@@ -19,7 +19,7 @@ final class OnboardingVC:BaseVC{
             self?.present(nav, animated: true)
         }), for: .touchUpInside)
         signInBtn.addAction(.init(handler: { [weak self] _ in
-            let signInVC = SignInVC()
+            let signInVC = OnboardSignIn()
             let nav = UINavigationController(rootViewController: signInVC)
             self?.present(nav, animated: true)
         }), for: .touchUpInside)
