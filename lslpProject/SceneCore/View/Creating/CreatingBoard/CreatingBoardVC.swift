@@ -16,6 +16,11 @@ final class CreatingBoardVC:BaseVC{
         navigationItem.rightBarButtonItem?.rx.tap.bind(with: self) { owner, _ in
             owner.vm.upload()
         }.disposed(by: disposeBag)
+        vm.isLogOutAction.subscribe(on: MainScheduler.instance).bind(with: self) { owner, val in
+            let vc = ReSignInVC()
+            let nav = UINavigationController(rootViewController: vc)
+            owner.present(nav,animated: true)
+        }.disposed(by: disposeBag)
     }
     let scrollView = UIScrollView()
     lazy var titleView = BoardTitleView(vm: vm)

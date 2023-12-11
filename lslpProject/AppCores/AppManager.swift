@@ -16,6 +16,7 @@ extension App{
         static let shared = Manager()
         let addAction = PublishSubject<Void>()
         let userAccount = PublishSubject<Bool>()
+        let needLogIn = PublishSubject<Bool>()
         private init(){}
         
     }

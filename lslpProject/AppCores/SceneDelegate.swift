@@ -42,11 +42,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }completion: { _ in
                 coverView.removeFromSuperview()
             }
-//            UIView.animate(with: view, duration: 0.5) {
-//                 
-//                owner.window?.rootViewController
-
-//            }
         }.disposed(by: disposeBag)
         window?.rootViewController = TabVC()
         window?.makeKeyAndVisible()

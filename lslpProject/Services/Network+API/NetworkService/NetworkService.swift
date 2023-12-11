@@ -38,24 +38,28 @@ final class NetworkService{
             print("\(String(describing: response.response?.statusCode))")
         }
     }
-    func post(boardPost: BoardPost){
+    func post(boardPost: BoardPost) async throws -> String{
         let post = boardPost.get
-        print(accessToken)
         let postRouter = PostRouter.create(post: post)
         let authenticator = MyAuthenticator()
         let credential = AuthCredential(expiration: Date(timeIntervalSinceNow: Self.accessExpireSeconds))
         let intercentptor = AuthenticationInterceptor(authenticator: authenticator,credential: credential)
-        
-        AF.upload(multipartFormData: postRouter.multipartFormData, with: postRouter,interceptor: PostInterceptor())
-            .uploadProgress { progress in
-            print("\(progress)")
-        }.validate()
-        .responseData { response in
-            switch response.result{
-            case .success(let data): print("success")
-            case .failure(let err): print(err)
-            }
-//            print("\(response.response?.statusCode ?? -1)")
+        return try await withCheckedThrowingContinuation { continuation in
+            AF.upload(multipartFormData: postRouter.multipartFormData, with: postRouter,interceptor: intercentptor)
+                .uploadProgress { progress in
+                print("\(progress)")
+                }.response { result in
+                    switch result.result{
+                    case .success(let success): print("success")
+                        continuation.resume(returning: "Success")
+                    case .failure(let error):
+                        guard let networkError: Err.NetworkError = error.underlyingError as? Err.NetworkError else {
+                            print(error)
+                            return
+                        }
+                        continuation.resume(throwing: networkError)
+                    }
+                }
         }
     }
 }

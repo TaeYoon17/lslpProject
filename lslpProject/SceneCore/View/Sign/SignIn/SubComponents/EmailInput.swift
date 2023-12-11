@@ -23,7 +23,7 @@ final class EmailInput:UIView{
         }
     }
     var disposeBag = DisposeBag()
-    private let textField = UITextField()
+    let textField = UITextField()
     private let inputInfoLabel = UILabel()
     init(){
         super.init(frame: .zero)

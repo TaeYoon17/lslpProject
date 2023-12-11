@@ -8,6 +8,7 @@
 import Foundation
 import Alamofire
 enum AuthRouter:URLRequestConvertible{
+    
     case signUp(user: User),signIn(email:String,pw:String),emailValidation(email:String),refreshToken,withdraw
     var endPoint: String{
         switch self{
@@ -27,15 +28,15 @@ enum AuthRouter:URLRequestConvertible{
     var headers:HTTPHeaders{
         var headers = HTTPHeaders()
         @DefaultsState(\.refreshToken) var refreshToken
+        @DefaultsState(\.accessToken) var accessToken
         switch self{
         case .withdraw:
-            headers["Authorization"] = "token 값 넣기"
+            headers["Authorization"] = accessToken
             headers["SesacKey"] = App.sesacKey
         case .refreshToken:
             headers["Refresh"] = refreshToken
+            headers["Authorization"] = accessToken
         case .emailValidation,.signIn,.signUp: break
-//            headers["Content-Type"] = "application/json"
-//            headers["SesacKey"] = App.sesacKey
         }
         return headers
     }
@@ -60,7 +61,10 @@ enum AuthRouter:URLRequestConvertible{
         var urlRequest = URLRequest(url: url)
         urlRequest.method = self.method
         urlRequest.headers = headers
-        urlRequest.httpBody = try? JSONEncoding.default.encode(urlRequest, with: parameters).httpBody
+        if self.method != .get{
+            urlRequest.httpBody = try? JSONEncoding.default.encode(urlRequest, with: parameters).httpBody
+        }
+        
         return urlRequest
     }
 }

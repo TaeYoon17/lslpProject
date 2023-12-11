@@ -15,7 +15,6 @@ final class MyAuthenticator: Authenticator{
     // Interceptor에서 본 추가할 헤더 코드들을 넣는 메서드와 같음
     // inout으로 URLRequest에 헤더 추가시 바로 적용된다.
     func apply(_ credential: Credential, to urlRequest: inout URLRequest) {
-        print("hello world!!")
         urlRequest.addValue(credential.accessToken, forHTTPHeaderField: "Authorization")
     }
     // 인터셉터에서는 요청 결과를 419 코드로 받으면 요청을 재검사할 필요가 있다고 본다.
@@ -28,7 +27,7 @@ final class MyAuthenticator: Authenticator{
         return credential.accessToken == self.accessToken
     }
     func refresh(_ credential: Credential, for session: Session, completion: @escaping (Result<Credential, Error>) -> Void) {
-        let request = session.request(AuthRouter.refreshToken)
+        let request = session.request(AuthRouter.refreshToken,interceptor: BaseInterceptor())
         request.responseDecodable(of: TokenResponse.self){[weak self] result in
             guard let self else {return}
             switch result.result {
@@ -40,8 +39,11 @@ final class MyAuthenticator: Authenticator{
                 let newCredential = AuthCredential(expiration: expiration)
                 completion(.success(newCredential))
             case .failure(let error):
-                
-                completion(.failure(error))
+                if let networkError = Err.NetworkError(rawValue: result.response?.statusCode ?? 0){
+                    completion(.failure(networkError))
+                }else{
+                    completion(.failure(error))
+                }
             }
         }
     }
