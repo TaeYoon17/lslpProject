@@ -8,5 +8,13 @@
 import Foundation
 import Combine
 final class ProfileVM:ObservableObject{
-    
+    init(){
+        Task{
+            do{
+                try await NetworkService.shared.getMyProfile()
+            }catch{
+                print(error)
+            }
+        }
+    }
 }

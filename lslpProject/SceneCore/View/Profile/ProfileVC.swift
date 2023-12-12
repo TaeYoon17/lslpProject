@@ -10,23 +10,29 @@ import SnapKit
 import SwiftUI
 import Combine
 final class ProfileVC: UIHostingController<ProfileView>{
+    @DefaultsState(\.navigationBarHeight) var naviHeight
     init() {
         super.init(rootView: ProfileView())
+        let nav = UINavigationController(rootViewController: self)
+        self.naviHeight = nav.navigationBar.frame.height
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("Don't use storyboard")
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+//        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print("viewwillappear")
         guard let tabBarController else {return}
         self.tabBarController?.tabBar.isHidden = false
         if let tabbarController = self.tabBarController as? TabVC{
             tabbarController.tabBarDidLoad(vc: self)
         }
+        
+            
     }
 }
 
@@ -36,6 +42,7 @@ struct ProfileView: View{
         case store
     }
     let vm = ProfileVM()
+    
     @State private var selectedIdx = 0
     @Namespace var tabbarShow
     @State private var height:CGFloat = 0

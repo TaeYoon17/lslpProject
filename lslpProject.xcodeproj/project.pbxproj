@@ -28,6 +28,7 @@
 		632C3D6B2B2443190087D95A /* PinInfoBoardVC+DS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C3D6A2B2443190087D95A /* PinInfoBoardVC+DS.swift */; };
 		632C3D6D2B244FB90087D95A /* BoardPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C3D6C2B244FB90087D95A /* BoardPost.swift */; };
 		632C3D6F2B2451110087D95A /* PinInfoBoardVC+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C3D6E2B2451110087D95A /* PinInfoBoardVC+CollectionView.swift */; };
+		633142982B28C20A00768E51 /* UIApplication+NotchSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633142972B28C20A00768E51 /* UIApplication+NotchSize.swift */; };
 		633CE8E42B21B34300C63D6E /* NavigationModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633CE8E32B21B34300C63D6E /* NavigationModifiers.swift */; };
 		633F61BB2B2743780059ECFF /* ReSignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633F61BA2B2743780059ECFF /* ReSignInVC.swift */; };
 		633F61BE2B2747DE0059ECFF /* SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633F61BD2B2747DE0059ECFF /* SignIn.swift */; };
@@ -176,6 +177,7 @@
 		632C3D6A2B2443190087D95A /* PinInfoBoardVC+DS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PinInfoBoardVC+DS.swift"; sourceTree = "<group>"; };
 		632C3D6C2B244FB90087D95A /* BoardPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardPost.swift; sourceTree = "<group>"; };
 		632C3D6E2B2451110087D95A /* PinInfoBoardVC+CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PinInfoBoardVC+CollectionView.swift"; sourceTree = "<group>"; };
+		633142972B28C20A00768E51 /* UIApplication+NotchSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+NotchSize.swift"; sourceTree = "<group>"; };
 		633CE8E32B21B34300C63D6E /* NavigationModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationModifiers.swift; sourceTree = "<group>"; };
 		633F61BA2B2743780059ECFF /* ReSignInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReSignInVC.swift; sourceTree = "<group>"; };
 		633F61BD2B2747DE0059ECFF /* SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.swift; sourceTree = "<group>"; };
@@ -837,6 +839,7 @@
 			isa = PBXGroup;
 			children = (
 				6325F2552B23646C00AD0956 /* UIKit */,
+				633142972B28C20A00768E51 /* UIApplication+NotchSize.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1177,6 +1180,7 @@
 				6369541C2B287D68002138B3 /* FollowResponse.swift in Sources */,
 				639F29EA2B1A378800A0C4E9 /* AlbumSelectorView.swift in Sources */,
 				63F4F2B02B14AC0A00CE4E92 /* LogInBtn.swift in Sources */,
+				633142982B28C20A00768E51 /* UIApplication+NotchSize.swift in Sources */,
 				63E92A9A2B0F2FFA00CBEB2F /* TabVC+ViewSetting.swift in Sources */,
 				6390AF992B1109D500201BF1 /* SignInVM.swift in Sources */,
 				632C3D6D2B244FB90087D95A /* BoardPost.swift in Sources */,
