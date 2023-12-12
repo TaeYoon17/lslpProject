@@ -31,16 +31,3 @@ extension UserDefaults{
         set{self.set(newValue,forKey: "refreshToken")}
     }
 }
-extension UserDefaults{
-    var user: User?{
-        get{
-            guard let userData = self.data(forKey: "user") else {return nil}
-            guard let user = try? JSONDecoder().decode(User.self, from: userData) else {return nil}
-            return user
-        }
-        set{
-            let userData = try? JSONEncoder().encode(newValue)
-            self.set(userData, forKey: "user")
-        }
-    }
-}

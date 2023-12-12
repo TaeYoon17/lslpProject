@@ -8,7 +8,7 @@
 import Foundation
 import Alamofire
 extension NetworkService{
-    func signUp(user: User) async throws -> SignUpResponse {
+    func signUp(user: UserDetail) async throws -> SignUpResponse {
         return try await withCheckedThrowingContinuation { continuation in
             AF.request(AuthRouter.signUp(user: user),interceptor: BaseInterceptor())
                 .validate(statusCode: 200...299)

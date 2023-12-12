@@ -9,9 +9,9 @@ import UIKit
 import SnapKit
 import SwiftUI
 import Combine
-final class AccountVC: UIHostingController<AccountView>{
+final class ProfileVC: UIHostingController<ProfileView>{
     init() {
-        super.init(rootView: AccountView())
+        super.init(rootView: ProfileView())
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("Don't use storyboard")
@@ -30,16 +30,12 @@ final class AccountVC: UIHostingController<AccountView>{
     }
 }
 
-struct AccountView: View{
-    enum PresentType:String, Identifiable{
-        var id: String{ self.rawValue}
-        case settings
-        case profile
-    }
+struct ProfileView: View{
     enum ScrollType:Hashable{
         case profile
         case store
     }
+    let vm = ProfileVM()
     @State private var selectedIdx = 0
     @Namespace var tabbarShow
     @State private var height:CGFloat = 0
@@ -71,12 +67,16 @@ struct AccountView: View{
                         }
                     })
                     .toolbar(.hidden, for: .navigationBar)
-                    .fullScreenCover(item: $presentType) { item in
+                    .present(presentType: $presentType) { item in
                         switch item{
-                        case .profile: SettingView()
-                        case .settings:SettingView()
+                        case .profile: ProfileEditView()
+                        }
+                    } fullScreen: { item in
+                        switch item{
+                        case .settings: SettingView()
                         }
                     }
+                    
                 }
             }
             .onChange(of: selectedIdx, perform: { value in
@@ -87,5 +87,11 @@ struct AccountView: View{
 }
 
 #Preview {
-    AccountView()
+    ProfileView()
+}
+
+fileprivate extension View{
+    func present<A:View,B:View>(presentType:Binding<ProfileView.PresentType?>,sheet:@escaping ((ProfileView.SheetType) -> A),fullScreen:@escaping ((ProfileView.FullscreenType) -> B))->some View{
+        self.modifier(ProfileView.SheetModifier(presentType: presentType, sheet: sheet, fullScreen: fullScreen))
+    }
 }

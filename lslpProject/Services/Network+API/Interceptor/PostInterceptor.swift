@@ -28,6 +28,7 @@ final class PostInterceptor: RequestInterceptor {
                 switch result.result{
                 case .success(let value):
                     self.accessToken = value.token
+                    
                     let expiration = Date(timeIntervalSinceNow: NetworkService.accessExpireSeconds)
                     print("성공")
                     completion(.doNotRetry)

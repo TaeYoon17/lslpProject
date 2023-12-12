@@ -7,13 +7,12 @@
 
 import Foundation
 struct SignInRespone:Codable{
+    let _id: String
     let accessToken: String
     let refreshToken: String
     enum CodingKeys: String,CodingKey{
         case accessToken = "token"
         case refreshToken = "refreshToken"
+        case _id
     }
 }
-//{
-//"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
-//"refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" }

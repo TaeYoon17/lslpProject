@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 enum AuthRouter:URLRequestConvertible{
     
-    case signUp(user: User),signIn(email:String,pw:String),emailValidation(email:String),refreshToken,withdraw
+    case signUp(user: UserDetail),signIn(email:String,pw:String),emailValidation(email:String),refreshToken,withdraw
     var endPoint: String{
         switch self{
         case .signIn: "/login"
@@ -68,7 +68,7 @@ enum AuthRouter:URLRequestConvertible{
         return urlRequest
     }
 }
-fileprivate extension User{
+fileprivate extension UserDetail{
     var convertToRequestBody: Parameters{
         var params = Parameters()
         params["email"] = self.email

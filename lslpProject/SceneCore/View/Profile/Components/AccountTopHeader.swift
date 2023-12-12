@@ -7,8 +7,9 @@
 
 import SwiftUI
 import Combine
-extension AccountView{
+extension ProfileView{
     struct AccountTopHeader:View{
+        typealias PresentType = ProfileView.PresentType
         @Namespace private var sectionTransition
         @Binding var selected: Int
         @Binding var presentType:PresentType?
@@ -57,11 +58,12 @@ extension AccountView{
         }
     }
 }
-extension AccountView.AccountTopHeader{
+extension ProfileView.AccountTopHeader{
     var profileNaviItem: some View{
-        Image("lgWin")
+        Image("Metal")
             .resizable()
             .scaledToFill()
+            .scaleEffect(x:1.2,y:1.2)
             .frame(width: size)
             .background(.thinMaterial)
             .clipShape(Circle())
@@ -76,7 +78,10 @@ extension AccountView.AccountTopHeader{
             .scaledToFit()
             .frame(width: size,alignment:.trailing)
             .wrapBtn {
-                presentType = .settings
+                self.presentType = .fullscreen(.settings)
             }
     }
 }
+#Preview(body: {
+    ProfileView()
+})

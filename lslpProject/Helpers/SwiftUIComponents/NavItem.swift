@@ -25,3 +25,17 @@ struct NavItem<B:View>: View{
         }
     }
 }
+struct LabelNavi<B:View>: View{
+    var navItem: (() ->  NavItem<B>)
+    var labelName:String
+    init(label:String,navItem: @escaping (() -> NavItem<B>)) {
+        self.labelName = label
+        self.navItem = navItem
+    }
+    var body: some View{
+        VStack(alignment: .leading,spacing: 4){
+            Text(labelName).font(.subheadline)
+            navItem()
+        }
+    }
+}

@@ -15,6 +15,7 @@ final class MyAuthenticator: Authenticator{
     // Interceptor에서 본 추가할 헤더 코드들을 넣는 메서드와 같음
     // inout으로 URLRequest에 헤더 추가시 바로 적용된다.
     func apply(_ credential: Credential, to urlRequest: inout URLRequest) {
+        urlRequest.addValue(App.sesacKey, forHTTPHeaderField: "SesacKey")
         urlRequest.addValue(credential.accessToken, forHTTPHeaderField: "Authorization")
     }
     // 인터셉터에서는 요청 결과를 419 코드로 받으면 요청을 재검사할 필요가 있다고 본다.

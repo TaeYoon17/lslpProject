@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-extension AccountView{
+extension ProfileView{
     struct AccountProfile: View{
         @Binding var presentType:PresentType?
         var body: some View{
@@ -18,27 +18,28 @@ extension AccountView{
                         .scaledToFit()
                         .frame(width: 48,alignment:.trailing)
                         .wrapBtn {
-                            presentType = .settings
+                            self.presentType = PresentType.fullscreen(.settings)
                         }
                 }.frame(height: 44)
                     .padding(.horizontal)
                     .padding(.vertical,4)
                 VStack(alignment:.center,spacing:8){
-                    Image("lgWin")
+                    Image("Metal")
                         .resizable()
                         .scaledToFit()
+                        .scaleEffect(x:1.2,y:1.2)
                         .frame(width: 120,height: 120)
                         .background(.thinMaterial)
                         .clipShape(Circle())
-                    Text("태윤 김").font(.largeTitle.bold())
-                    Label("xoqkdrnl99", systemImage: "leaf.circle")
+                    Text("새싹 김").font(.largeTitle.bold())
+                    Label("sessac99", systemImage: "leaf.circle")
                     HStack{
                         Text("0 follwers")
                         Text("\u{2022}")
                         Text("4 follwers").bold()
                     }.multilineTextAlignment(.center)
                     Button(action: {
-                        print("EditProfile")
+                        self.presentType = PresentType.sheet(.profile)
                     }, label: {
                         Text("Edit profile")
                             .font(.headline)

@@ -6,8 +6,7 @@
 //
 
 import Foundation
-
-struct User:Codable{
+struct UserDetail:Codable{
     var email: String
     var password: String
     var nick : String

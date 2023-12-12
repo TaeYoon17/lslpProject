@@ -20,7 +20,7 @@ extension TabVC{
         let vc3 = ViewController()
         let vc4 = SearchVC()
         vc4.title = "Search"
-        let vc5 = AccountVC()
+        let vc5 = ProfileVC()
         vc5.title = "Account"
         let naviControllers = zip([vc1,vc2,vc3,vc4,vc5],
                                   [TabbarString(title: "Discover", defaultIcon: "house", selectedIcon: "house.fill"),

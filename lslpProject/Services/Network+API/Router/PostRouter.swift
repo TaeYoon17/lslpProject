@@ -86,7 +86,7 @@ enum PostRouter:URLRequestConvertible{
             }
         default: ()
         }
-        print("multipart called \(multipartFormData)")
+//        print("multipart called \(multipartFormData)")
         return multipartFormData
     }
 }

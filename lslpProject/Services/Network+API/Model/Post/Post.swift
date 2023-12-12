@@ -17,11 +17,4 @@ struct Post:Codable{
     var content3:String?
     var content4:String?
     var content5:String?
-//    var getPost:Parameters{
-//        var p = Parameters()
-//        if let title{ p["title"] = title }
-//        if let product_id {p["product_id"] = product_id}
-//        if let
-//        return p
-//    }
 }
