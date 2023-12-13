@@ -8,7 +8,9 @@
 import SwiftUI
 extension ProfileView{
     struct AccountProfile: View{
+        @EnvironmentObject var vm: ProfileVM
         @Binding var presentType:PresentType?
+        @State var emailFront:String = ""
         var body: some View{
             VStack{
                 HStack{
@@ -31,12 +33,17 @@ extension ProfileView{
                         .frame(width: 120,height: 120)
                         .background(.thinMaterial)
                         .clipShape(Circle())
-                    Text("새싹 김").font(.largeTitle.bold())
-                    Label("sessac99", systemImage: "leaf.circle")
+                    Text(vm.user.nick ?? "").font(.largeTitle.bold())
+                    Label(vm.user.email, systemImage: "leaf.circle")
                     HStack{
-                        Text("0 follwers")
+                        (Text("\(vm.followers.count)").bold() + Text(" follwers")).wrapBtn {
+                            print("Hello followers")
+                        }
                         Text("\u{2022}")
-                        Text("4 follwers").bold()
+                        (Text("\(vm.following.count)").bold() + Text(" following").bold())
+                            .wrapBtn {
+                                print("Hello following")
+                            }
                     }.multilineTextAlignment(.center)
                     Button(action: {
                         self.presentType = PresentType.sheet(.profile)
@@ -48,6 +55,7 @@ extension ProfileView{
                         .padding(.vertical,8)
                 }
             }
+
         }
     }
 }

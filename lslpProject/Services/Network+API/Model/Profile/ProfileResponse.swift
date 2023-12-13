@@ -6,9 +6,9 @@
 //
 
 import Foundation
-struct ProfileResponse:Codable{
-    var post:[String]
-    var fallowers:[User]
+struct ProfileResponse:Codable,UserDetailProvider{
+    var posts:[String]
+    var followers:[User]
     var following:[User]
     var _id:String
     var email:String

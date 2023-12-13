@@ -35,6 +35,7 @@ extension NetworkService{
                     case .success(let response):
                         self?.refreshToken = response.refreshToken
                         self?.accessToken = response.accessToken
+                        print("로그인 성공 및 토큰 갱신 \(response.accessToken) \(self?.accessToken)")
                         continuation.resume(returning: response)
                     case .failure(let error):
                         if let data = res.data{

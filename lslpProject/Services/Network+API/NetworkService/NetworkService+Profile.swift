@@ -9,14 +9,18 @@ import Foundation
 import Alamofire
 import RxSwift
 extension NetworkService{
-    func getMyProfile() async throws{
+    func getMyProfile() async throws -> ProfileResponse{
         let getProfileRouter = ProfileRouter.check
-        AF.request(getProfileRouter, interceptor: baseAuthenticator).response { result in
-            switch result.result{
-            case .success(let data): break
-            case .failure(let error): break
+        return try await withCheckedThrowingContinuation { continuation in
+            AF.request(getProfileRouter, interceptor: baseAuthenticator)
+                .responseDecodable(of:ProfileResponse.self) { result in
+                    switch result.result{
+                    case .success(let data):
+                        continuation.resume(returning: data)
+                    case .failure(let error):
+                        continuation.resume(throwing: error)
+                    }
             }
-            print(result.response?.statusCode)
         }
     }
     func editProfile(nick:String,phoneNum:String? = nil,birthDay:String? = nil,profile:Data? = nil) async throws{
@@ -29,13 +33,13 @@ extension NetworkService{
             }.response{result in
                 switch result.result{
                 case .success(let success): print("success")
-//                    continuation.resume(returning: "Success")
+                    //                    continuation.resume(returning: "Success")
                 case .failure(let error):
                     guard let networkError: Err.NetworkError = error.underlyingError as? Err.NetworkError else {
                         print(error)
                         return
                     }
-//                    continuation.resume(throwing: networkError)
+                    //                    continuation.resume(throwing: networkError)
                 }
             }
     }

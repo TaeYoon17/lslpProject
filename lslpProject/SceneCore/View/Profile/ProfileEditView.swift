@@ -9,13 +9,27 @@ import SwiftUI
 
 struct ProfileEditView: View {
     @Environment(\.dismiss) var dismiss
+    @StateObject var vm: ProfileEditVM
+    @State var nick:String
+    @State var birthDay:String
+    @State var phoneNumber:String
     @State var date = Date()
+    let userChanged: (((any UserDetailProvider)) -> Void)?
+    init(user: (any UserDetailProvider),profile:Data? = nil,userChanged: (((any UserDetailProvider)) -> Void)?){
+        let vm = ProfileEditVM(user: user)
+        _vm = .init(wrappedValue: vm)
+        self.userChanged = userChanged
+        self._nick = State(initialValue: vm.originUser.nick ?? "")
+        self._birthDay = State(initialValue: vm.originUser.birthDay ?? "")
+        self._phoneNumber = State(initialValue: vm.originUser.phoneNum ?? "")
+    }
     var body: some View {
         NavigationStack {
             ScrollView {
                 header
                 profileInfos.padding(.horizontal)
             }
+            .onReceive(vm.originSubject, perform: { userChanged?($0) })
             .toolbar(content: {
                     ToolbarItem(placement: .topBarLeading) {
                         Image(systemName: "xmark").wrapBtn {
@@ -24,7 +38,8 @@ struct ProfileEditView: View {
                     }
                     ToolbarItemGroup(placement: .topBarTrailing) {
                         Text("Done").font(.headline).wrapBtn {
-                            print("wow world")
+                            vm.save()
+                            dismiss()
                         }
                     }
                 })
@@ -51,23 +66,25 @@ struct ProfileEditView: View {
     }
     @ViewBuilder var profileInfos: some View{
         VStack(spacing:8){
-            profileLabel(type: "Name", placeHolder: "고랙", text: .constant("AFSAD"))
+            profileLabel(type: "Nick Name", placeHolder: "닉네임", text: $nick)
             Divider().padding(.bottom,4)
-            profileLabel(type: "NickName", placeHolder: "변경 닉네임", text: .constant("빈츠"))
+            profileLabel(type: "Phone", placeHolder: "전화번호", text: $phoneNumber)
             Divider().padding(.bottom,4)
-            profileLabel(type: "BirthDay", placeHolder: "내 생일", text: .constant("wow world"))
+            profileLabel(type: "BirthDay", placeHolder: "내 생일", text: $birthDay)
             Divider().padding(.bottom,4)
             LabelNavi(label: "BirthDay") {
-                NavItem("My Date") {
+                NavItem("My BirthDay") {
                     DatePicker("생일", selection: $date,displayedComponents: .date).datePickerStyle(.compact).labelsHidden()
                 }
             }
         }
+        .onChange(of: nick, perform: { vm.user.nick = $0 })
+        .onChange(of: birthDay, perform: { vm.user.birthDay = $0 })
     }
     @ViewBuilder func profileLabel(type:String,placeHolder:String,text: Binding<String>)->some View{
         VStack(alignment: .leading,spacing: 4){
             Text(type).font(.subheadline)
-            TextField("asfdasdf", text: text)
+            TextField(placeHolder, text: text)
                 .font(.system(.title3,weight: .semibold))
         }
     }
@@ -75,7 +92,7 @@ struct ProfileEditView: View {
 
 #Preview {
     NavigationStack {
-        ProfileEditView()
+//        ProfileEditView(user: )
     }
 }
 extension UIWindow {

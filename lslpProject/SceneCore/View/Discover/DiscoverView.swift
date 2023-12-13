@@ -25,8 +25,11 @@ struct DiscoverView:View{
     }
 }
 final class DiscoverVC: UIHostingController<DiscoverView>{
+    @DefaultsState(\.navigationBarHeight) var naviHeight
     init() {
         super.init(rootView: DiscoverView())
+        let nav = UINavigationController(rootViewController: self)
+        self.naviHeight = nav.navigationBar.frame.height
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("Don't use storyboard")
