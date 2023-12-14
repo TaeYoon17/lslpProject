@@ -12,6 +12,7 @@ final class ProfileEditVM: ObservableObject{
     let originUser: (any UserDetailProvider)
     @Published var isDifferentOccur:Bool = false
     @Published var user: (any UserDetailProvider)
+    
     let profileSubject: CurrentValueSubject<Data?,Never>
     var originSubject = PassthroughSubject<(any UserDetailProvider),Never>()
     var subscription = Set<AnyCancellable>()

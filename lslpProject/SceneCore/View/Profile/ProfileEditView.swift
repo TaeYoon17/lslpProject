@@ -49,13 +49,29 @@ struct ProfileEditView: View {
     }
     @ViewBuilder var header: some View{
         VStack(alignment: .center,spacing: 16){
-            Image("Metal")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .scaleEffect(x: 1.2,y:1.2)
-                .background(.red)
-                .clipShape(Circle())
-                .frame(width:  UIScreen.current!.bounds.width / 3)
+            let width = UIScreen.current!.bounds.width / 2
+            EditImageView(size: .init(width: width, height: width), content: { state in
+                switch state{
+                case .empty: Image("Metal").resizable().scaledToFill()
+                case .failure(_ ): Image("Metal").resizable()
+                case .loading(_ ):
+                    ProgressView()
+                case .success(let img):
+                    Image(uiImage: img).resizable(resizingMode: .stretch).scaledToFill()
+                        .onAppear(){
+                            do{
+                                let imgData = try img.jpegData()
+                                vm.profileSubject.send(imgData)
+                            }catch{
+                                print(error)
+                            }
+                        }
+                }
+            })
+            .scaleEffect(x:1.2,y:1.2)
+            .clipShape(Circle())
+            .frame(width:  width,height: width)
+            
             Button(action: {
             }, label: {
                 Text("Edit")

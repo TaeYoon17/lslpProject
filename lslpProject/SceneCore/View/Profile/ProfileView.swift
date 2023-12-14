@@ -66,7 +66,7 @@ struct ProfileView: View{
         }
     }
 }
-    
+//MARK: -- Present 대응
 fileprivate extension View{
     func present<A:View,B:View>(presentType:Binding<ProfileView.PresentType?>,sheet:@escaping ((ProfileView.SheetType) -> A),fullScreen:@escaping ((ProfileView.FullscreenType) -> B))->some View{
         self.modifier(ProfileView.SheetModifier(presentType: presentType, sheet: sheet, fullScreen: fullScreen))
