@@ -14,6 +14,8 @@ struct ProfileEditView: View {
     @State var birthDay:String
     @State var phoneNumber:String
     @State var date = Date()
+    @State var pickerPresent = false
+    @State var isProfileImagePresented = false
     let userChanged: (((any UserDetailProvider)) -> Void)?
     init(user: (any UserDetailProvider),profile:Data? = nil,userChanged: (((any UserDetailProvider)) -> Void)?){
         let vm = ProfileEditVM(user: user)
@@ -49,8 +51,8 @@ struct ProfileEditView: View {
     }
     @ViewBuilder var header: some View{
         VStack(alignment: .center,spacing: 16){
-            let width = UIScreen.current!.bounds.width / 2
-            EditImageView(size: .init(width: width, height: width), content: { state in
+            let width = UIScreen.current!.bounds.width / 3
+            EditImageView(isPresented:$pickerPresent,size: .init(width: width + 100, height: width + 100), content: { state in
                 switch state{
                 case .empty: Image("Metal").resizable().scaledToFill()
                 case .failure(_ ): Image("Metal").resizable()
@@ -58,21 +60,26 @@ struct ProfileEditView: View {
                     ProgressView()
                 case .success(let img):
                     Image(uiImage: img).resizable(resizingMode: .stretch).scaledToFill()
+                        .opacity(isProfileImagePresented ? 1 : 0)
                         .onAppear(){
                             do{
+                                withAnimation(.easeInOut(duration: 0.2)) { isProfileImagePresented = true }
                                 let imgData = try img.jpegData()
                                 vm.profileSubject.send(imgData)
                             }catch{
                                 print(error)
                             }
                         }
+                        .onDisappear(){
+                            withAnimation(.easeInOut(duration: 0.2)) { isProfileImagePresented = false }
+                        }
                 }
             })
             .scaleEffect(x:1.2,y:1.2)
             .clipShape(Circle())
             .frame(width:  width,height: width)
-            
             Button(action: {
+                pickerPresent = true
             }, label: {
                 Text("Edit")
                     .font(.headline)

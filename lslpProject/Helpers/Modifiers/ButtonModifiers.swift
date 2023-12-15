@@ -14,8 +14,11 @@ private struct ButtonWrapper: ViewModifier{
     }
 }
 extension View{
-    func wrapBtn(action: @escaping ()->Void) -> some View{
+    @ViewBuilder func wrapBtn(action: @escaping ()->Void) -> some View{
         modifier(ButtonWrapper(action: action))
+    }
+    @ViewBuilder func frame(_ size:CGSize) -> some View{
+        self.frame(width: size.width,height: size.height)
     }
 }
 private struct AccentButton:ButtonStyle{

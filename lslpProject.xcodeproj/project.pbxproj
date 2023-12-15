@@ -141,6 +141,7 @@
 		63C49C822B24B28A0067102B /* CreatingBoardVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C49C812B24B28A0067102B /* CreatingBoardVM.swift */; };
 		63C49C842B24B6F40067102B /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C49C832B24B6F40067102B /* Post.swift */; };
 		63C49C862B24DBF60067102B /* PostInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C49C852B24DBF60067102B /* PostInterceptor.swift */; };
+		63CF7A402B2C7833005FDB2B /* ProfileImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CF7A3F2B2C7833005FDB2B /* ProfileImagePicker.swift */; };
 		63E92A962B0F2D1B00CBEB2F /* CreatingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E92A952B0F2D1B00CBEB2F /* CreatingVM.swift */; };
 		63E92A9A2B0F2FFA00CBEB2F /* TabVC+ViewSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E92A992B0F2FFA00CBEB2F /* TabVC+ViewSetting.swift */; };
 		63E92AA22B0F3A2900CBEB2F /* AlbumItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E92AA12B0F3A2900CBEB2F /* AlbumItem.swift */; };
@@ -292,6 +293,7 @@
 		63C49C812B24B28A0067102B /* CreatingBoardVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatingBoardVM.swift; sourceTree = "<group>"; };
 		63C49C832B24B6F40067102B /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		63C49C852B24DBF60067102B /* PostInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostInterceptor.swift; sourceTree = "<group>"; };
+		63CF7A3F2B2C7833005FDB2B /* ProfileImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImagePicker.swift; sourceTree = "<group>"; };
 		63E92A952B0F2D1B00CBEB2F /* CreatingVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatingVM.swift; sourceTree = "<group>"; };
 		63E92A992B0F2FFA00CBEB2F /* TabVC+ViewSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TabVC+ViewSetting.swift"; sourceTree = "<group>"; };
 		63E92AA12B0F3A2900CBEB2F /* AlbumItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumItem.swift; sourceTree = "<group>"; };
@@ -701,6 +703,7 @@
 			isa = PBXGroup;
 			children = (
 				637EEEC62B21BDD1007D54A3 /* NavItem.swift */,
+				63CF7A3F2B2C7833005FDB2B /* ProfileImagePicker.swift */,
 			);
 			path = SwiftUIComponents;
 			sourceTree = "<group>";
@@ -1109,6 +1112,7 @@
 				63E92AB52B0F6E4600CBEB2F /* PinPost.swift in Sources */,
 				63A178EB2B0CD30A00A16A2C /* IndexViewController.swift in Sources */,
 				6390AF942B10C6F900201BF1 /* OnboardingVM.swift in Sources */,
+				63CF7A402B2C7833005FDB2B /* ProfileImagePicker.swift in Sources */,
 				636954262B2887EE002138B3 /* ProfileRouter.swift in Sources */,
 				638F9C322B1B716E00A2AC26 /* PinInfoTextField.swift in Sources */,
 				63F4F2B42B14DD0700CE4E92 /* UICollectionView+Extensions.swift in Sources */,
