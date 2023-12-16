@@ -27,7 +27,8 @@ enum ProfileRouter:URLRequestConvertible{
         var headers = HTTPHeaders()
         switch self{
         case .check: break
-        case .edit: headers["Content-Type"] = "multipart/form-data"
+        case .edit:
+            headers["Content-Type"] = "multipart/form-data"
         case .other: break
         }
         return headers
@@ -48,8 +49,8 @@ enum ProfileRouter:URLRequestConvertible{
         var urlRequest = URLRequest(url: url)
         urlRequest.method = self.method
         urlRequest.headers = headers
-        switch self.method{
-        case .get: break
+        switch self{
+        case .edit,.check: break
         default:
             urlRequest.httpBody = try? JSONEncoding.default.encode(urlRequest, with: parameters).httpBody
         }
@@ -68,11 +69,12 @@ enum ProfileRouter:URLRequestConvertible{
                 }
                 
             }
-            guard let profileData = profile.profile else {break}
-            multipartFormData.append(profileData, withName: "file",fileName: "\(profile.nick ?? "")\(profile.birthDay ?? "").jpg",mimeType: "image/png")
+            guard let profileData:Data = profile.profile else {break}
+            let fileName = "fileName.jpg"
+            multipartFormData.append(profileData, withName: "profile",fileName: fileName ,mimeType: "image/jpeg")
         default: ()
         }
-//        print("multipart called \(multipartFormData)")
+        print("multipart called \(multipartFormData)")
         return multipartFormData
     }
 }

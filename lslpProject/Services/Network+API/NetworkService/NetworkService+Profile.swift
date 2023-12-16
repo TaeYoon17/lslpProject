@@ -20,19 +20,20 @@ extension NetworkService{
                     case .failure(let error):
                         continuation.resume(throwing: error)
                     }
-            }
+                }
         }
     }
     func editProfile(nick:String,phoneNum:String? = nil,birthDay:String? = nil,profile:Data? = nil) async throws{
         let profileEditBody = ProfileEditBody(nick: nick, phoneNum: phoneNum, birthDay: birthDay, profile: profile)
         
         let editProfileRouter = ProfileRouter.edit(profile: profileEditBody)
+        
         AF.upload(multipartFormData: editProfileRouter.multipartFormData, with: editProfileRouter,interceptor: baseAuthenticator)
             .uploadProgress { progress in
                 print("\(progress)")
-            }.response{result in
+            }.responseString { result in
                 switch result.result{
-                case .success(let success): print("success")
+                case .success(let success): print(success)
                     //                    continuation.resume(returning: "Success")
                 case .failure(let error):
                     guard let networkError: Err.NetworkError = error.underlyingError as? Err.NetworkError else {
@@ -42,5 +43,17 @@ extension NetworkService{
                     //                    continuation.resume(throwing: networkError)
                 }
             }
+        //            .response{result in
+        //                switch result.result{
+        //                case .success(let success): print("success")
+        //                    //                    continuation.resume(returning: "Success")
+        //                case .failure(let error):
+        //                    guard let networkError: Err.NetworkError = error.underlyingError as? Err.NetworkError else {
+        //                        print(error)
+        //                        return
+        //                    }
+        //                    //                    continuation.resume(throwing: networkError)
+        //                }
+        //            }
     }
 }

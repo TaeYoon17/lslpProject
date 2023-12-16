@@ -30,7 +30,7 @@ struct EditImageView:View{
         AnyView(content(imageState)).photosPicker(isPresented: $isPresented, selection: $imageSelection,matching: .images)
             .onChange(of: imageSelection, perform: { newValue in
                 guard let newValue else {return}
-                newValue.loadTransferable(type: PhotoImageBridger.ImageData.self) {result in
+                let progress = newValue.loadTransferable(type: PhotoImageBridger.ImageData.self) {result in
                     Task {@MainActor in
                         guard imageSelection == self.imageSelection else {
                             print("Failed to get the selected item.")
@@ -47,6 +47,7 @@ struct EditImageView:View{
                         }
                     }
                 }
+                imageState = .loading(progress)
             })
             .onChange(of: selectedImage, perform: { newValue in
                 if let newValue{

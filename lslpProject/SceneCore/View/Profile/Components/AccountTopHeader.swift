@@ -9,11 +9,13 @@ import SwiftUI
 import Combine
 extension ProfileView{
     struct AccountTopHeader:View{
+        @EnvironmentObject var vm: ProfileVM
         typealias PresentType = ProfileView.PresentType
         @Namespace private var sectionTransition
         @Binding var selected: Int
         @Binding var presentType:PresentType?
         @State private var selectedIdx = 0
+        @State private var profileImg = Image(systemName: "person.fill")
         var publisher: PassthroughSubject<ScrollType, Never>
         var tabbarItems:[String]
         var size:CGFloat = 48
@@ -60,16 +62,21 @@ extension ProfileView{
 }
 extension ProfileView.AccountTopHeader{
     var profileNaviItem: some View{
-        Image("Metal")
+        profileImg
             .resizable()
             .scaledToFill()
-            .scaleEffect(x:1.2,y:1.2)
             .frame(width: size)
             .background(.thinMaterial)
             .clipShape(Circle())
             .wrapBtn {
-//                scrollType = .profile
                 publisher.send(.profile)
+            }
+            .onReceive(vm.$profileImage) { output in
+                if let output{
+                    profileImg = Image(uiImage: output)
+                }else{
+                    profileImg = Image(systemName: "person.fill")
+                }
             }
     }
     var settingNaviItem: some View{

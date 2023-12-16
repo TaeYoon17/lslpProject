@@ -11,19 +11,27 @@ struct ProfileEditView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject var vm: ProfileEditVM
     @State var nick:String
-    @State var birthDay:String
     @State var phoneNumber:String
-    @State var date = Date()
+    @State var date:Date
     @State var pickerPresent = false
     @State var isProfileImagePresented = false
-    let userChanged: (((any UserDetailProvider)) -> Void)?
-    init(user: (any UserDetailProvider),profile:Data? = nil,userChanged: (((any UserDetailProvider)) -> Void)?){
-        let vm = ProfileEditVM(user: user)
+    let defaultImage: Image?
+    let width = UIScreen.current!.bounds.width / 3
+    let userChanged: ((any UserDetailProvider,Data?) -> Void)?
+    init(user: (any UserDetailProvider),profile:Data? = nil,userChanged: ((any UserDetailProvider,Data?) -> Void)?){
+        let vm = ProfileEditVM(user: user,profile: profile)
         _vm = .init(wrappedValue: vm)
         self.userChanged = userChanged
         self._nick = State(initialValue: vm.originUser.nick ?? "")
-        self._birthDay = State(initialValue: vm.originUser.birthDay ?? "")
         self._phoneNumber = State(initialValue: vm.originUser.phoneNum ?? "")
+        let date = if let dateString = user.birthDay{ Date(yyyyMMdd: dateString) } else { Date() }
+        _date = .init(initialValue: date)
+        defaultImage = if let profile {
+            Image(uiImage: UIImage.fetchBy(data: profile,size: CGSize(width: 360, height: 360)))
+        }else{
+            nil
+        }
+        
     }
     var body: some View {
         NavigationStack {
@@ -31,7 +39,7 @@ struct ProfileEditView: View {
                 header
                 profileInfos.padding(.horizontal)
             }
-            .onReceive(vm.originSubject, perform: { userChanged?($0) })
+            
             .toolbar(content: {
                     ToolbarItem(placement: .topBarLeading) {
                         Image(systemName: "xmark").wrapBtn {
@@ -41,8 +49,9 @@ struct ProfileEditView: View {
                     ToolbarItemGroup(placement: .topBarTrailing) {
                         Text("Done").font(.headline).wrapBtn {
                             vm.save()
+                            userChanged?(vm.user,vm.profile)
                             dismiss()
-                        }
+                        }.disabled(!vm.isDifferentOccur)
                     }
                 })
             .navigationBarTitleDisplayMode(.inline)
@@ -51,33 +60,35 @@ struct ProfileEditView: View {
     }
     @ViewBuilder var header: some View{
         VStack(alignment: .center,spacing: 16){
-            let width = UIScreen.current!.bounds.width / 3
             EditImageView(isPresented:$pickerPresent,size: .init(width: width + 100, height: width + 100), content: { state in
                 switch state{
-                case .empty: Image("Metal").resizable().scaledToFill()
-                case .failure(_ ): Image("Metal").resizable()
-                case .loading(_ ):
-                    ProgressView()
+                case .empty:
+                    if let defaultImage{
+                        defaultImage.resizable().scaledToFit()
+                    }else{
+                        Image(systemName: "person.fill")
+                            .font(.system(size: width * 0.66))
+                    }
+                case .failure(_ ): Image("Metal").resizable().scaledToFill()
+                case .loading(_): ProgressView()
                 case .success(let img):
-                    Image(uiImage: img).resizable(resizingMode: .stretch).scaledToFill()
-                        .opacity(isProfileImagePresented ? 1 : 0)
+                    Image(uiImage: img).resizable(resizingMode: .stretch).scaledToFit()
+                        .animToggler()
                         .onAppear(){
                             do{
-                                withAnimation(.easeInOut(duration: 0.2)) { isProfileImagePresented = true }
-                                let imgData = try img.jpegData()
-                                vm.profileSubject.send(imgData)
+                                let imgData = try img.jpegData(maxMB: 1)
+                                vm.profile = imgData
+                                vm.updateImage = true
                             }catch{
                                 print(error)
                             }
                         }
-                        .onDisappear(){
-                            withAnimation(.easeInOut(duration: 0.2)) { isProfileImagePresented = false }
-                        }
+                        
                 }
             })
-            .scaleEffect(x:1.2,y:1.2)
-            .clipShape(Circle())
             .frame(width:  width,height: width)
+            .background(.regularMaterial)
+            .clipShape(Circle())
             Button(action: {
                 pickerPresent = true
             }, label: {
@@ -91,23 +102,24 @@ struct ProfileEditView: View {
         VStack(spacing:8){
             profileLabel(type: "Nick Name", placeHolder: "닉네임", text: $nick)
             Divider().padding(.bottom,4)
-            profileLabel(type: "Phone", placeHolder: "전화번호", text: $phoneNumber)
-            Divider().padding(.bottom,4)
-            profileLabel(type: "BirthDay", placeHolder: "내 생일", text: $birthDay)
+            profileLabel(type: "Phone", placeHolder: "전화번호", text: $phoneNumber,keyType: .numberPad)
             Divider().padding(.bottom,4)
             LabelNavi(label: "BirthDay") {
                 NavItem("My BirthDay") {
-                    DatePicker("생일", selection: $date,displayedComponents: .date).datePickerStyle(.compact).labelsHidden()
+                    DatePicker("생일", selection: $date,displayedComponents: .date)
+                        .datePickerStyle(.compact).labelsHidden()
                 }
             }
         }
         .onChange(of: nick, perform: { vm.user.nick = $0 })
-        .onChange(of: birthDay, perform: { vm.user.birthDay = $0 })
+        .onChange(of: phoneNumber, perform: { vm.user.phoneNum = $0 })
+        .onChange(of: date) { vm.user.birthDay = $0.yyyyMMdd }
     }
-    @ViewBuilder func profileLabel(type:String,placeHolder:String,text: Binding<String>)->some View{
+    @ViewBuilder func profileLabel(type:String,placeHolder:String,text: Binding<String>,keyType: UIKeyboardType = .default)->some View{
         VStack(alignment: .leading,spacing: 4){
             Text(type).font(.subheadline)
             TextField(placeHolder, text: text)
+                .keyboardType(keyType)
                 .font(.system(.title3,weight: .semibold))
         }
     }
@@ -118,21 +130,23 @@ struct ProfileEditView: View {
 //        ProfileEditView(user: )
     }
 }
-extension UIWindow {
-    static var current: UIWindow? {
-        for scene in UIApplication.shared.connectedScenes {
-            guard let windowScene = scene as? UIWindowScene else { continue }
-            for window in windowScene.windows {
-                if window.isKeyWindow { return window }
+struct AnimationToggler:ViewModifier{
+    @State var toggler: Bool = false
+    func body(content: Content) -> some View {
+        content
+            .opacity(toggler ? 1 : 0)
+            .transition(.opacity)
+            .onAppear(){
+                toggler = false
+                withAnimation(.easeInOut(duration: 0.2)) { toggler = true }
             }
+            .onDisappear(){
+                toggler = false
         }
-        return nil
     }
 }
-
-
-extension UIScreen {
-    static var current: UIScreen? {
-        UIWindow.current?.screen
+extension View{
+    func animToggler()->some View{
+        self.modifier(AnimationToggler())
     }
 }

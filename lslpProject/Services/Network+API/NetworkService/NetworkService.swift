@@ -53,6 +53,24 @@ final class NetworkService{
                 }
         }
     }
+    func getImageData(imagePath:String) async throws -> Data{
+        guard let imageURL = URL(string: "\(App.baseURL)/\(imagePath)") else {
+            throw Err.DataError.fetch
+        }
+        return try await withCheckedThrowingContinuation { continuation in
+            AF.request(imageURL,interceptor: baseAuthenticator).response { result in
+                switch result.result{
+                case .success(let success?):
+                    continuation.resume(returning: success)
+                case .success(nil):
+                    continuation.resume(throwing: Err.FetchError.fetchEmpty)
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+                print(result.response?.statusCode)
+            }
+        }
+    }
 }
 struct ErrMsg:Codable{
     var message:String

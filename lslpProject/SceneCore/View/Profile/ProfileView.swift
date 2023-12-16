@@ -34,6 +34,7 @@ struct ProfileView: View{
                         }headerView:{ selectedIdx,items in
                             AccountTopHeader(selected: selectedIdx, presentType: $presentType, publisher: publisher, tabbarItems: items,size: 48)
                                 .padding(.vertical,4)
+                                .environmentObject(vm)
                         }.id(ScrollType.store)
                     }
                     .clipped()
@@ -47,10 +48,9 @@ struct ProfileView: View{
                     .present(presentType: $presentType) { item in
                         switch item{
                         case .profile:
-                            ProfileEditView(user:vm.user){
-                                print("클로져가 바로 발생한다.")
-                                print($0)
+                            ProfileEditView(user:vm.user,profile: vm.imageData){
                                 vm.user = $0
+                                vm.imageData = $1
                             }
                         }
                     }fullScreen: { item in

@@ -11,6 +11,8 @@ extension ProfileView{
         @EnvironmentObject var vm: ProfileVM
         @Binding var presentType:PresentType?
         @State var emailFront:String = ""
+        @State private var image = Image(systemName: "person.fill")
+        private let size = CGSize(width: 120, height: 120)
         var body: some View{
             VStack{
                 HStack{
@@ -26,11 +28,11 @@ extension ProfileView{
                     .padding(.horizontal)
                     .padding(.vertical,4)
                 VStack(alignment:.center,spacing:8){
-                    Image("Metal")
+                    image
                         .resizable()
                         .scaledToFit()
-                        .scaleEffect(x:1.2,y:1.2)
-                        .frame(width: 120,height: 120)
+//                        .scaleEffect(x:1.2,y:1.2)
+                        .frame(size)
                         .background(.thinMaterial)
                         .clipShape(Circle())
                     Text(vm.user.nick ?? "").font(.largeTitle.bold())
@@ -55,7 +57,13 @@ extension ProfileView{
                         .padding(.vertical,8)
                 }
             }
-
+            .onReceive(vm.$profileImage) { uiimage in
+                if let uiimage{
+                    self.image = Image(uiImage: uiimage)
+                }else{
+                    self.image = Image(systemName: "person.fill")
+                }
+            }
         }
     }
 }

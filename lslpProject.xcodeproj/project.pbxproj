@@ -44,6 +44,7 @@
 		633FF7852B175BE0003564FB /* DiscoverVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF7842B175BE0003564FB /* DiscoverVM.swift */; };
 		633FF7872B175F40003564FB /* TopTabbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF7862B175F40003564FB /* TopTabbar.swift */; };
 		633FF78A2B17AEA6003564FB /* AlbumNaviTitileButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF7892B17AEA6003564FB /* AlbumNaviTitileButton.swift */; };
+		634047642B2CA8E500A645FB /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634047632B2CA8E500A645FB /* DateExtension.swift */; };
 		634178722B1039950098201D /* UserDefaults+State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634178712B1039950098201D /* UserDefaults+State.swift */; };
 		634178762B103B5E0098201D /* AuthCredentail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634178752B103B5E0098201D /* AuthCredentail.swift */; };
 		634178782B10413E0098201D /* BaseInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634178772B10413E0098201D /* BaseInterceptor.swift */; };
@@ -199,6 +200,7 @@
 		633FF7842B175BE0003564FB /* DiscoverVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverVM.swift; sourceTree = "<group>"; };
 		633FF7862B175F40003564FB /* TopTabbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopTabbar.swift; sourceTree = "<group>"; };
 		633FF7892B17AEA6003564FB /* AlbumNaviTitileButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumNaviTitileButton.swift; sourceTree = "<group>"; };
+		634047632B2CA8E500A645FB /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		634178712B1039950098201D /* UserDefaults+State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+State.swift"; sourceTree = "<group>"; };
 		634178752B103B5E0098201D /* AuthCredentail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentail.swift; sourceTree = "<group>"; };
 		634178772B10413E0098201D /* BaseInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseInterceptor.swift; sourceTree = "<group>"; };
@@ -866,6 +868,7 @@
 			children = (
 				6325F2552B23646C00AD0956 /* UIKit */,
 				633142972B28C20A00768E51 /* UIApplication+NotchSize.swift */,
+				634047632B2CA8E500A645FB /* DateExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1192,6 +1195,7 @@
 				636954222B288643002138B3 /* ProfileEditBody.swift in Sources */,
 				636954242B2886B3002138B3 /* ProfileResponse.swift in Sources */,
 				633FF7872B175F40003564FB /* TopTabbar.swift in Sources */,
+				634047642B2CA8E500A645FB /* DateExtension.swift in Sources */,
 				6390AF882B10A6FD00201BF1 /* MyAuthenticator.swift in Sources */,
 				63ABE8792B246969000D41D7 /* CreatingBoardVC.swift in Sources */,
 				636954182B287CC1002138B3 /* Comment.swift in Sources */,
