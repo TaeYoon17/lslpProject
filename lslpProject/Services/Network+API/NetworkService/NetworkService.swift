@@ -13,6 +13,7 @@ final class NetworkService{
     static let shared = NetworkService()
     @DefaultsState(\.accessToken) var accessToken
     @DefaultsState(\.refreshToken) var refreshToken
+    @DefaultsState(\.userID) var userID
     var errSubject:PublishSubject<ErrMsg>?
     var baseAuthenticator: AuthenticationInterceptor<MyAuthenticator>{
         let authenticator = MyAuthenticator()
@@ -21,7 +22,7 @@ final class NetworkService{
         return intercentptor
     }
     private init(){}
-    
+    private var boardCursor = "0"
     func post(pinPost: PinPost){
         let post = pinPost.get
         let postRouter = PostRouter.create(post: post)
@@ -39,9 +40,10 @@ final class NetworkService{
             AF.upload(multipartFormData: postRouter.multipartFormData, with: postRouter,interceptor: baseAuthenticator)
                 .uploadProgress { progress in
                 print("\(progress)")
-                }.response { result in
+                }.responseString { result in
                     switch result.result{
-                    case .success(let success): print("success")
+                    case .success(let success):
+                        print(success)
                         continuation.resume(returning: "Success")
                     case .failure(let error):
                         guard let networkError: Err.NetworkError = error.underlyingError as? Err.NetworkError else {
@@ -51,6 +53,35 @@ final class NetworkService{
                         continuation.resume(throwing: networkError)
                     }
                 }
+        }
+        
+    }
+    func getBoard(userID: String) async throws -> [Board]{
+        let postread = PostRouter.read(next: nil, limit: nil, productId: "Board")
+        return try await withCheckedThrowingContinuation { continuation in
+            AF.request(postread, interceptor: baseAuthenticator)
+                .responseDecodable(of:PostCheckResponse.self){[weak self] result in
+                    guard let self else {return}
+                    switch result.result{
+                    case .success(let success):
+                        let datas = success.data.filter {$0.creator._id == userID }.map{Board.getBy(checkData: $0)}
+                        continuation.resume(returning: datas)
+                    case .failure(let error): print(error)
+                        continuation.resume(throwing: error)
+                    }
+                    print(result.response?.statusCode)
+                }
+        }
+    }
+    func getPost(id: String ){
+        let postread = PostRouter.read(next: boardCursor, limit: 5, productId: "Board")
+        AF.request(postread, interceptor: baseAuthenticator).responseString { result in
+            switch result.result{
+            case .success(let success):
+                print(success)
+            case .failure(let error): print(error)
+            }
+            print(result.response?.statusCode)
         }
     }
     func getImageData(imagePath:String) async throws -> Data{

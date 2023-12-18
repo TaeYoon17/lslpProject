@@ -8,7 +8,7 @@
 import Foundation
 import Alamofire
 enum PostRouter:URLRequestConvertible{
-    case create(post:Post),read,update,delete(id: String)
+    case create(post:Post),read(next:String?,limit:Int?,productId:String?),update,delete(id: String)
     var endPoint: String{
         switch self{
         case .create: "/post"
@@ -27,42 +27,39 @@ enum PostRouter:URLRequestConvertible{
     }
     var headers:HTTPHeaders{
         var headers = HTTPHeaders()
-        @DefaultsState(\.accessToken) var accessToken
-        headers["Authorization"] = accessToken
-        headers["SesacKey"] = App.sesacKey
         switch self{
         case .create,.update:
             headers["Content-Type"] = "multipart/form-data"
         case .delete,.read: break
         }
-//        headers = HTTPHeaders()
         return headers
     }
     var parameters: Parameters{
         var params = Parameters()
         switch self{
         case .create(post: let post): break
-//            if let title = post.title{ params["title"] = title }
-//            if let product_id = post.product_id {params["product_id"] = product_id}
-//            params["content"] = post.content
-//            params["content1"] = post.content1
-//            params["content2"] = post.content2
-//            params["content3"] = post.content3
-//            params["content4"] = post.content4
-//            params["content5"] = post.content5
+        case .read(next: let next, limit: let limit, productId: let productId):
+            if let limit { params["limit"] = "\(limit)" }
+            if let next {params["next"] = next}
+            if let productId {params["product_id"] = productId}
         default: break
         }
         return params
     }
     func asURLRequest() throws -> URLRequest {
-        guard let url = URL(string: App.baseURL)?.appendingPathComponent(endPoint) else {
+        guard var url = URL(string: App.baseURL)?.appendingPathComponent(endPoint) else {
             throw Err.DataError.fetch
         }
         var urlRequest = URLRequest(url: url)
         urlRequest.method = self.method
         urlRequest.headers = headers
         switch self{
-        case .create,.delete,.read: break
+        case .create,.delete: break
+        case .read:
+            let queryItems = parameters.map{URLQueryItem(name: $0.key, value: $0.value as? String ?? "")}
+//            url.append(queryItems: queryItems)
+            urlRequest.url?.append(queryItems: queryItems)
+            print(urlRequest.url?.absoluteString)
         default:
             urlRequest.httpBody = try? JSONEncoding.default.encode(urlRequest, with: parameters).httpBody
         }

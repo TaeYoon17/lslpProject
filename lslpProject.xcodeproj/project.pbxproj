@@ -48,6 +48,7 @@
 		634178722B1039950098201D /* UserDefaults+State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634178712B1039950098201D /* UserDefaults+State.swift */; };
 		634178762B103B5E0098201D /* AuthCredentail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634178752B103B5E0098201D /* AuthCredentail.swift */; };
 		634178782B10413E0098201D /* BaseInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634178772B10413E0098201D /* BaseInterceptor.swift */; };
+		635657442B2DB380007E9619 /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635657432B2DB380007E9619 /* BoardView.swift */; };
 		6365395B2B0E4447000C41C5 /* CameraCapureBindings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6365395A2B0E4447000C41C5 /* CameraCapureBindings.swift */; };
 		636954002B27E8B6002138B3 /* ProfileEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636953FF2B27E8B6002138B3 /* ProfileEditView.swift */; };
 		636954052B28664A002138B3 /* ProfileEditVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636954042B28664A002138B3 /* ProfileEditVM.swift */; };
@@ -83,6 +84,7 @@
 		636CFFBF2B035CA200B03159 /* PostRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636CFFBE2B035CA200B03159 /* PostRouter.swift */; };
 		636CFFC12B035CD600B03159 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636CFFC02B035CD600B03159 /* App.swift */; };
 		636CFFC32B035D6800B03159 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 636CFFC22B035D6800B03159 /* .gitignore */; };
+		6372CA702B2E2C3400353CD1 /* PProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6372CA6F2B2E2C3400353CD1 /* PProfileView.swift */; };
 		6373BF7D2B0F23BC006DE10C /* CreatingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6373BF7C2B0F23BC006DE10C /* CreatingVC.swift */; };
 		6375D5292B29F88D007B0B7C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6375D5282B29F88D007B0B7C /* ProfileView.swift */; };
 		637EEEC72B21BDD1007D54A3 /* NavItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637EEEC62B21BDD1007D54A3 /* NavItem.swift */; };
@@ -204,6 +206,7 @@
 		634178712B1039950098201D /* UserDefaults+State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+State.swift"; sourceTree = "<group>"; };
 		634178752B103B5E0098201D /* AuthCredentail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentail.swift; sourceTree = "<group>"; };
 		634178772B10413E0098201D /* BaseInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseInterceptor.swift; sourceTree = "<group>"; };
+		635657432B2DB380007E9619 /* BoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardView.swift; sourceTree = "<group>"; };
 		6365395A2B0E4447000C41C5 /* CameraCapureBindings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCapureBindings.swift; sourceTree = "<group>"; };
 		636953FF2B27E8B6002138B3 /* ProfileEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditView.swift; sourceTree = "<group>"; };
 		636954042B28664A002138B3 /* ProfileEditVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditVM.swift; sourceTree = "<group>"; };
@@ -237,6 +240,7 @@
 		636CFFBE2B035CA200B03159 /* PostRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRouter.swift; sourceTree = "<group>"; };
 		636CFFC02B035CD600B03159 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		636CFFC22B035D6800B03159 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		6372CA6F2B2E2C3400353CD1 /* PProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PProfileView.swift; sourceTree = "<group>"; };
 		6373BF7C2B0F23BC006DE10C /* CreatingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatingVC.swift; sourceTree = "<group>"; };
 		6375D5282B29F88D007B0B7C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		637EEEC62B21BDD1007D54A3 /* NavItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavItem.swift; sourceTree = "<group>"; };
@@ -503,6 +507,14 @@
 			path = "Photo(Album)";
 			sourceTree = "<group>";
 		};
+		635657402B2DB366007E9619 /* Board */ = {
+			isa = PBXGroup;
+			children = (
+				635657432B2DB380007E9619 /* BoardView.swift */,
+			);
+			path = Board;
+			sourceTree = "<group>";
+		};
 		6369540A2B2869CB002138B3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -747,8 +759,10 @@
 		638E10232B0B540D006D27C0 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				635657402B2DB366007E9619 /* Board */,
 				638E10242B0B5418006D27C0 /* ProfileVC.swift */,
 				6375D5282B29F88D007B0B7C /* ProfileView.swift */,
+				6372CA6F2B2E2C3400353CD1 /* PProfileView.swift */,
 				6383DC012B20A94E0038639F /* Components */,
 				639B99E82B21553B00FB3B17 /* SettingView.swift */,
 				636953FF2B27E8B6002138B3 /* ProfileEditView.swift */,
@@ -1128,6 +1142,7 @@
 				639B99E92B21553B00FB3B17 /* SettingView.swift in Sources */,
 				63A178FB2B0CF90900A16A2C /* CameraCaptureView.swift in Sources */,
 				636954092B286897002138B3 /* Profile.swift in Sources */,
+				635657442B2DB380007E9619 /* BoardView.swift in Sources */,
 				6325F2542B23645500AD0956 /* UIImage+Extensions.swift in Sources */,
 				6325F2522B231A5300AD0956 /* PinInfoBottomView.swift in Sources */,
 				63A178F32B0CE4E800A16A2C /* CameraService.swift in Sources */,
@@ -1232,6 +1247,7 @@
 				63ABE87C2B247BF9000D41D7 /* BoardTitleView.swift in Sources */,
 				6335037E2B2B5A5100A8093B /* ProfileEditImageView.swift in Sources */,
 				63A178F62B0CF1A200A16A2C /* CIImage+Extensions.swift in Sources */,
+				6372CA702B2E2C3400353CD1 /* PProfileView.swift in Sources */,
 				636954112B286E1D002138B3 /* PostResponse.swift in Sources */,
 				636954152B28772C002138B3 /* PostCheckResponse.swift in Sources */,
 				6383DC032B20A9670038639F /* AccountTopHeader.swift in Sources */,
@@ -1319,7 +1335,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -1376,7 +1392,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -1401,7 +1417,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1433,7 +1449,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

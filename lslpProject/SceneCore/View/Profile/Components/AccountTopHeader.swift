@@ -18,7 +18,7 @@ extension ProfileView{
         @State private var profileImg = Image(systemName: "person.fill")
         var publisher: PassthroughSubject<ScrollType, Never>
         var tabbarItems:[String]
-        var size:CGFloat = 48
+        var size:CGFloat = 40
         var body: some View{
             VStack(spacing:0){
                 HStack{

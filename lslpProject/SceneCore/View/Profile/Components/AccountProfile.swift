@@ -54,9 +54,10 @@ extension ProfileView{
                             .font(.headline)
                             .padding(.all,8)
                     }).accent(background: .ultraThickMaterial)
-                        .padding(.vertical,8)
-                }
+                        .padding(.top,8)
+                }.background(.red)
             }
+            
             .onReceive(vm.$profileImage) { uiimage in
                 if let uiimage{
                     self.image = Image(uiImage: uiimage)

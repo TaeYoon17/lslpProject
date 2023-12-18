@@ -30,6 +30,10 @@ extension UserDefaults{
         get{ self.string(forKey: "refreshToken") ?? "" }
         set{self.set(newValue,forKey: "refreshToken")}
     }
+    var userID: String{
+        get{ self.string(forKey: "userID") ?? "" }
+        set{self.set(newValue,forKey: "userID")}
+    }
     var navigationBarHeight:CGFloat{
         get{self.double(forKey: "navigationBarHeight")}
         set{self.set(newValue,forKey:  "navigationBarHeight")}

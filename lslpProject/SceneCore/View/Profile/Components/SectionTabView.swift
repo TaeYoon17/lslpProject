@@ -6,24 +6,40 @@
 //
 
 import SwiftUI
+import Combine
 struct SectionTabView<Data,Items: View,Header: View>: View where Data : RandomAccessCollection{
     @Binding var selectedIdx: Int
+    @Binding var scrollHeight: CGFloat
+    enum ScrollType{
+        case pin
+        case post
+    }
     let data: Data
-    let height: CGFloat
+    
     let items : (Data) -> Items
     let headerView: (Binding<Int>,Data) -> Header
+    let publisher: PassthroughSubject<ScrollType, Never> = PassthroughSubject()
+    @Namespace var scrollType
+    @State var myHeight: CGFloat = 0
+    @State var myWidth: CGFloat = 0
     var body: some View{
-        LazyVStack(pinnedViews:[.sectionHeaders]){
-            Section {
-                TabView(selection: $selectedIdx,
-                        content:  {
-                    items(data)
+            LazyVStack(spacing: 0, pinnedViews:[.sectionHeaders]){
+                Section {
+                TabView(selection: $selectedIdx,content:  {
+                        items(data)
+                        .background(GeometryReader { proxy in
+                            Color.clear
+                        })
                 }).tabViewStyle(.page(indexDisplayMode: .never))
-                    .frame(height: height)
-            } header: {
-                headerView($selectedIdx,data)
-                    .padding(.vertical,4)
-            }.padding(.horizontal)
-        }
+                        .scrollDisabled(true)
+                    .frame(height: scrollHeight + 1)
+                }header: {
+                        headerView($selectedIdx,data)
+                }
+            }
+        
+        .padding(.horizontal)
+
+        
     }
 }

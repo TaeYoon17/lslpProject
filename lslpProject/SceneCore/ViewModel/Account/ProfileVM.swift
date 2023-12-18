@@ -9,6 +9,8 @@ import Foundation
 import Combine
 import UIKit
 final class ProfileVM:ObservableObject{
+    
+    @DefaultsState(\.userID) var userID
     @Published var user:(any UserDetailProvider) = ProfileResponse(posts: [], followers: [], following: [], _id: "", email: "")
     @Published var followers:[User] = []
     @Published var following:[User] = []
@@ -35,10 +37,13 @@ final class ProfileVM:ObservableObject{
                 self.followers = response.followers
                 self.following = response.following
                 self.user = response
-                response.profile
                 if let profile = response.profile{
                     imageData = try await NetworkService.shared.getImageData(imagePath: profile)
                 }
+                self.userID = response._id
+                print(userID)
+                let boards = try await NetworkService.shared.getBoard(userID: userID)
+                self.boards = boards
             }catch{
                 print(error)
             }
