@@ -10,38 +10,45 @@ struct PinBottom:View{
     var body: some View{
         HStack{
             Image(systemName: "heart.square.fill")
-                .font(.system(size: 24))
+                .font(.system(size: 28))
                 .wrapBtn {
                 print("Hello world")
             }
             Spacer()
-            HStack{
+            HStack(alignment:.center){
                 Button(action: {
                     print("Visit!!")
                 }, label: {
                     Text("Visit")
                         .font(.title3.weight(.semibold))
-                        .padding(.horizontal,8)
-                        .padding(.vertical,6)
-                        .frame(width: 68)
-                }).accent(background: .regularMaterial)
+                        .padding(.all,12)
+                        .padding(.horizontal,4)
+                        .background(.regularMaterial)
+                        .clipShape(Capsule())
+                }).tint(.text)
                 Button(action: {
                     print("Save!!")
                 }, label: {
                     Text("Save").font(.title3.weight(.semibold))
-                        .padding(.horizontal,8)
-                        .padding(.vertical,6)
-                        .frame(width: 68)
-                        .foregroundStyle(.white)
-                }).accent(background: .green)
-                    .frame(maxWidth: 88)
+                        .padding(.all,12)
+                        .padding(.horizontal,4)
+                        .background(.green)
+                        .clipShape(Capsule())
+                }).tint(.white)
+                    
             }
             Spacer()
             Image(systemName: "square.and.arrow.up.fill")
-                .font(.system(size: 24))
+                .font(.system(size: 28))
                 .wrapBtn {
                 print("Hello world")
             }
         }
     }
 }
+#Preview(body: {
+    NavigationStack {
+        PinView(image: "Metal").environmentObject(DiscoverVM())
+    }
+})
+

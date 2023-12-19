@@ -8,9 +8,6 @@
 import SwiftUI
 
 struct BoardView: View {
-    //    @ObservableObject var vm: ProfileVM
-    //    @ObservableObject var vm: ProfileVM
-    //    @State private var scrollDisable: Bool = true
     @State private var height = 0
     var body: some View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 100, maximum: 300)),GridItem(.adaptive(minimum: 100, maximum: 300))], content: {

@@ -10,6 +10,7 @@ extension ProfileView{
     enum SheetType:String, Identifiable{
         var id: String{ self.rawValue}
         case profile
+        case grid
     }
     enum FullscreenType:String, Identifiable{
         var id: String{ self.rawValue}
@@ -21,10 +22,10 @@ extension ProfileView{
     }
     
     
-    struct SheetModifier<A: View,B:View>: ViewModifier{
+    struct SheetModifier/*<A: View,B:View>*/: ViewModifier{
         @Binding var presentType:PresentType?
-        @ViewBuilder var sheet:((SheetType) -> A)
-        @ViewBuilder var fullScreen:((FullscreenType) -> B)
+        @ViewBuilder var sheet:((SheetType) -> AnyView)
+        @ViewBuilder var fullScreen:((FullscreenType) -> AnyView)
         @State private var fullScreenType: ProfileView.FullscreenType? = nil
         @State private var sheetType: SheetType? = nil
         func body(content: Content) -> some View {

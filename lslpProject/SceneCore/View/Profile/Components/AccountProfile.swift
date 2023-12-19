@@ -31,7 +31,6 @@ extension ProfileView{
                     image
                         .resizable()
                         .scaledToFit()
-//                        .scaleEffect(x:1.2,y:1.2)
                         .frame(size)
                         .background(.thinMaterial)
                         .clipShape(Circle())
@@ -55,7 +54,7 @@ extension ProfileView{
                             .padding(.all,8)
                     }).accent(background: .ultraThickMaterial)
                         .padding(.top,8)
-                }.background(.red)
+                }
             }
             
             .onReceive(vm.$profileImage) { uiimage in

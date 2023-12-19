@@ -31,15 +31,14 @@ struct SectionTabView<Data,Items: View,Header: View>: View where Data : RandomAc
                             Color.clear
                         })
                 }).tabViewStyle(.page(indexDisplayMode: .never))
-                        .scrollDisabled(true)
-                    .frame(height: scrollHeight + 1)
+                .scrollDisabled(true)
+                .frame(height: scrollHeight + 1)
+                .padding(.top)
                 }header: {
                         headerView($selectedIdx,data)
                 }
             }
-        
         .padding(.horizontal)
-
         
     }
 }
