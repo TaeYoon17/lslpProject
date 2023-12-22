@@ -8,7 +8,9 @@
 import UIKit
 import SnapKit
 import SwiftUI
+import RxSwift
 final class ProfileVC: UIHostingController<ProfileView>{
+    var disposeBag = DisposeBag()
     init() {
         super.init(rootView: ProfileView())
     }
@@ -27,6 +29,7 @@ final class ProfileVC: UIHostingController<ProfileView>{
             tabbarController.tabBarDidLoad(vc: self)
         }
     }
+    
 }
 
 

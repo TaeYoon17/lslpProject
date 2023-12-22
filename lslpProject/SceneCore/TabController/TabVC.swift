@@ -33,6 +33,8 @@ final class TabVC: UITabBarController{
         createOutput.startCreateType.subscribe(with: self){ owner, val in
             owner.createAction(type: val)
         }.disposed(by: disposeBag)
+        bindingHiddenTabbar()
+        bindingAddTabbar()
     }
     @objc func changeTabToMiddleTab(){
         guard let nowVC else {return}
@@ -48,6 +50,28 @@ final class TabVC: UITabBarController{
     func tabBarDidLoad(vc: UIViewController){
         self.nowVC = vc
     }
+    // 추가 버튼 present
+    func bindingAddTabbar(){
+        App.Manager.shared.addAction.subscribe(on: MainScheduler.instance)
+            .bind(with: self) { owner, _ in
+                owner.changeTabToMiddleTab()
+            }.disposed(by: disposeBag)
+    }
+    // 탭바 숨기기 애니메이션
+    func bindingHiddenTabbar(){
+        App.Manager.shared.hideTabbar
+            .subscribe(on: MainScheduler.instance)
+            .bind(with: self) { owner, isHidden in
+                owner.nowVC?.tabBarController?.tabBar.isHidden = isHidden
+                UIView.animate(withDuration: 0.3) {
+                    if !isHidden{
+                        owner.nowVC?.tabBarController?.tabBar.alpha = 1
+                    }else{
+                        owner.nowVC?.tabBarController?.tabBar.alpha = 0
+                    }
+                }
+        }.disposed(by: disposeBag)
+    }
 }
 fileprivate extension TabVC{
     func createAction(type: App.CreateType){
@@ -55,8 +79,8 @@ fileprivate extension TabVC{
         let vc = switch type{
         case .board:
             CreatingBoardVC()
-        case .collage:
-                CreatingPinVC()
+//        case .collage:
+//                CreatingPinVC()
         case .pin:
             CreatingPinVC()
         }

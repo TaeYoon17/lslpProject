@@ -26,12 +26,7 @@ struct ProfileEditView: View {
         self._phoneNumber = State(initialValue: vm.originUser.phoneNum ?? "")
         let date = if let dateString = user.birthDay{ Date(yyyyMMdd: dateString) } else { Date() }
         _date = .init(initialValue: date)
-        defaultImage = if let profile {
-            Image(uiImage: UIImage.fetchBy(data: profile,size: CGSize(width: 360, height: 360)))
-        }else{
-            nil
-        }
-        
+        defaultImage = if let profile { Image(uiImage: UIImage.fetchBy(data: profile,size: CGSize(width: 360, height: 360))) }else{ nil }
     }
     var body: some View {
         NavigationStack {
@@ -39,12 +34,9 @@ struct ProfileEditView: View {
                 header
                 profileInfos.padding(.horizontal)
             }
-            
             .toolbar(content: {
                     ToolbarItem(placement: .topBarLeading) {
-                        Image(systemName: "xmark").wrapBtn {
-                            dismiss()
-                        }
+                        Image(systemName: "xmark").wrapBtn { dismiss() }
                     }
                     ToolbarItemGroup(placement: .topBarTrailing) {
                         Text("Done").font(.headline).wrapBtn {
@@ -83,7 +75,6 @@ struct ProfileEditView: View {
                                 print(error)
                             }
                         }
-                        
                 }
             })
             .frame(width:  width,height: width)

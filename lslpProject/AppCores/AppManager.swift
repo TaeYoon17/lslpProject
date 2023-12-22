@@ -17,8 +17,8 @@ extension App{
         let addAction = PublishSubject<Void>()
         let userAccount = PublishSubject<Bool>()
         let needLogIn = PublishSubject<Bool>()
+        let hideTabbar = PublishSubject<Bool>()
         private init(){}
-        
     }
 }
 

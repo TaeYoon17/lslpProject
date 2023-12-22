@@ -9,21 +9,22 @@ import Foundation
 import Combine
 import UIKit
 final class ProfileVM:ObservableObject{
-    
     @DefaultsState(\.userID) var userID
-    @Published var user:(any UserDetailProvider) = ProfileResponse(posts: [], followers: [], following: [], _id: "", email: "")
-    @Published var followers:[User] = []
-    @Published var following:[User] = []
-    @Published var boards:[Board] = []
-    @Published var pins:[PinPost] = []
+     var user:(any UserDetailProvider) = ProfileResponse(posts: [], followers: [], following: [], _id: "", email: "")
+    @MainActor @Published var followers:[User] = []
+    @MainActor @Published var following:[User] = []
+    @MainActor @Published var boards:[Board] = []
+    @MainActor @Published var pins:[PinPost] = []
     @Published var imagePath:String = ""
-    @Published var profileImage: UIImage?
+    @MainActor @Published var profileImage: UIImage?
     var imageData: Data?{
         didSet{
-            if let imageData{
-                profileImage = UIImage.fetchBy(data: imageData,size: .init(width: 360, height: 360))
-            }else{
-                profileImage = nil
+            Task{@MainActor in
+                if let imageData{
+                    profileImage = UIImage.fetchBy(data: imageData,size: .init(width: 360, height: 360))
+                }else{
+                    profileImage = nil
+                }
             }
         }
     }
@@ -34,16 +35,17 @@ final class ProfileVM:ObservableObject{
         Task{
             do{
                 let response = try await NetworkService.shared.getMyProfile()
-                self.followers = response.followers
-                self.following = response.following
-                self.user = response
                 if let profile = response.profile{
                     imageData = try await NetworkService.shared.getImageData(imagePath: profile)
                 }
                 self.userID = response._id
-                print(userID)
                 let boards = try await NetworkService.shared.getBoard(userID: userID)
-                self.boards = boards
+                await MainActor.run { 
+                    self.user = response
+                    self.boards = boards
+                    self.followers = response.followers
+                    self.following = response.following
+                }
             }catch{
                 print(error)
             }

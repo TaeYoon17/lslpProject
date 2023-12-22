@@ -16,25 +16,25 @@ extension ProfileView{
         @Binding var selected: Int
         @Binding var presentType:PresentType?
         @Binding var gridType: GridType
+        @Binding var scrollType: ScrollType?
+        @Binding var isTabArea: Bool
+        var tabbarItems:[String]
         @State private var selectedIdx = 0
         @State private var profileImg = Image(systemName: "person.fill")
-        @FocusState private var focusField: Field?
         @State private var isFocus: Bool = false
-        
-        var publisher: PassthroughSubject<ScrollType, Never>
-        var tabbarItems:[String]
-        var size:CGFloat = 40
+        @FocusState private var focusField: Field?
+        let size:CGFloat = 44
         var body: some View{
             VStack(spacing:0){
                 HStack{
-                    profileNaviItem
+                    profileNaviItem.opacity(isTabArea ? 1 : 0)
                     Spacer()
                     tabHeader
                     Spacer()
-                    settingNaviItem
+                    settingNaviItem.opacity(isTabArea ? 1 : 0)
                 }.frame(height: size)
-                
-                HStack{
+                    .zIndex(2)
+                HStack{ // MARK: -- SearchView
                     searchField.zIndex(1)
                     if isFocus{
                         Text("Cancel").wrapBtn{
@@ -44,11 +44,14 @@ extension ProfileView{
                         .zIndex(0)
                     }else{
                         HStack(content: {
-                            Image(systemName: gridType.gridIcon).wrapBtn {
-                                self.presentType = .sheet(.grid)
+                            if selected == 0{
+                                Image(systemName: gridType.gridIcon).wrapBtn {
+                                    self.presentType = .sheet(.grid)
+                                }
                             }
                             Image(systemName: "plus").wrapBtn {
-                                
+//                                addAction
+                                App.Manager.shared.addAction.onNext(())
                             }
                         }).font(.system(size: 21,weight: .semibold))
                         .tint(.text)
@@ -62,8 +65,7 @@ extension ProfileView{
             .onChange(of: focusField, perform: { value in
                 withAnimation {
                     self.isFocus = value != nil ? true : false
-                    if value != nil{ publisher.send(.store) }
-                    
+                    if value != nil{ scrollType = .store}
                 }
             })
         }
@@ -113,7 +115,7 @@ extension ProfileView.AccountTopHeader{
             .frame(width: size)
             .background(.thinMaterial)
             .clipShape(Circle())
-            .wrapBtn { publisher.send(.profile) }
+            .wrapBtn { scrollType = .profile}
             .onReceive(vm.$profileImage) { output in
                 if let output{
                     profileImg = Image(uiImage: output)

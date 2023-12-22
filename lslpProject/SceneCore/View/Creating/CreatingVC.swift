@@ -15,7 +15,7 @@ final class CreatingVC: BaseVC{
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        zip(App.CreateType.allCases, [pinBtn,collageBtn,boardBtn])
+        zip(App.CreateType.allCases, [pinBtn/*,collageBtn*/,boardBtn])
             .forEach { type, btn in
                 btn.rx.tap.map{_ in type}
                     .subscribe(vm.startCreateType)
@@ -26,11 +26,11 @@ final class CreatingVC: BaseVC{
             }
     }
     let pinBtn = ItemButton(systemName: "wand.and.rays")
-    let collageBtn = ItemButton(systemName: "scissors")
+//    let collageBtn = ItemButton(systemName: "scissors")
     let boardBtn = ItemButton(systemName: "clipboard")
     lazy var stView = {
-        let subViews = [pinBtn,collageBtn,boardBtn]
-        let st = UIStackView(arrangedSubviews: [UIView(),subViews[0],subViews[1],subViews[2],UIView()])
+        let subViews = [pinBtn/*,collageBtn*/,boardBtn]
+        let st = UIStackView(arrangedSubviews: [UIView(),subViews[0],subViews[1]/*,subViews[2]*/,UIView()])
         st.axis = .horizontal
         st.distribution = .equalSpacing
         st.alignment = .center
@@ -80,6 +80,7 @@ final class ItemButton: UIButton{
         config.baseForegroundColor = .text
         config.background.cornerRadius = 16
         config.background.visualEffect = UIBlurEffect(style: .light)
+        config.background.backgroundColor = .secondarySystemBackground
         config.preferredSymbolConfigurationForImage = imageConfig
         let anim = self.animationSnapshot.scaleEffect(ratio: 0.95)
         self.configuration = config

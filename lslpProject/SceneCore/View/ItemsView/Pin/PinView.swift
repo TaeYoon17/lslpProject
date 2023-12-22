@@ -64,10 +64,10 @@ struct PinView: View{
                         Image(systemName: "heart")
                             .wrapBtn {
                                 print("My Like!!")
-                        }
+                            }
                     }.font(.system(size: 18,weight:.semibold))
                 }.padding(.horizontal).padding(.top)
-                .font(.headline)
+                    .font(.headline)
             }
             Divider().padding(.vertical,4)
         }
@@ -77,15 +77,31 @@ struct PinView: View{
         .toolbarBackground(.hidden, for: .navigationBar)
         .navigationBarBackButtonHidden()
         .toolbar {
-            ToolbarItem(placement: .cancellationAction) {
-                Image(systemName: "chevron.left").wrapBtn {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
                     dismiss()
-                }.fontWeight(.semibold)
+                } label: {
+                    Image(systemName: "chevron.left")
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.black)
+                        .padding(.all,8)
+                        .background(Material.ultraThin)
+                        .clipShape(Circle())
+                }
+                
+
             }
             ToolbarItem(placement: .topBarTrailing) {
-                Image(systemName: "ellipsis").wrapBtn {
-                    print("더보기...")
-                }.fontWeight(.semibold)
+                Button {
+                    print("More...")
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.black)
+                        .padding(.all,10)
+                        .background(Material.ultraThin)
+                        .clipShape(Circle())
+                }
             }
         }.sheet(item: $presentType) { type in
             switch type{

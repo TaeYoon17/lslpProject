@@ -11,22 +11,14 @@ import SwiftUI
 extension TabVC{
     func setTabItems(){
         super.viewDidLoad()
-//        let vc1 = DiscoverVC()
         let vc1 = DiscoverVC()
         vc1.title = "Today"
-//        UIHostingController(rootView: DiscoverView())
-        let vc2 = FeedVC()
-        vc2.title = "Feed"
         let vc3 = ViewController()
-        let vc4 = SearchVC()
-        vc4.title = "Search"
         let vc5 = ProfileVC()
         vc5.title = "Account"
-        let naviControllers = zip([vc1,vc2,vc3,vc4,vc5],
+        let naviControllers = zip([vc1,vc3,vc5],
                                   [TabbarString(title: "Discover", defaultIcon: "house", selectedIcon: "house.fill"),
-                                   TabbarString(title: "Feed", defaultIcon: "rectangle.stack", selectedIcon: "rectangle.stack.fill"),
                                    TabbarString(title: nil, defaultIcon: "", selectedIcon: ""),
-                                   TabbarString(title: "Search", defaultIcon: "magnifyingglass", selectedIcon: "magnifyingglass"),
                                    TabbarString(title: "Account", defaultIcon: "person", selectedIcon: "person.fill")
                                   ]).map{
             $0.0.navigationItem.largeTitleDisplayMode = .always
@@ -40,27 +32,28 @@ extension TabVC{
     func middleBtn(){
         let frame = CGRect(x: 0.0, y: 0.0,
                            width: tabBar.frame.width / 5,
-                           height: tabBar.frame.height)
+                           height: tabBar.frame.width / 5)
         
         let button = UIButton(frame: frame)
         var btnConfig = UIButton.Configuration.plain()
-        btnConfig.image = UIImage(systemName: "plus.circle",withConfiguration: UIImage.SymbolConfiguration(pointSize: 24))
-        
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 32,weight:.semibold)
         let handler: UIButton.ConfigurationUpdateHandler = { button in // 1
             switch button.state { // 2
             case [.selected, .highlighted]:
-                button.configuration?.image = UIImage(systemName: "plus.circle.fill",withConfiguration: UIImage.SymbolConfiguration(pointSize: 24))
+                button.transform = .init(scaleX: 0.85, y: 0.85)
             case .selected,.highlighted:
-                button.configuration?.image = UIImage(systemName: "plus.circle.fill",withConfiguration: UIImage.SymbolConfiguration(pointSize: 24))
+                button.transform = .init(scaleX: 0.85, y: 0.85)
             default:
-                button.configuration?.image = UIImage(systemName: "plus.circle",withConfiguration: UIImage.SymbolConfiguration(pointSize: 24))
+                button.transform = .init(scaleX: 1, y: 1)
+                
             }
         }
+        
         button.configurationUpdateHandler = handler
-        button.backgroundColor = .systemBackground
+        button.tintColor = .label
         button.configuration = btnConfig
-        button.center = CGPoint(x: self.tabBar.center.x,
-                                y: tabBar.frame.height / 2)
+        button.configuration?.image = UIImage(systemName: "plus",withConfiguration: symbolConfig)
+        button.center = CGPoint(x: self.tabBar.center.x,y: tabBar.frame.height / 2)
         button.layer.zPosition = 2
         button.addTarget(self, action: #selector(changeTabToMiddleTab), for: UIControl.Event.touchUpInside)
         self.tabBar.addSubview(button)

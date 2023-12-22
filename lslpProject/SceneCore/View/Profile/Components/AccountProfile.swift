@@ -56,7 +56,6 @@ extension ProfileView{
                         .padding(.top,8)
                 }
             }
-            
             .onReceive(vm.$profileImage) { uiimage in
                 if let uiimage{
                     self.image = Image(uiImage: uiimage)
