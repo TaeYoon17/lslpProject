@@ -31,7 +31,7 @@ struct ProfileImagePicker<Content:View>: View{
                 selectedImage = nil
             }, content: {
                 NavigationStack{
-                    CropView(size: vm.size,image: vm.selectedImage){ croppedImage,status in
+                    CropView(image: vm.selectedImage,cropType: CropType.circle(.init(width: 300, height: 300))){ croppedImage,status in
                         if !status{
                             self.croppedImage = croppedImage
                         }
@@ -49,10 +49,11 @@ struct ProfileImagePicker<Content:View>: View{
 }
 
 struct CropView: View{
-//    fileprivate var crop:Crop = .circle
-    let size: CGSize
+    //    fileprivate var crop:Crop = .circle
     var image:UIImage?
+    let cropType: CropType
     var onCrop: (UIImage?,Bool) -> ()
+    
     @Environment(\.dismiss) var dismiss
     @State private var scale: CGFloat = 1
     @State private var lastScale: CGFloat = 0
@@ -74,13 +75,20 @@ struct CropView: View{
                 .toolbar{
                     ToolbarItem(placement: .topBarTrailing) {
                         Button{
-                            // 이미지 렌더러를 통해서 이미지 가져오기
-                            let renderer = ImageRenderer(content: imageView().clipShape(Circle()))
-                            renderer.proposedSize = .init(size)
-                            if let image = renderer.uiImage{
-                                onCrop(image,false)
-                            }else{
-                                onCrop(image,true)
+                            @MainActor func rendering<T:View>(_ shape:T,size:CGSize){
+                                let renderer = ImageRenderer(content: shape)
+                                renderer.proposedSize = .init(size)
+                                if let image = renderer.uiImage{
+                                    onCrop(image,false)
+                                }else{
+                                    onCrop(image,true)
+                                }
+                            }
+                            switch cropType{
+                            case .circle(let cGSize):
+                                rendering(imageView().clipShape(Circle()),size: cGSize)
+                            case .rectangle(let cGSize):
+                                rendering(imageView().clipShape(Rectangle()),size: cGSize)
                             }
                             dismiss()
                         }label: {
@@ -104,10 +112,14 @@ struct CropView: View{
                 }
         }
     }
+
 }
 extension CropView{
     @ViewBuilder func imageView()->some View{
-        let cropSize = size
+        let cropSize = switch cropType{
+        case .circle(let size): size
+        case .rectangle(let size): size
+        }
         ZStack(alignment: .center){
             GeometryReader{ proxy in
                 let size = proxy.size
@@ -144,7 +156,6 @@ extension CropView{
                             })
                         })
                         .frame(size)
-                        
                 }
             }
             .scaleEffect(scale)
@@ -156,9 +167,15 @@ extension CropView{
                     Rectangle()
                         .animation(.easeInOut(duration: 0.2), value: isInteracting)
                         .foregroundStyle(Color.black.opacity(isInteracting ? 0.5 : 1))
-                    Circle()
-                        .frame(cropSize)
-                        .blendMode(.destinationOut)
+                    
+                    switch cropType{
+                    case .circle:
+                        Circle().frame(cropSize)
+                            .blendMode(.destinationOut)
+                    case .rectangle:
+                        Rectangle().frame(cropSize)
+                            .blendMode(.destinationOut)
+                    }
                 }
                 .compositingGroup()
             }

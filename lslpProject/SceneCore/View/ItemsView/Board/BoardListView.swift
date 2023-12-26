@@ -24,19 +24,38 @@ struct BoardListView: View {
     }
 }
 struct BoardListItem:View{
-    var board: Board
+    let board: Board
 //    var idx = 0
+    @State private var image: UIImage?
     var body: some View{
         VStack(alignment: .leading,spacing:4){
-            Image("rabbits")
-                .resizable()
-                .scaledToFill()
-                .frame(height: 120)
-                .clipShape(RoundedRectangle(cornerRadius: 16))
+            
+            if let image{
+                Image(uiImage: image).resizable()
+                    .scaledToFill()
+                    .frame(height: 120)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+            }else{
+                Image("rabbits").resizable()
+                    .scaledToFill()
+                    .frame(height: 120)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+            }
+                
             VStack(alignment:.leading, spacing:0){
                 Text(board.name).font(.headline)
                 
                 Text("\(board.pinnedImage.count) pins").font(.subheadline)
+            }
+        }
+        .task {
+            if let imageData = board.data{
+                await MainActor.run {
+                    withAnimation {
+                        self.image = UIImage(data: imageData)
+                    }
+//                    let iamge = try? await UIImage(data: imageData)?.byPreparingThumbnail(ofSize: .init(width: 360, height: 360))
+                }
             }
         }
     }

@@ -8,11 +8,22 @@
 import SwiftUI
 import PhotosUI
 import Combine
+enum CropType{
+    case circle(CGSize)
+    case rectangle(CGSize)
+    var shape: any Shape{
+        switch self{
+        case .circle: return Circle()
+        case .rectangle: return Rectangle()
+        }
+    }
+}
 struct EditImageView:View{
     let content : (PhotoImageBridger.ImageState)-> any View
     
     @State var imageState:PhotoImageBridger.ImageState = .empty
     @Binding var isPresented:Bool
+    let cropType: CropType
     @State private var prevImage: UIImage? = nil
     @State private var showCropView = false
     @State private var selectedImage: UIImage? = nil
@@ -20,9 +31,10 @@ struct EditImageView:View{
     @State private var imageSelection: PhotosPickerItem?
     
     let size = CGSize(width: 360, height: 360)
-    init(isPresented: Binding<Bool>,size:CGSize? = nil,content:@escaping (PhotoImageBridger.ImageState)->any View){
+    init(isPresented: Binding<Bool>,cropType: CropType = .circle(.init(width: 360, height: 360)),content:@escaping (PhotoImageBridger.ImageState)->any View){
     스유도_라벨링_됨:do{
         self._isPresented = isPresented
+        self.cropType = cropType
         self.content = content
     }
     }
@@ -57,7 +69,7 @@ struct EditImageView:View{
             .fullScreenCover(isPresented: $showCropView, onDismiss: {
                 selectedImage = nil
             }, content: {
-                CropView(size: size,image: selectedImage){ croppedImage,status in
+                CropView(image: selectedImage,cropType:cropType){ croppedImage,status in
                     if !status{
                         self.croppedImage = croppedImage
                     }else{

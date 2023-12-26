@@ -58,20 +58,27 @@ final class NetworkService{
     }
     func getBoard(userID: String) async throws -> [Board]{
         let postread = PostRouter.read(next: nil, limit: nil, productId: "Board")
-        return try await withCheckedThrowingContinuation { continuation in
+        let raws = try await withCheckedThrowingContinuation { continuation in
             AF.request(postread, interceptor: baseAuthenticator)
                 .responseDecodable(of:PostCheckResponse.self){[weak self] result in
                     guard let self else {return}
                     switch result.result{
                     case .success(let success):
-                        let datas = success.data.filter {$0.creator._id == userID }.map{Board.getBy(checkData: $0)}
-                        continuation.resume(returning: datas)
+                        let raws = success.data.filter {$0.creator._id == userID }
+                        continuation.resume(returning: raws)
                     case .failure(let error): print(error)
                         continuation.resume(throwing: error)
                     }
                     print(result.response?.statusCode)
                 }
         }
+        var boards:[Board] = []
+        for rawData in raws{
+            let board = await Board.getBy(checkData: rawData)
+            boards.append(board)
+        }
+        print(boards)
+        return boards
     }
     func getPost(id: String ){
         let postread = PostRouter.read(next: boardCursor, limit: 5, productId: "Board")

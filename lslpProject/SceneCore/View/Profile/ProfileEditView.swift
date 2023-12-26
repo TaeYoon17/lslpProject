@@ -52,7 +52,7 @@ struct ProfileEditView: View {
     }
     @ViewBuilder var header: some View{
         VStack(alignment: .center,spacing: 16){
-            EditImageView(isPresented:$pickerPresent,size: .init(width: width + 100, height: width + 100), content: { state in
+            EditImageView(isPresented:$pickerPresent,cropType: .circle(.init(width: 300, height: 300)), content: { state in
                 switch state{
                 case .empty:
                     if let defaultImage{
