@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-enum GridType:CaseIterable{
+enum GridType:OptionTypable{
     case wide
     case def
     case compact
@@ -24,13 +24,25 @@ enum GridType:CaseIterable{
         case .def: 2
         case .wide: 1
         }
-        
     }
     var gridIcon:String{
         switch self{
         case .compact:"square.grid.3x3.fill"
         case .def: "square.grid.2x2.fill"
         case .wide:  "square.fill"
+        }
+    }
+    static var header:String{ "View options" }
+}
+extension GridType{
+    struct OptionView:View{
+        @Binding var selectedGrid:GridType
+        var body: some View{
+            ForEach(GridType.allCases,id:\.self){ type in
+                ViewOptionItem(isSelected: type == selectedGrid, name: type.name) {
+                    selectedGrid = type
+                }
+            }
         }
     }
 }

@@ -69,9 +69,16 @@ struct ProfileView: View{
                 .coordinateSpace(name:"SCROLL")
             }
             .navigationDestination(for: Board.self, destination: { board in
-                BoardView(board:board)
+                BoardView(board:board).onDisappear(){
+//                    print("이거 사라짐!!")
+//                    App.Manager.shared.hideTabbar.onNext(false)
+                }
             })
+            .onAppear(){
+                App.Manager.shared.hideTabbar.onNext(false)
+            }
         }
+        
         .onChange(of: selectedIdx, perform: { _ in
             scrollType = .store
         })
@@ -83,7 +90,9 @@ struct ProfileView: View{
                     vm.imageData = $1
                 }.any()
             case .grid:
-                ViewOptionView(selectedGrid: $gridType).any()
+                ViewOptionView{
+                    ViewOptionSection(header: GridType.header) { GridType.OptionView(selectedGrid: $gridType) }
+                }.any()
             }
         }fullScreen: { item in
             switch item{
@@ -139,6 +148,9 @@ fileprivate extension View{
     func present/*<A:View,B:View>*/(presentType:Binding<ProfileView.PresentType?>,sheet:@escaping ((ProfileView.SheetType) -> AnyView),fullScreen:@escaping ((ProfileView.FullscreenType) -> AnyView))->some View{
         self.modifier(ProfileView.SheetModifier(presentType: presentType, sheet: sheet, fullScreen: fullScreen))
     }
+    
+}
+extension View{
     func any()->AnyView{
         AnyView(self)
     }

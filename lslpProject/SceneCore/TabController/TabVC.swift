@@ -60,7 +60,7 @@ final class TabVC: UITabBarController{
     // 탭바 숨기기 애니메이션
     func bindingHiddenTabbar(){
         App.Manager.shared.hideTabbar
-            .subscribe(on: MainScheduler.instance)
+            .throttle(.seconds(1), scheduler: MainScheduler.asyncInstance)
             .bind(with: self) { owner, isHidden in
                 owner.nowVC?.tabBarController?.tabBar.isHidden = isHidden
                 UIView.animate(withDuration: 0.3) {
@@ -78,7 +78,8 @@ fileprivate extension TabVC{
         guard let nowVC else {return}
         let vc = switch type{
         case .board:
-            CreatingBoardVC()
+//            CreatingBoardVC()
+            BoardCreateVC()
 //        case .collage:
 //                CreatingPinVC()
         case .pin:

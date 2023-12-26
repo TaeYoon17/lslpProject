@@ -50,24 +50,24 @@ extension ProfileView{
                                 }
                             }
                             Image(systemName: "plus").wrapBtn {
-//                                addAction
+                                //                                addAction
                                 App.Manager.shared.addAction.onNext(())
                             }
                         }).font(.system(size: 21,weight: .semibold))
-                        .tint(.text)
+                            .tint(.text)
                             .zIndex(2)
-
+                        
                     }
                 }
                 .padding(.vertical,8)
             }.zIndex(4)
-            .background(.background)
-            .onChange(of: focusField, perform: { value in
-                withAnimation {
-                    self.isFocus = value != nil ? true : false
-                    if value != nil{ scrollType = .store}
-                }
-            })
+                .background(.background)
+                .onChange(of: focusField, perform: { value in
+                    withAnimation {
+                        self.isFocus = value != nil ? true : false
+                        if value != nil{ scrollType = .store}
+                    }
+                })
         }
         var tabHeader:some View{
             HStack(spacing:16){
@@ -138,45 +138,3 @@ extension ProfileView.AccountTopHeader{
     ProfileView()
 })
 
-struct ViewOptionView:View {
-    @Binding var selectedGrid: GridType
-    @Environment(\.dismiss) var dismiss
-    @State private var presentHeight: CGFloat = 0
-    var body: some View {
-        VStack(spacing: 16){
-            EmptyView()
-            HStack{
-                Text("View options").font(.subheadline)
-                Spacer()
-            }
-            ForEach(GridType.allCases,id:\.self){ type in
-                Button(action: {
-                    selectedGrid = type
-                    dismiss()
-                }, label: {
-                    HStack{
-                        Text(type.name)
-                        Spacer()
-                        if type == selectedGrid{
-                            Image(systemName: "checkmark")
-                        }
-                    }.font(.title2.bold())
-                        .backgroundStyle(.gray)
-                })
-            }.tint(.text)
-            Button(action: {
-                dismiss()
-            }, label: {
-                Text("Close").padding().background(.regularMaterial)
-                    .clipShape(Capsule()).font(.title3).fontWeight(.semibold)
-            }).tint(.text)
-        }.padding(.horizontal)
-            .background(GeometryReader{ proxy in
-                Color.clear.onAppear(){
-                    presentHeight = proxy.size.height
-                }
-            })
-            .presentationDetents([.height(presentHeight + 44)])
-            .presentationCornerRadius(16)
-    }
-}
