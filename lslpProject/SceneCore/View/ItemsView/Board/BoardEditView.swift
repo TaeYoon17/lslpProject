@@ -6,117 +6,61 @@
 //
 
 import SwiftUI
+import Combine
 
 struct BoardEditView:View {
     let width = UIScreen.current!.bounds.width / 3
+    @Environment(\.dismiss) var dismiss
+    @StateObject var vm :BoardEditVM
     @State private var name = ""
+    @State private var tagName = ""
     @State private var privateMode = false
     @State private var pickerPresent = false
-    var defaultImage: Image? = Image(systemName: "plus")
-    @Environment(\.dismiss) var dismiss
+    @FocusState private var focused:Bool
+    @State var defaultImage: Image? = nil
+    init(_ board: Board){
+        _vm = StateObject(wrappedValue: BoardEditVM(board))
+    }
     var body: some View {
         NavigationView {
             ScrollView{
                 VStack(spacing:24){
-                    header
-                    VStack(spacing:8){
-                        itemView(name: "Board name") {
-                            TextField("Enter the board name", text: $name)
-                                .font(.system(.title3,weight: .semibold))
-                                
-                        }
-                        Divider().padding(.bottom,4)
-                        itemView(name: "작업") {
-                            VStack(alignment:.leading, spacing:12) {
-                                sectretView
-                                deleteView
-                            }
-                        }
+                    BoardWriteC.Header(pickerPresent: $pickerPresent, defaultImage: $defaultImage, width: width) { data in
+                        vm.imageData = data
+                    }
+                    contentBody
+                }
+            }
+            .modifier(BoardWriteC.ToolbarModi(title: "보드 수정", isAble: $vm.isUplodable, leftAction: {
+                dismiss()
+            }, rightAction: {
+                dismiss()
+            }, keyboardAction: {
+                focused = false
+            }))
+            .task{
+                if let imageData = vm.originBoard.data,let uiimage = UIImage(data: imageData){
+                    withAnimation {
+                        self.defaultImage = Image(uiImage: uiimage)
                     }
                 }
             }
-            .padding(.horizontal)
-            .toolbar(.visible, for: .navigationBar)
-            .toolbarTitleDisplayMode(.inline)
-                .navigationTitle("보드 수정")
-                .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Image(systemName: "xmark").wrapBtn {
-                            dismiss()
-                        }
-                    }
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Text("Save").font(.headline).wrapBtn {
-                            dismiss()
-                        }
-                    }
-                }
         }
     }
-    func itemView(name: String,view: @escaping ()->some View)-> some View{
-        VStack(alignment:.leading,spacing:4){
-            Text(name).font(.subheadline)
-            view()
-        }
-    }
-    @ViewBuilder var header: some View{
-        VStack(alignment: .center,spacing: 16){
-            EditImageView(isPresented:$pickerPresent,cropType: .circle(.init(width: 300, height: 300)), content: { state in
-                switch state{
-                case .empty:
-                    if let defaultImage{
-                        defaultImage.resizable().scaledToFit()
-                    }else{
-                        Image(systemName: "plus")
-                            .font(.system(size: width * 0.66))
-                    }
-                case .failure(_ ): Image("plus").resizable().scaledToFill()
-                case .loading(_): ProgressView()
-                case .success(let img):
-                    Image(uiImage: img).resizable(resizingMode: .stretch).scaledToFit()
-                        .animToggler()
-                        .onAppear(){
-                            do{
-//                                let imgData = try img.jpegData(maxMB: 1)
-//                                vm.profile = imgData
-//                                vm.updateImage = true
-                            }catch{
-                                print(error)
-                            }
-                        }
-                }
-            })
-            .frame(width:  width,height: width)
-            .background(.regularMaterial)
-            .clipShape(Circle())
-            Button(action: {
-                pickerPresent = true
-            }, label: {
-                Text("Edit")
-                    .font(.headline)
-                    .padding(.vertical,4).padding(.horizontal,6)
-            }).accent(background: .regularMaterial)
-        }
-    }
-}
-extension BoardEditView{
-    var deleteView: some View{
-        VStack(alignment:.leading,spacing: 4) {
-            Text("보드 삭제").font(.system(.title3,weight: .semibold)).foregroundStyle(.red)
-            Text("이 보드와 핀을 영구 삭제합니다. 이 작업은 취소할 수 없습니다!").font(.footnote).foregroundStyle(.secondary)
-        }.wrapBtn {
-            print("Hello world!!")
-        }
-    }
-}
 
+}
 extension BoardEditView{
-    var sectretView: some View{
-        Toggle(isOn: $privateMode) {
-            VStack(alignment:.leading) {
-                Text("이 보드를 비밀 모드로 설정하기").font(.system(.title3,weight: .semibold))
-                Text("회원님만 이 보드를 볼 수 있습니다.").font(.footnote).foregroundStyle(.secondary)   
+    @ViewBuilder var contentBody: some View{
+        VStack(spacing:8){
+            BoardWriteC.Name(name: $vm.name, focused: $focused)
+            Divider().padding(.bottom,4)
+            BoardWriteC.HashTag(tags: $vm.tags, tagName: $tagName, focused: $focused)
+            Divider().padding(.bottom,4)
+            BoardWriteC.Secret(isPrivacy: $vm.isPrivacy)
+            Divider().padding(.bottom,4)
+            BoardWriteC.Delete {
+                dismiss()
             }
-        }.padding(.trailing,4)
+        }
     }
 }

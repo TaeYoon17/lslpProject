@@ -42,7 +42,7 @@ struct BoardView: View {
         .sheet(item: $sheetType, content: { item in
             switch item{
             case .edit:
-                BoardEditView().any()
+                BoardEditView(board).any()
             case .filter:
                 ViewOptionView {
                     Group{

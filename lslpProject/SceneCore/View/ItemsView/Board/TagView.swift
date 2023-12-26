@@ -34,7 +34,6 @@ struct TagView: View {
             let font = UIFont.systemFont(ofSize: fontSize)
             let attributes = [NSAttributedString.Key.font:font]
             let size = (last.text as NSString).size(withAttributes: attributes)
-            
             tags[getIndex(tag: last)].size = size.width
         }
         .animation(.easeInOut,value: tags)
