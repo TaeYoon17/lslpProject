@@ -14,7 +14,6 @@ struct Tag: Identifiable,Hashable{
 }
 
 struct TagView: View {
-    var maxLimit: Int
     @Binding var tags: [Tag]
     let fontSize:CGFloat = 14
     var body: some View {

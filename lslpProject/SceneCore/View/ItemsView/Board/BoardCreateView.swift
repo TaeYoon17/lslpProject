@@ -44,13 +44,13 @@ struct BoardCreateView:View {
                         itemView(name: "Board name") {
                             TextField("Enter the board name", text: $name).focused($focused)
                                 .font(.system(.title3,weight: .semibold))
-                                
+                                .tint(.text)
                         }
                         Divider().padding(.bottom,4)
-                        itemView(name: "Hash Tags") {
+                        itemView(name: "Hash tags: \(tags.count) / 5") {
                             Group{
                                 if !tags.isEmpty{
-                                    TagView(maxLimit: 150, tags: $tags)
+                                    TagView(tags: $tags)
                                 }
                                 HStack(spacing:4){
                                     Text("#")
@@ -71,7 +71,9 @@ struct BoardCreateView:View {
                                     .opacity(tagName.isEmpty ? 0.6 : 1)
                                     .animation(.easeInOut, value: tagName.isEmpty)
                                 }.font(.system(.title3,weight: .semibold))
-                            }
+                                    .opacity(tags.count >= 5 ? 0.6 : 1)
+                                    .disabled(tags.count >= 5)
+                            }.tint(.text)
                         }
                         Divider().padding(.bottom,4)
                         itemView(name: "작업") {
