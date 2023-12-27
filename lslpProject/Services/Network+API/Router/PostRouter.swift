@@ -8,13 +8,13 @@
 import Foundation
 import Alamofire
 enum PostRouter:URLRequestConvertible{
-    case create(post:Post),read(next:String?,limit:Int?,productId:String?),update,delete(id: String)
+    case create(post:Post),read(next:String?,limit:Int?,productId:String?),update(id:String,post:Post),delete(id: String)
     var endPoint: String{
         switch self{
         case .create: "/post"
         case .delete(let id): "/post/\(id)"
         case .read: "/post"
-        case .update: "/post"
+        case .update(let id,_): "/post/\(id)"
         }
     }
     var method:HTTPMethod{
@@ -37,7 +37,7 @@ enum PostRouter:URLRequestConvertible{
     var parameters: Parameters{
         var params = Parameters()
         switch self{
-        case .create(post: let post): break
+        case .create,.update: break
         case .read(next: let next, limit: let limit, productId: let productId):
             if let limit { params["limit"] = "\(limit)" }
             if let next {params["next"] = next}
@@ -54,7 +54,7 @@ enum PostRouter:URLRequestConvertible{
         urlRequest.method = self.method
         urlRequest.headers = headers
         switch self{
-        case .create,.delete: break
+        case .create,.delete,.update: break
         case .read:
             let queryItems = parameters.map{URLQueryItem(name: $0.key, value: $0.value as? String ?? "")}
 //            url.append(queryItems: queryItems)
@@ -69,7 +69,7 @@ enum PostRouter:URLRequestConvertible{
     var multipartFormData: MultipartFormData {
         let multipartFormData = MultipartFormData()
         switch self {
-        case .create(let post):
+        case .create(let post),.update(id: _, post: let post):
             let nameArr = ["title","product_id","content","content1","content2","content3","content4","content5"]
             let postArr:[String?] = [post.title,post.product_id,post.content,post.content1,post.content2,post.content3,post.content4,post.content5]
             for (name,post) in zip(nameArr,postArr){

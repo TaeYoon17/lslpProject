@@ -25,7 +25,6 @@ struct ProfileView: View{
     @State @MainActor private var gridType:GridType = .def
     @State @MainActor private var profileOffset:CGFloat = 200
     @State @MainActor private var isTabArea:Bool = false
-    //    let publisher: PassthroughSubject<ScrollType, Never> = PassthroughSubject()
     var body: some View{
         NavigationStack {
             ScrollViewReader { scrollProxy in

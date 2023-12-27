@@ -32,15 +32,17 @@ final class ProfileVM:ObservableObject{
         profileResponse()
     }
     private func profileResponse(){
-        Task{
+        Task{[weak self] in
+            guard let self else {return}
             do{
                 let response = try await NetworkService.shared.getMyProfile()
                 if let profile = response.profile{
                     imageData = try await NetworkService.shared.getImageData(imagePath: profile)
                 }
                 self.userID = response._id
-                let boards = try await NetworkService.shared.getBoard(userID: userID)
-                await MainActor.run { 
+                let boards = try await NetworkService.shared.getUserBoard()
+                await MainActor.run { [weak self] in
+                    guard let self else {return}
                     self.user = response
                     self.boards = boards
                     self.followers = response.followers

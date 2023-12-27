@@ -67,15 +67,17 @@ enum BoardWriteC{
     struct Delete:View{
         let action:()->Void
         var body: some View{
-            HStack{
-                VStack(alignment:.leading,spacing: 4) {
-                    Text("보드 삭제").font(.system(.title3,weight: .semibold)).foregroundStyle(.red)
-                    Text("이 보드와 핀을 영구 삭제합니다. 이 작업은 취소할 수 없습니다!").font(.footnote).foregroundStyle(.secondary)
-                }.wrapBtn {
-                    action()
-                }
-                Spacer()
-            }.frame(maxWidth: .infinity)
+            itemView(name: "작업") {
+                HStack{
+                    VStack(alignment:.leading,spacing: 4) {
+                        Text("보드 삭제").font(.system(.title3,weight: .semibold)).foregroundStyle(.red)
+                        Text("이 보드와 핀을 영구 삭제합니다. 이 작업은 취소할 수 없습니다!").font(.footnote).foregroundStyle(.secondary)
+                    }.wrapBtn {
+                        action()
+                    }
+                    Spacer()
+                }.frame(maxWidth: .infinity)
+            }
         }
     }
 }

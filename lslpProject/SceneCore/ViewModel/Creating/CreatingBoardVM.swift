@@ -18,12 +18,10 @@ final class CreatingBoardVM{
         Observable.combineLatest(name,isPrivacy).bind { [weak self] (name, isprivacy) in
             guard let self else {return}
             board.name = name
-            board.isPrivacy = isprivacy
+            
         }.disposed(by: disposeBag)
     }
     func upload(){
-        let boardPost = BoardPost(name: board.name,isPrivacy: board.isPrivacy)
-        print("Upload \(boardPost)")
         isLogOutAction.onNext(true)
 //MARK: -- 업로드 네트워크
 //        Task{

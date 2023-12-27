@@ -57,8 +57,6 @@ extension BoardCreateView{
             BoardWriteC.Name(name: $vm.name, focused: $focused)
             Divider().padding(.bottom,4)
             BoardWriteC.HashTag(tags: $vm.tags, tagName: $tagName, focused: $focused)
-            Divider().padding(.bottom,4)
-            BoardWriteC.Secret(isPrivacy: $vm.isPrivacy)
         }
     }
 }

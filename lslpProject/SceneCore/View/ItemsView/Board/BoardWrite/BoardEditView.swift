@@ -34,6 +34,7 @@ struct BoardEditView:View {
             .modifier(BoardWriteC.ToolbarModi(title: "보드 수정", isAble: $vm.isUplodable, leftAction: {
                 dismiss()
             }, rightAction: {
+                vm.upload()
                 dismiss()
             }, keyboardAction: {
                 focused = false
@@ -56,9 +57,8 @@ extension BoardEditView{
             Divider().padding(.bottom,4)
             BoardWriteC.HashTag(tags: $vm.tags, tagName: $tagName, focused: $focused)
             Divider().padding(.bottom,4)
-            BoardWriteC.Secret(isPrivacy: $vm.isPrivacy)
-            Divider().padding(.bottom,4)
             BoardWriteC.Delete {
+                vm.delete()
                 dismiss()
             }
         }

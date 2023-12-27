@@ -32,7 +32,7 @@ extension BoardWriteC{
                             .animToggler()
                             .onAppear(){
                                 do{
-                                    let imgData = try img.jpegData(maxMB: 1)
+                                    let imgData = try img.jpegData(maxMB: 3)
                                     dataAction(imgData)
                                 }catch{
                                     print(error)

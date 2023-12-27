@@ -16,7 +16,7 @@ extension PinInfoBoardVC{
             super.init(collectionView: collectionView, cellProvider: cellProvider)
             var snapshot = NSDiffableDataSourceSnapshot<String,Board>()
             snapshot.appendSections(["wow"])
-            snapshot.appendItems([.init(name: "hello", pinnedImage: ["lgWin"]),.init(name: "hello", pinnedImage: ["macOS"])])
+            snapshot.appendItems([Board(),Board()])
             apply(snapshot,animatingDifferences: true)
         }
     }

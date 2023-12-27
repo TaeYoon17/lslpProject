@@ -30,6 +30,7 @@ struct SectionTabView<Data,Items: View,Header: View>: View where Data : RandomAc
                         .background(GeometryReader { proxy in
                             Color.clear
                         })
+                        .frame(maxWidth: .infinity)
                 }).tabViewStyle(.page(indexDisplayMode: .never))
                 .scrollDisabled(true)
                 .frame(height: scrollHeight + 1)

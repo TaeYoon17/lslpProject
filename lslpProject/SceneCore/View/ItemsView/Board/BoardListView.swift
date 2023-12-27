@@ -12,11 +12,13 @@ struct BoardListView: View {
     @EnvironmentObject var vm: ProfileVM
     var body: some View {
         VStack{
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 100, maximum: 300)),GridItem(.adaptive(minimum: 100, maximum: 300))], content: {
+            let grids = [GridItem(.flexible(), spacing: nil, alignment: nil),
+                         GridItem(.flexible(), spacing: nil, alignment: nil)]
+            LazyVGrid(columns: grids, content: {
                 ForEach(vm.boards.indices,id:\.self){ idx in
                     NavigationLink(value: vm.boards[idx]) {
                         BoardListItem(board: vm.boards[idx])
-                    }.tint(.text)
+                    }.tint(.text)   
                 }
             })
             Spacer()
@@ -25,14 +27,14 @@ struct BoardListView: View {
 }
 struct BoardListItem:View{
     let board: Board
-//    var idx = 0
+    //    var idx = 0
     @State private var image: UIImage?
     var body: some View{
-        VStack(alignment: .leading,spacing:4){
-            
+        VStack(spacing:4){
             if let image{
-                Image(uiImage: image).resizable()
-                    .scaledToFill()
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFit()
                     .frame(height: 120)
                     .clipShape(RoundedRectangle(cornerRadius: 16))
             }else{
@@ -41,23 +43,23 @@ struct BoardListItem:View{
                     .frame(height: 120)
                     .clipShape(RoundedRectangle(cornerRadius: 16))
             }
-                
-            VStack(alignment:.leading, spacing:0){
-                Text(board.name).font(.headline)
-                
-                Text("\(board.pinnedImage.count) pins").font(.subheadline)
+            HStack{
+                VStack(alignment:.leading, spacing:0){
+                    Text(board.name).font(.headline)
+                    Text("\(board.pinCounts) pins").font(.subheadline)
+                }.padding(.leading,4)
+                Spacer()
             }
-        }
-        .task {
-            if let imageData = board.data{
-                await MainActor.run {
-                    withAnimation {
-                        self.image = UIImage(data: imageData)
+        }.frame(maxWidth:.infinity)
+            .task {
+                if let imageData = board.data{
+                    await MainActor.run {
+                        withAnimation {
+                            self.image = UIImage(data: imageData)
+                        }
                     }
-//                    let iamge = try? await UIImage(data: imageData)?.byPreparingThumbnail(ofSize: .init(width: 360, height: 360))
                 }
             }
-        }
     }
 }
 #Preview {

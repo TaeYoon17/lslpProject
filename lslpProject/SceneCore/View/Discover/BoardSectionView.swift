@@ -8,9 +8,9 @@
 import SwiftUI
 struct BoardSectionView: View{
     @EnvironmentObject var discoverVM: DiscoverVM
-    var board:Board
+    var board:DiscoverItem
     var ratios: [CGFloat]
-    init(board: Board){
+    init(board: DiscoverItem){
         self.board = board
         self.ratios = board.pinnedImage.map{
             let size = UIImage(named: $0)?.size ?? .zero

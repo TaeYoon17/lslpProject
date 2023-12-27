@@ -30,15 +30,16 @@ extension PinInfoBoardVC{
         UICollectionView.CellRegistration { cell, indexPath, itemIdentifier in
             var config = cell.defaultContentConfiguration()
             config.text = itemIdentifier.name
-            if let imageName = itemIdentifier.pinnedImage.first{
-                Task{@MainActor in
-                    let image = await UIImage(named: imageName)?.byPreparingThumbnail(ofSize: .init(width: 360, height: 360))
-                    config.imageProperties.cornerRadius = 8
-                    config.image = image
-                    config.imageProperties.maximumSize = .init(width: 44, height: 44)
-                    cell.contentConfiguration = config
-                }
-            }
+                //MARK: -- 이거 수리
+//            if let imageName = itemIdentifier.pinnedImage.first{
+//                Task{@MainActor in
+//                    let image = await UIImage(named: imageName)?.byPreparingThumbnail(ofSize: .init(width: 360, height: 360))
+//                    config.imageProperties.cornerRadius = 8
+//                    config.image = image
+//                    config.imageProperties.maximumSize = .init(width: 44, height: 44)
+//                    cell.contentConfiguration = config
+//                }
+//            }
             cell.contentConfiguration = config
         }
     }
