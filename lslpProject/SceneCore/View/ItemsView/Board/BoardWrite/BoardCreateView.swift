@@ -20,6 +20,7 @@ final class BoardCreateVC: UIHostingController<BoardCreateView>{
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
 }
+
 struct BoardCreateView:View {
     @StateObject var vm = BoardCreateVM()
     var dismissAction: (() -> Void)?
@@ -38,6 +39,7 @@ struct BoardCreateView:View {
                     contentBody
                 }
             }
+            .scrollDismissesKeyboard(.interactively)
             .modifier(BoardWriteC.ToolbarModi(title: "보드 생성", isAble: $vm.isUplodable, leftAction: {
                 dismissAction?()
             }, rightAction: {

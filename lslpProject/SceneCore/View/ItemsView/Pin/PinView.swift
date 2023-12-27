@@ -20,16 +20,14 @@ struct PinView: View{
     @Environment(\.dismiss) var dismiss
     @State var presentType: PinViewPresent? = nil
     let image: String
+//    @State var tempImage = Image(image,bundle: nil)
     var body: some View{
         ScrollView{
             VStack{
-                Image(image,bundle: nil)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: UIScreen.current!.bounds.width)
+                PinImageSlider(image: Image(image,bundle: nil))
                     .overlay(alignment:.top){
                         Rectangle()
-                            .fill(Gradient(colors: [.black.opacity(0.1),.clear]))
+                            .fill(Gradient(colors: [.black.opacity(0.2),.clear]))
                             .frame(height:naviHeight + 44)
                     }
                 Group{
@@ -83,13 +81,8 @@ struct PinView: View{
                 } label: {
                     Image(systemName: "chevron.left")
                         .fontWeight(.semibold)
-                        .foregroundStyle(.black)
-                        .padding(.all,8)
-                        .background(Material.ultraThin)
-                        .clipShape(Circle())
+                        .foregroundStyle(.white)
                 }
-                
-
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
@@ -97,10 +90,7 @@ struct PinView: View{
                 } label: {
                     Image(systemName: "ellipsis")
                         .fontWeight(.semibold)
-                        .foregroundStyle(.black)
-                        .padding(.all,10)
-                        .background(Material.ultraThin)
-                        .clipShape(Circle())
+                        .foregroundStyle(.white)
                 }
             }
         }.sheet(item: $presentType) { type in
@@ -110,8 +100,6 @@ struct PinView: View{
             }
         }
     }
-    
-    
 }
 
 #Preview(body: {

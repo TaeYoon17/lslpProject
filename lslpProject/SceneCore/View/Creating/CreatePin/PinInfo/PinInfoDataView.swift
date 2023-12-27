@@ -9,6 +9,7 @@ import SnapKit
 import UIKit
 import RxSwift
 import RxCocoa
+import SwiftUI
 final class PinInfoDataView: UIStackView{
     weak var vm: CreatingPinInfoVM!{
         didSet{
@@ -27,11 +28,11 @@ final class PinInfoDataView: UIStackView{
     let boardPickLabel = UILabel()
     lazy var boardPick = UIListContentView.getPinInfoListCell(text:"Pick a board",label: boardPickLabel)
     lazy var tagTopic = UIListContentView.getPinInfoListCell(text: "Tag related topics")
-    lazy var advancedSettings = UIListContentView.getPinInfoListCell(text: "Advanced settings")
+    
     init(vm: CreatingPinInfoVM){
         self.vm = vm
         super.init(frame: .zero)
-        var arr = [descriptionTextField,linkTextField,boardPick,tagTopic,advancedSettings]
+        var arr = [descriptionTextField,linkTextField,boardPick,tagTopic]
         arr.forEach{addArrangedSubview($0)}
         self.spacing = 12
         self.axis = .vertical
@@ -49,27 +50,45 @@ final class PinInfoDataView: UIStackView{
                         make.horizontalEdges.equalTo(view)
                 }
         }
-        for (idx,val) in [boardPick,tagTopic,advancedSettings].enumerated(){
+        for (idx,val) in [boardPick,tagTopic].enumerated(){
             val.tag = idx + 1
             val.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(Self.tappedItem(_:))))
         }
+        configureView()
         binding()
     }
     required init(coder: NSCoder) {
         fatalError("Don't use storyboard")
+    }
+    func configureView(){
+        let underlineView = UIView()
+                underlineView.backgroundColor = .black
+                self.addSubview(underlineView)
+         
+        self.addSubview(tagTopic)
+        self.tagTopic.snp.makeConstraints { make in
+            make.top.equalTo(boardPick.snp.bottom).offset(12)
+            make.horizontalEdges.equalTo(boardPick)
+        }
+        underlineView.snp.makeConstraints { make in
+            make.height.equalTo(0.5)
+            make.top.equalTo(boardPick.snp.bottom).offset(6)
+            make.horizontalEdges.equalTo(boardPick)
+}
+        
     }
     @objc func tappedItem(_ action: UITapGestureRecognizer){
         guard let tag = action.view?.tag else {return}
         switch tag{
         case 1:
             print("boardPick")
-            vm.hello.onNext(.board)
+            vm.detailSetting.onNext(.board)
         case 2:
             print("tagTopic")
+            vm.detailSetting.onNext(.tag)
         case 3:
             print("advancedSettings")
         default:break
         }
     }
-    
 }

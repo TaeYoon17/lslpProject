@@ -21,12 +21,14 @@ final class PinInfoVC: BaseVC{
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        vm.hello.subscribe(on: MainScheduler.asyncInstance).bind(with: self) { owner, detail in
+        vm.detailSetting.subscribe(on: MainScheduler.asyncInstance).bind(with: self) { owner, detail in
             switch detail{
             case .board:
                 let vc = PinInfoBoardVC()
                 owner.navigationController?.pushViewController(vc, animated: true)
-            case .tag: break
+            case .tag:
+                let vc = PinInfoTagVC()
+                owner.navigationController?.pushViewController(vc, animated: true)
             }
         }.disposed(by: disposeBag)
     }

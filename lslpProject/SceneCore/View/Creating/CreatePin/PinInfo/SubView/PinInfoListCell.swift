@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+//import RxSwift
 extension UIListContentView{
     static func getPinInfoListCell(text:String,label:UILabel? = nil)->UIListContentView{
         var config = UIListContentConfiguration.valueCell()

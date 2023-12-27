@@ -22,7 +22,7 @@ final class CreatingPinInfoVM{
     let link = BehaviorSubject(value: "")
     let board = BehaviorSubject(value: "")
     var disposeBag = DisposeBag()
-    let hello:PublishSubject<PinInfoDetail> = PublishSubject()
+    let detailSetting:PublishSubject<PinInfoDetail> = PublishSubject()
     init(_ superVM: CreatingPinVM){
         imageCache = superVM.selectedImageCache
         images = superVM.selectedImage.values.map(\.photoAsset)

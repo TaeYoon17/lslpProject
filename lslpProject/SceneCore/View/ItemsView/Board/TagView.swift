@@ -27,7 +27,7 @@ struct TagView: View {
                 }
             }
         }
-        .frame(width: UIScreen.current!.bounds.width - 80,alignment:.leading)
+        .frame(width: UIScreen.current!.bounds.width - 40,alignment:.leading)
         .padding(.vertical,8)
         .onChange(of: tags) { oldValue, newValue in
             guard let last = tags.last else {return}

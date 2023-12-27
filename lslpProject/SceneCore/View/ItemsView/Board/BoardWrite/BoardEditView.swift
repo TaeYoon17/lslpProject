@@ -27,10 +27,12 @@ struct BoardEditView:View {
                 VStack(spacing:24){
                     BoardWriteC.Header(pickerPresent: $pickerPresent, defaultImage: $defaultImage, width: width) { data in
                         vm.imageData = data
-                    }
+                        focused = false
+                    }.presentationBackground(.clear)
                     contentBody
                 }
             }
+            .scrollDismissesKeyboard(.interactively)
             .modifier(BoardWriteC.ToolbarModi(title: "보드 수정", isAble: $vm.isUplodable, leftAction: {
                 dismiss()
             }, rightAction: {
