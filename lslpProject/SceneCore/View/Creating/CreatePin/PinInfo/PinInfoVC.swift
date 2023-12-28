@@ -24,7 +24,11 @@ final class PinInfoVC: BaseVC{
         vm.detailSetting.subscribe(on: MainScheduler.asyncInstance).bind(with: self) { owner, detail in
             switch detail{
             case .board:
+                let vm = PinInfoBoardVM(itemID: try? owner.vm.boardID.value(),itemName: try! owner.vm.board.value())
                 let vc = PinInfoBoardVC()
+                vc.vm = vm
+                vm.selectedItemID.bind(to: owner.vm.boardID).disposed(by: owner.disposeBag)
+                vm.selectedItemName.bind(to: owner.vm.board).disposed(by: owner.disposeBag)
                 owner.navigationController?.pushViewController(vc, animated: true)
             case .tag:
                 let vc = PinInfoTagVC()

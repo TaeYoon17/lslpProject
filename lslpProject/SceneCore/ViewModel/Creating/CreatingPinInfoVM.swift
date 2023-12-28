@@ -21,6 +21,7 @@ final class CreatingPinInfoVM{
     let description = BehaviorSubject(value: "")
     let link = BehaviorSubject(value: "")
     let board = BehaviorSubject(value: "")
+    let boardID :BehaviorSubject<String?> = .init(value: nil)
     var disposeBag = DisposeBag()
     let detailSetting:PublishSubject<PinInfoDetail> = PublishSubject()
     init(_ superVM: CreatingPinVM){
@@ -53,7 +54,7 @@ extension CreatingPinInfoVM{
             let imgs = try await self.imageCache.requestImages(assets:images)
             let dataCounter = TaskCounter()
             let datas = try await dataCounter.run(imgs) {
-                return try $0.jpegData(maxMB: 10)
+                return try $0.jpegData(maxMB: 5)
             }
             self.pinPost.imageDatas = datas
         }

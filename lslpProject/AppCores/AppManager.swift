@@ -13,6 +13,7 @@ extension App{
     final class Manager{
         @DefaultsState(\.accessToken) var accessToken
         @DefaultsState(\.refreshToken) var refreshToken
+        @DefaultsState(\.userBoards) private(set) var boards
         static let shared = Manager()
         let addAction = PublishSubject<Void>()
         let userAccount = PublishSubject<Bool>()
@@ -27,5 +28,8 @@ extension App.Manager{
         self.accessToken = response.accessToken
         self.refreshToken = response.refreshToken
         self.userAccount.onNext(true)
+    }
+    func updateBoards(boards:[Board]){
+        self.boards = boards
     }
 }

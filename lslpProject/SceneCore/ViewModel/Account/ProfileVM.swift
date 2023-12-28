@@ -41,6 +41,7 @@ final class ProfileVM:ObservableObject{
                 }
                 self.userID = response._id
                 let boards = try await NetworkService.shared.getUserBoard()
+                App.Manager.shared.updateBoards(boards: boards)
                 await MainActor.run { [weak self] in
                     guard let self else {return}
                     self.user = response

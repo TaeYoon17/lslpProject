@@ -38,4 +38,16 @@ extension UserDefaults{
         get{self.double(forKey: "navigationBarHeight")}
         set{self.set(newValue,forKey:  "navigationBarHeight")}
     }
+    var userBoards:[Board]{
+        get{
+            guard let data = self.data(forKey: "userBoards") else {return []}
+            let boardsPost:[BoardPost] = (try? JSONDecoder().decode([BoardPost].self, from: data)) ?? []
+            return boardsPost.map{$0.getOriginal}
+        }
+        set{
+            let res = newValue.map{BoardPost(board: $0)}
+            let data = try? JSONEncoder().encode(res)
+            self.set(data, forKey: "userBoards")
+        }
+    }
 }

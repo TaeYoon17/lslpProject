@@ -22,6 +22,11 @@ final class PinInfoDataView: UIStackView{
         disposeBag = DisposeBag()
         descriptionTextField.text.subscribe(on: MainScheduler.asyncInstance).bind(to: vm.description).disposed(by: disposeBag)
         linkTextField.text.subscribe(on: MainScheduler.asyncInstance).bind(to: vm.link).disposed(by: disposeBag)
+        vm.board.bind(to: boardPickLabel.rx.text).disposed(by: disposeBag)
+        vm.board.bind(with: self) { owner, boardName in
+            owner.boardPickLabel.text = boardName.isEmpty ? "보드를 선택하세요" : boardName
+            owner.boardPickLabel.textColor = boardName.isEmpty ? UIColor.systemRed : .gray
+        }.disposed(by: disposeBag)
     }
     let descriptionTextField = PinInfoTextField(explain: "Description", placeholder: "Add a detailed description")
     let linkTextField = PinInfoTextField(explain: "Link", placeholder: "Add your link here",keyboard: .URL)
@@ -38,7 +43,6 @@ final class PinInfoDataView: UIStackView{
         self.axis = .vertical
         self.distribution = .fillProportionally
         self.alignment = .fill
-        boardPickLabel.text = "Hello world!!"
         arr.removeLast()
         arr.forEach{ view in
             let underlineView = UIView()

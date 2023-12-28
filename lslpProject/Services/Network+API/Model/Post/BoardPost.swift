@@ -13,7 +13,7 @@ struct Board:Identifiable,Hashable{
     var hashTags: [String] = [] // 이거 변형시켜야함
     var data:Data?
     var pinCounts:Int{ pins.reduce(0) { $0 + $1.count } }
-    private(set) var pins:[[String]] = Array(repeating: [], count: 5)
+    var pins:[[String]] = Array(repeating: [], count: 5)
     static func getBy(checkData data:PostCheckResponse.CheckData) async ->Board{
         var board = Board()
         board.id = data._id
@@ -36,6 +36,7 @@ struct Board:Identifiable,Hashable{
     }
 }
 struct BoardPost:Codable{
+    var id = UUID().uuidString
     private var productId: String = "Board"
     var name:String = ""
     var hashTags: String = ""
@@ -49,6 +50,7 @@ struct BoardPost:Codable{
         }
         return post
     }
+    
     init(){}
     init(name: String, hashTags: String, data: Data? = nil) {
         self.name = name
@@ -57,8 +59,20 @@ struct BoardPost:Codable{
     }
     init(board:Board){
         self.name = board.name
+        self.id = board.id
         self.hashTags = board.hashTags.map{"#\($0)"}.joined(separator: "-")
         self.data = board.data
         self.pins = board.pins.compactMap { $0.joined(separator:"#")}
+    }
+    var getOriginal:Board{
+        var board = Board()
+        board.name = self.name
+        board.data = self.data
+        board.hashTags = hashTags.split(separator: "-").map{String($0).replacing("#", with: "")}
+        board.id = self.id
+        board.pins = self.pins.reduce(into: [], {
+            $0.append($1.components(separatedBy: "#"))
+        })
+        return board
     }
 }

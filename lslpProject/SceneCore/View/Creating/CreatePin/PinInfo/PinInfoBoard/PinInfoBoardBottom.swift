@@ -7,10 +7,13 @@
 
 import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
 extension PinInfoBoardVC{
     final class PinInfoBoardBottom: BaseView{
+        var tap : ControlEvent<Void>!
         override func binding() {
-            
+            self.tap = btn.rx.tap
         }
         let btn = {
             let btn = UIButton()

@@ -10,14 +10,19 @@ import SnapKit
 import RxSwift
 import RxCocoa
 final class PinInfoBoardVC: BaseVC{
+    var vm: PinInfoBoardVM!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        collectionView.backgroundColor = .systemBackground
+        bottomView.tap.bind(with: self) { owner, _ in
+            let createBoard = BoardCreateVC()
+            owner.present(createBoard, animated: true)
+        }.disposed(by: disposeBag)
+    }
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
     lazy var bottomView = PinInfoBoardBottom()
     var dataSource: DataSource!
     let searchController = UISearchController()
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        collectionView.backgroundColor = .systemBlue
-    }
     override func configureLayout() {
         [bottomView,collectionView].forEach{
             view.addSubview($0)
