@@ -15,8 +15,12 @@ final class PinInfoVC: BaseVC{
         self.vm = vm
         super.init(nibName: nil, bundle: nil)
     }
+    
     required init?(coder: NSCoder) {
         fatalError("Don't use Story board")
+    }
+    deinit{
+        print("PinInfoVC Deinit!!")
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,10 +35,11 @@ final class PinInfoVC: BaseVC{
                 vm.selectedItemName.bind(to: owner.vm.board).disposed(by: owner.disposeBag)
                 owner.navigationController?.pushViewController(vc, animated: true)
             case .tag:
-                let vc = PinInfoTagVC()
+                let vc = PinInfoTagVC(vm: owner.vm)
                 owner.navigationController?.pushViewController(vc, animated: true)
             }
         }.disposed(by: disposeBag)
+        
     }
     let scrollView = UIScrollView()
     lazy var pinInfoView = PinInfoTitleView(vm: vm)
@@ -67,7 +72,8 @@ final class PinInfoVC: BaseVC{
         scrollView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).inset(4)
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
-            make.bottom.equalTo(bottomView.snp.top)
+//            make.bottom.equalTo(bottomView.snp.top)
+            make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
         }
         bottomView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
@@ -83,7 +89,7 @@ final class PinInfoVC: BaseVC{
         scrollView.backgroundColor = .systemBackground
     }
     override func configureNavigation() {
-        navigationItem.title = "Hello world"
+        navigationItem.title = "Pin Info"
     }
     
 }

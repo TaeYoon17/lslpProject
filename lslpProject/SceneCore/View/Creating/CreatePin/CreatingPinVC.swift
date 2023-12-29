@@ -38,7 +38,6 @@ final class CreatingPinVC: BaseVC{
                         owner.pinConstraint?.activate()
                         owner.bottomConstraint?.deactivate()
                         owner.collectionView.layoutIfNeeded()
-                    
                     }
                 }
             }
@@ -78,7 +77,9 @@ final class CreatingPinVC: BaseVC{
     }
     override func configureNavigation() {
         navigationController?.navigationBar.backgroundColor = .systemBackground
+        navigationController?.navigationBar.tintColor = .text
         navigationItem.leftBarButtonItem = .init(systemItem: .cancel)
+        navigationItem.leftBarButtonItem?.tintColor = .text
         let button = AlbumNaviTitileButton()
         button.isTappedSubject.bind(to: vm.openAlbumSelector).disposed(by: disposeBag)
         navigationItem.titleView = button
@@ -86,7 +87,6 @@ final class CreatingPinVC: BaseVC{
             owner.closeAction()
         }.disposed(by: disposeBag)
         navigationItem.rightBarButtonItem = .init(title: "Next")
-        
         self.isModalInPresentation = true
     }
     

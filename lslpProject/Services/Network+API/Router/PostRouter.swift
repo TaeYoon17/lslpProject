@@ -70,6 +70,10 @@ enum PostRouter:URLRequestConvertible{
         let multipartFormData = MultipartFormData()
         switch self {
         case .create(let post),.update(id: _, post: let post):
+            guard let file = post.file else {break}
+            for (idx,data) in file.enumerated(){
+                multipartFormData.append(data, withName: "file", fileName: "\(post.title ?? "")\(idx).jpg", mimeType: "image/jpeg")
+            }
             let nameArr = ["title","product_id","content","content1","content2","content3","content4","content5"]
             let postArr:[String?] = [post.title,post.product_id,post.content,post.content1,post.content2,post.content3,post.content4,post.content5]
             for (name,post) in zip(nameArr,postArr){
@@ -77,10 +81,7 @@ enum PostRouter:URLRequestConvertible{
                     multipartFormData.append(Data(post.utf8), withName: name)
                 }
             }
-            guard let file = post.file else {break}
-            for (idx,data) in file.enumerated(){
-                multipartFormData.append(data, withName: "file", fileName: "\(post.product_id ?? "")\(idx).jpg", mimeType: "image/png")
-            }
+            
         default: ()
         }
 //        print("multipart called \(multipartFormData)")

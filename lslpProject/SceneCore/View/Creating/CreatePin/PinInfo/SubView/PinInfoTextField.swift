@@ -28,8 +28,11 @@ final class PinInfoTextField: UIStackView{
         self.alignment = .fill
         self.spacing = 2
         label.text = explain
+        textField.tintColor = .systemGreen
+        
         textField.attributedPlaceholder = .init(string: placeholder, attributes: attr)
         textField.tintColor = .systemGreen
+        textField.inputAccessoryView = AccessoryView(textField: textField)
         label.font = .systemFont(ofSize: 14, weight: .regular)
         textField.keyboardType = keyboard
     }

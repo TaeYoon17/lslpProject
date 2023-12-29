@@ -26,7 +26,6 @@ final class CreatingVC: BaseVC{
             }
     }
     let pinBtn = ItemButton(systemName: "wand.and.rays")
-//    let collageBtn = ItemButton(systemName: "scissors")
     let boardBtn = ItemButton(systemName: "clipboard")
     lazy var stView = {
         let subViews = [pinBtn/*,collageBtn*/,boardBtn]

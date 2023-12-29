@@ -14,15 +14,35 @@ struct Tag: Identifiable,Hashable{
 }
 
 struct TagView: View {
+    enum TagType{
+        case append((String)->Void)
+        case delete
+    }
     @Binding var tags: [Tag]
-    let fontSize:CGFloat = 14
+    let fontSize:CGFloat
+    let tagType: TagType
+    init(_ tags: Binding<[Tag]>,fontSize:CGFloat = 14,type:TagType = .delete) {
+        self._tags = tags
+        self.fontSize = fontSize
+        self.tagType = type
+    }
     var body: some View {
         VStack(alignment:.leading,spacing:10){
             ForEach(getRows(),id:\.self){ rows in
                 HStack(spacing:6){
                     ForEach(rows){ row in
                         // Row View...
-                        RowView(tag: row)
+                        switch tagType {
+                        case .append(let action):
+                            SelectRow(tag: row, fontSize: fontSize) {
+                                action(row.text)
+                            }
+                        case .delete:
+                            CancelRow(tag: row, fontSize: fontSize) {
+                                tags.remove(at: getIndex(tag: row))
+                            }
+                        }
+                            
                     }
                 }
             }
@@ -70,7 +90,7 @@ struct TagView: View {
         // 텍스트 너비 계산
         var totalWidth: CGFloat = 0
         
-        var screenWidth: CGFloat = UIScreen.current!.bounds.width - 90
+        let screenWidth: CGFloat = UIScreen.current!.bounds.width - 90
         tags.forEach { tag in
             // 한 줄 너비 더하기
             // 14 + 14 + 6 + 6
@@ -90,7 +110,46 @@ struct TagView: View {
         return rows
     }
 }
-
-//#Preview {
-//    TagView()
-//}
+extension TagView{
+    struct CancelRow:View{
+        let tag:Tag
+        let fontSize: CGFloat
+        let action:()->Void
+        var body: some View{
+            HStack(spacing:4){
+                Text(tag.text)
+                    .font(.system(size: fontSize,weight: .semibold))
+                    .lineLimit(1)
+                Image(systemName: "xmark.circle").imageScale(.small)
+            }.padding(.horizontal,14)
+                .padding(.vertical,8)
+                .background(
+                    Capsule().fill(.regularMaterial)
+                )
+                .contentShape(Capsule())
+                .wrapBtn {
+                    action()
+                }
+        }
+    }
+    struct SelectRow:View{
+        let tag:Tag
+        let fontSize: CGFloat
+        let action:()->Void
+        var body: some View{
+            HStack(spacing:4){
+                Text(tag.text)
+                    .font(.system(size: fontSize,weight: .semibold))
+                    .lineLimit(1)
+            }.padding(.horizontal,14)
+                .padding(.vertical,8)
+                .background(
+                    Capsule().fill(.regularMaterial)
+                )
+                .contentShape(Capsule())
+                .wrapBtn {
+                    action()
+                }
+        }
+    }
+}

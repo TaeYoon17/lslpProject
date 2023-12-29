@@ -16,6 +16,7 @@ extension PinInfoVC{
                 btn.rx.tap.bind(with: self) { owner, _ in
                     owner.vm.upload()
                 }.disposed(by: disposeBag)
+                vm.isCreateAble.bind(to: btn.rx.isEnabled).disposed(by: disposeBag)
             }
         }
         private var disposeBag = DisposeBag()

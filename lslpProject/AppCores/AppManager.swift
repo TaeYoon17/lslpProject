@@ -14,6 +14,7 @@ extension App{
         @DefaultsState(\.accessToken) var accessToken
         @DefaultsState(\.refreshToken) var refreshToken
         @DefaultsState(\.userBoards) private(set) var boards
+        @DefaultsState(\.userHashTags) private(set) var hashTags
         static let shared = Manager()
         let addAction = PublishSubject<Void>()
         let userAccount = PublishSubject<Bool>()
@@ -31,5 +32,9 @@ extension App.Manager{
     }
     func updateBoards(boards:[Board]){
         self.boards = boards
+        Task{
+            let tags:[String] = boards.flatMap{$0.hashTags}
+            self.hashTags = Array(Set(tags))
+        }
     }
 }

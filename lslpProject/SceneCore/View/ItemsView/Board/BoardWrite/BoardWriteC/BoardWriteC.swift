@@ -44,7 +44,7 @@ enum BoardWriteC{
         var body: some View{
             itemView(name: "Hash tags: \(tags.count) / 5") {
                 Group{
-                    if !tags.isEmpty{ TagView(tags: $tags).background(.green) }
+                    if !tags.isEmpty{ TagView($tags).background(.green) }
                     HStack(spacing:4){
                         Text("#")
                         TextField("Enter hash tags", text: $tagName).focused(focused)

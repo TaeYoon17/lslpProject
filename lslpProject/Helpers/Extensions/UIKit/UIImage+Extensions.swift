@@ -9,9 +9,17 @@ import UIKit
 extension UIImage{
     func jpegData(maxMB: CGFloat = 3) throws -> Data{
         guard let data = self.jpegData(compressionQuality: 1) else { throw Err.FetchError.fetchEmpty }
-        let quality: CGFloat = CGFloat(data.count / Int(maxMB * 1000000))
-        let image =  self.jpegData(compressionQuality: quality)
-        guard let image else { throw Err.FetchError.fetchEmpty}
+        let quality: CGFloat = (1000000.0 * maxMB) / CGFloat(data.count) 
+        let val = max(0,min(0.9,quality))
+        print("--------val--------")
+        print(val)
+        let image =  self.jpegData(compressionQuality: val)
+        guard let image else {
+            throw Err.FetchError.fetchEmpty
+        }
+        guard image.count < Int(maxMB) * 1000000 else {
+            fatalError("최대치를 넘어")
+        }
         return image
     }
 }

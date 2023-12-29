@@ -73,9 +73,10 @@ extension TaskCounter{
                     group.cancelAll()
                 }
             }).store(in: &subscription)
-            try await group.waitForAll()
+            
             var arr:[S] = []
             for try await v in group{ arr.append(v) }
+            try await group.waitForAll()
             return arr
         }
     }

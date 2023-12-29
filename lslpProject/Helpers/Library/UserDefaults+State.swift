@@ -50,4 +50,13 @@ extension UserDefaults{
             self.set(data, forKey: "userBoards")
         }
     }
+    var userHashTags:[String]{
+        get{
+            guard let hashTags = self.array(forKey: "userHashTags") as? [String] else {return []}
+            return hashTags
+        }
+        set{
+            self.set(newValue, forKey: "userHashTags")
+        }
+    }
 }

@@ -8,15 +8,17 @@
 import UIKit
 import RxCocoa
 import RxSwift
+import SwiftUI
 extension PinInfoBoardVC{
     var cellRegistration: UICollectionView.CellRegistration<UICollectionViewListCell,Item>{
         UICollectionView.CellRegistration {[weak self] cell, indexPath, itemIdentifier in
             guard let self else {return}
             var config = cell.defaultContentConfiguration()
             config.text = itemIdentifier.name
+            config.textProperties.font = .systemFont(ofSize: 18,weight: .bold)
             config.secondaryText = itemIdentifier.hashTags
+            config.secondaryTextProperties.font = .systemFont(ofSize: 14,weight: .semibold)
             config.secondaryTextProperties.color = .systemGray
-
             cell.accessories = [.checkmark(options: .init(isHidden: !itemIdentifier.check, reservedLayoutWidth: .standard, tintColor: .systemGreen))]
             if let imageData = itemIdentifier.imageData{
                 Task{@MainActor in
@@ -32,10 +34,10 @@ extension PinInfoBoardVC{
     }
     var headerReigstration : UICollectionView.SupplementaryRegistration<UICollectionViewListCell>{
         UICollectionView.SupplementaryRegistration(elementKind: UICollectionView.elementKindSectionHeader) {[weak self] supplementaryView, elementKind, indexPath in
-            guard let self else {return}
-            var config = supplementaryView.defaultContentConfiguration()
-            config.text = "My Boards"
-            supplementaryView.contentConfiguration = config
+            supplementaryView.contentConfiguration = UIHostingConfiguration{
+                Text("My boards").font(.title2.bold()).foregroundStyle(.text).padding(.horizontal,8)
+            }
+            
         }
     }
     var layout:UICollectionViewLayout{

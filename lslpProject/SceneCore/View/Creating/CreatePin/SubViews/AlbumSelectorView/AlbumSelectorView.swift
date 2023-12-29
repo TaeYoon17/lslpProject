@@ -27,7 +27,8 @@ final class AlbumSelectorView: UICollectionView{
 extension AlbumSelectorView: UICollectionViewDelegate,UICollectionViewDataSource{
     static var layout: UICollectionViewLayout{
         var listConfig = UICollectionLayoutListConfiguration(appearance: .plain)
-        listConfig.backgroundColor = .systemRed
+//        listConfig.backgroundColor = .systemRed
+        listConfig.backgroundColor = .systemBackground
         return UICollectionViewCompositionalLayout.list(using: listConfig)
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

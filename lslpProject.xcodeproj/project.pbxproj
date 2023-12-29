@@ -84,6 +84,10 @@
 		636CFFBF2B035CA200B03159 /* PostRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636CFFBE2B035CA200B03159 /* PostRouter.swift */; };
 		636CFFC12B035CD600B03159 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636CFFC02B035CD600B03159 /* App.swift */; };
 		636CFFC32B035D6800B03159 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 636CFFC22B035D6800B03159 /* .gitignore */; };
+		636E54A12B3EAC6800DD7F16 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636E54A02B3EAC6800DD7F16 /* StringExtensions.swift */; };
+		636E54A32B3EB04300DD7F16 /* NetworkService+Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636E54A22B3EB04300DD7F16 /* NetworkService+Pin.swift */; };
+		6370C71D2B3DDB4700E17BE8 /* AccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6370C71C2B3DDB4700E17BE8 /* AccessoryView.swift */; };
+		6370C71F2B3DE0A300E17BE8 /* ToolbarModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6370C71E2B3DE0A300E17BE8 /* ToolbarModifiers.swift */; };
 		6373BF7D2B0F23BC006DE10C /* CreatingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6373BF7C2B0F23BC006DE10C /* CreatingVC.swift */; };
 		6375D5292B29F88D007B0B7C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6375D5282B29F88D007B0B7C /* ProfileView.swift */; };
 		637EEEC72B21BDD1007D54A3 /* NavItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637EEEC62B21BDD1007D54A3 /* NavItem.swift */; };
@@ -264,6 +268,10 @@
 		636CFFBE2B035CA200B03159 /* PostRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRouter.swift; sourceTree = "<group>"; };
 		636CFFC02B035CD600B03159 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		636CFFC22B035D6800B03159 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		636E54A02B3EAC6800DD7F16 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
+		636E54A22B3EB04300DD7F16 /* NetworkService+Pin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkService+Pin.swift"; sourceTree = "<group>"; };
+		6370C71C2B3DDB4700E17BE8 /* AccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessoryView.swift; sourceTree = "<group>"; };
+		6370C71E2B3DE0A300E17BE8 /* ToolbarModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarModifiers.swift; sourceTree = "<group>"; };
 		6373BF7C2B0F23BC006DE10C /* CreatingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatingVC.swift; sourceTree = "<group>"; };
 		6375D5282B29F88D007B0B7C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		637EEEC62B21BDD1007D54A3 /* NavItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavItem.swift; sourceTree = "<group>"; };
@@ -784,6 +792,7 @@
 			isa = PBXGroup;
 			children = (
 				6390AF902B10B82E00201BF1 /* ButtonAnimations.swift */,
+				6370C71C2B3DDB4700E17BE8 /* AccessoryView.swift */,
 			);
 			path = UIKitComponents;
 			sourceTree = "<group>";
@@ -875,6 +884,7 @@
 				6390AF9A2B110CA700201BF1 /* NewworkService+Auth.swift */,
 				636954272B289048002138B3 /* NetworkService+Profile.swift */,
 				638087562B3BC0CC00815724 /* NetworkService+Board.swift */,
+				636E54A22B3EB04300DD7F16 /* NetworkService+Pin.swift */,
 			);
 			path = NetworkService;
 			sourceTree = "<group>";
@@ -933,6 +943,7 @@
 		63A178F42B0CF19300A16A2C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				636E54A02B3EAC6800DD7F16 /* StringExtensions.swift */,
 				6325F2552B23646C00AD0956 /* UIKit */,
 				633142972B28C20A00768E51 /* UIApplication+NotchSize.swift */,
 				634047632B2CA8E500A645FB /* DateExtension.swift */,
@@ -1031,6 +1042,7 @@
 				63C1046E2B2019D2007A7991 /* ButtonModifiers.swift */,
 				633CE8E32B21B34300C63D6E /* NavigationModifiers.swift */,
 				63A89F9B2B35BD8400E1674A /* TabbarModifiers.swift */,
+				6370C71E2B3DE0A300E17BE8 /* ToolbarModifiers.swift */,
 			);
 			path = Modifiers;
 			sourceTree = "<group>";
@@ -1361,6 +1373,7 @@
 				6375D5292B29F88D007B0B7C /* ProfileView.swift in Sources */,
 				63121C942B1A06D500A22666 /* CreatingPinInfoVM.swift in Sources */,
 				63E92AA92B0F47C500CBEB2F /* CacheService+Image.swift in Sources */,
+				6370C71D2B3DDB4700E17BE8 /* AccessoryView.swift in Sources */,
 				63A179032B0D110E00A16A2C /* VideoUploadVM.swift in Sources */,
 				6398ADBE2B18BCB6003D6182 /* PhotoCollection.swift in Sources */,
 				636954222B288643002138B3 /* ProfileEditBody.swift in Sources */,
@@ -1380,6 +1393,7 @@
 				63BC5EF92B39EAEA00F22F80 /* BoardCreateView.swift in Sources */,
 				63E92A962B0F2D1B00CBEB2F /* CreatingVM.swift in Sources */,
 				6369542C2B28A281002138B3 /* PresentModifier.swift in Sources */,
+				636E54A32B3EB04300DD7F16 /* NetworkService+Pin.swift in Sources */,
 				63B7B2B72B15C38500A991F4 /* NickNameVC.swift in Sources */,
 				636CFFAE2B03528C00B03159 /* NetworkService.swift in Sources */,
 				63E7E67B2B3ABBFE00E9DEB0 /* TagView.swift in Sources */,
@@ -1389,6 +1403,7 @@
 				6369541C2B287D68002138B3 /* FollowResponse.swift in Sources */,
 				639F29EA2B1A378800A0C4E9 /* AlbumSelectorView.swift in Sources */,
 				63F4F2B02B14AC0A00CE4E92 /* LogInBtn.swift in Sources */,
+				6370C71F2B3DE0A300E17BE8 /* ToolbarModifiers.swift in Sources */,
 				633142982B28C20A00768E51 /* UIApplication+NotchSize.swift in Sources */,
 				63E92A9A2B0F2FFA00CBEB2F /* TabVC+ViewSetting.swift in Sources */,
 				6390AF992B1109D500201BF1 /* SignInVM.swift in Sources */,
@@ -1402,6 +1417,7 @@
 				63121C922B1A057500A22666 /* PinInfoTitleView.swift in Sources */,
 				6390AF912B10B82E00201BF1 /* ButtonAnimations.swift in Sources */,
 				63AC040D2B036EDB0067BAEA /* BaseVC.swift in Sources */,
+				636E54A12B3EAC6800DD7F16 /* StringExtensions.swift in Sources */,
 				6390AF8B2B10AE1D00201BF1 /* TokenResponse.swift in Sources */,
 				63ABE87C2B247BF9000D41D7 /* BoardTitleView.swift in Sources */,
 				6335037E2B2B5A5100A8093B /* ProfileEditImageView.swift in Sources */,

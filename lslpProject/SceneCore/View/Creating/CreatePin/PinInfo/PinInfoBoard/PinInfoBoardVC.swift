@@ -46,6 +46,7 @@ final class PinInfoBoardVC: BaseVC{
         searchController.searchBar.placeholder = "Search"
         searchController.hidesNavigationBarDuringPresentation = false
         navigationItem.searchController = searchController
+        self.navigationController?.navigationBar.tintColor = .text
     }
     override func configureView() {
         view.backgroundColor = .systemBackground

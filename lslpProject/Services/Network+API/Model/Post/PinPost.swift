@@ -13,15 +13,12 @@ struct PinPost:Codable{
     var content: String?
     var link: String?
     var imageDatas: [Data] = []
-    var board: String?
-    var sendBoard: String?{
-        get{ "_id_\(board ?? "")" }
-        set{
-            let h = newValue?.split(separator: "_").map{String($0)}[1]
-            board = h
-        }
-    }
+    var board: String = ""
+    var hashTags: String = ""
     var get:Post{
-        Post(title: title,product_id: productId,content: content,file: imageDatas,content1: link,content2: board)
+        let post = Post(title: title,product_id: productId,content: hashTags,file: imageDatas,content1: content,content2: link,content3: board)
+        print("get Post")
+        print(post)
+        return post
     }
 }

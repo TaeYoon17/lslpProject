@@ -60,7 +60,7 @@ struct BoardPost:Codable{
     init(board:Board){
         self.name = board.name
         self.id = board.id
-        self.hashTags = board.hashTags.map{"#\($0)"}.joined(separator: "-")
+        self.hashTags = board.hashTags.hashTagPost()
         self.data = board.data
         self.pins = board.pins.compactMap { $0.joined(separator:"#")}
     }
@@ -68,7 +68,7 @@ struct BoardPost:Codable{
         var board = Board()
         board.name = self.name
         board.data = self.data
-        board.hashTags = hashTags.split(separator: "-").map{String($0).replacing("#", with: "")}
+        board.hashTags = hashTags.hashTags()
         board.id = self.id
         board.pins = self.pins.reduce(into: [], {
             $0.append($1.components(separatedBy: "#"))

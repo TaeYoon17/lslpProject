@@ -23,16 +23,16 @@ final class NetworkService{
     }
     private init(){}
     private var boardCursor = "0"
-    func post(pinPost: PinPost){
-        let post = pinPost.get
-        let postRouter = PostRouter.create(post: post)
-        AF.upload(multipartFormData: postRouter.multipartFormData, with: postRouter).uploadProgress { progress in
-            print("\(progress)")
-        }.validate()
-        .responseData { response in
-            print("\(String(describing: response.response?.statusCode))")
-        }
-    }
+//    func post(pinPost: PinPost){
+//        let post = pinPost.get
+//        let postRouter = PostRouter.create(post: post)
+//        AF.upload(multipartFormData: postRouter.multipartFormData, with: postRouter).uploadProgress { progress in
+//            print("\(progress)")
+//        }.validate()
+//        .responseData { response in
+//            print("\(String(describing: response.response?.statusCode))")
+//        }
+//    }
     
     func getPost(id: String ){
         let postread = PostRouter.read(next: boardCursor, limit: 5, productId: "Board")

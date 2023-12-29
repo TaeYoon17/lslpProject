@@ -42,13 +42,10 @@ extension BoardWriteC{
                         }.disabled(!isAble)
                         .opacity(!isAble ? 0.6 : 1)
                     }
-                    ToolbarItem(placement: .keyboard) {
-                        HStack{
-                            Spacer()
-                            Button("Done"){ keyboardAction() }.font(.headline).tint(.text)
-                        }
-                    }
+                }.keyboardDismiss {
+                    keyboardAction()
                 }
         }
     }
 }
+
