@@ -23,7 +23,7 @@ extension AlbumSection: SectionModelType {
 }
 struct AlbumItem:Identifiable,Hashable{
     var id:String{ photoAsset.identifier }
-    let photoAsset: PhotoAsset
+    var photoAsset: PhotoAsset
     var selectedIdx: Int
     init(photoAsset: PhotoAsset, selectedIdx: Int) {
         self.photoAsset = photoAsset

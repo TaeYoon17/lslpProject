@@ -13,7 +13,6 @@ final class CreatingPinVC: BaseVC{
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
     lazy var pinCreatingBottomView = PinCreatingBottomView(vm:vm)
     lazy var albumSelector = AlbumSelectorView(vm: vm)
-    
     var dataSource: DataSource!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,11 +42,13 @@ final class CreatingPinVC: BaseVC{
             }
         }.disposed(by: disposeBag)
         //MARK: -- Right Navigation Item Action
-        navigationItem.rightBarButtonItem?.rx.tap.bind(with: self) { owner, _ in
+        guard let rightItem = navigationItem.rightBarButtonItem else {return}
+        rightItem.rx.tap.bind(with: self) { owner, _ in
             let pinInfoVM = CreatingPinInfoVM(owner.vm)
             let vc = PinInfoVC(vm: pinInfoVM)
             owner.navigationController?.pushViewController(vc, animated: true)
         }.disposed(by: disposeBag)
+        vm.selectedAlbums.map{$0.count > 0}.bind(to: rightItem.rx.isEnabled).disposed(by: disposeBag)
     }
     var pinConstraint:Constraint?
     var bottomConstraint: Constraint?

@@ -25,6 +25,7 @@ final class CreatingVC: BaseVC{
                 }.disposed(by: disposeBag)
             }
     }
+    
     let pinBtn = ItemButton(systemName: "wand.and.rays")
     let boardBtn = ItemButton(systemName: "clipboard")
     lazy var stView = {

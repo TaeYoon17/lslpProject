@@ -15,6 +15,7 @@ final class CreatingPinVM{
     let photoCollection = PhotoCollection(smartAlbum: .smartAlbumUserLibrary)
     let selectedImageCache = CachedImageManager(isCachingHighQuality: true)
     let albums:BehaviorSubject<[AlbumItem]> = BehaviorSubject(value: [])
+    // 이미지 리스트에서 선택한 것들 reload
     let updatedAlbums: BehaviorSubject<[AlbumItem]> = .init(value: [])
     let selectedAlbums: BehaviorSubject<[AlbumItem]> = .init(value: [])
     
@@ -22,7 +23,7 @@ final class CreatingPinVM{
     private(set) var selectedImage = OrderedDictionary<AlbumItem.ID, AlbumItem>()
     
     private var nowSelected = 0
-    let limitedSelectCnt = 5 
+    let limitedSelectCnt = 5
     
     let openAlbumSelector = BehaviorSubject(value: false)
     var cancellable = Set<AnyCancellable>()
@@ -36,12 +37,25 @@ final class CreatingPinVM{
             guard let self else {return}
             let albumItems = collection.map{AlbumItem(photoAsset: $0)}
             images = .init(albumItems)
-            selectedImage = .init()
             albums.onNext(albumItems)
-            selectedAlbums.onNext(selectedImage.values.elements)
+            let albumSets = Set(albumItems)
+                for key in self.selectedImage.keys{
+                    if let item = albumSets.first(where: {$0.id == key})?.photoAsset{
+                        self.selectedImage[key]?.photoAsset = item
+                    }
+                }
+                for (idx,(key, val)) in self.selectedImage.enumerated(){
+                    var val = val
+                    val.selectedIdx = idx + 1
+                    self.selectedImage[key] = val
+                    self.images.insertModel(item: val)
+                }
+                let values = self.selectedImage.values.elements
+                self.selectedAlbums.onNext(values)
+                self.updatedAlbums.onNext(values)
         }.store(in: &cancellable)
     }
-
+    
     func loadPhotos(){
         Task{
             do{
@@ -54,18 +68,19 @@ final class CreatingPinVM{
     func toggleCheckItem(_ item:AlbumItem){
         var item = item
         var reItems:[AlbumItem] = []
-        if item.selectedIdx < 0 && nowSelected >= limitedSelectCnt{ return }
         if item.selectedIdx < 0{
+            if nowSelected >= limitedSelectCnt{ return}
             nowSelected += 1
             item.selectedIdx = nowSelected
             selectedImage[item.id] = item
             let photoAsset = item.photoAsset
             Task{
-                await selectedImageCache.startCaching(for: [photoAsset], targetSize: PHImageManagerMaximumSize)
+                await photoCollection.cache.startCaching(for:[photoAsset],targetSize:PHImageManagerMaximumSize)
             }
         }else{ //false면 지워줘야하지
             nowSelected -= 1
             selectedImage.removeValue(forKey: item.id)
+//            let photoAsset = item.photoAsset
             item.selectedIdx = -1
             images.insertModel(item: item)
             reItems.append(item)
@@ -81,17 +96,4 @@ final class CreatingPinVM{
         updatedAlbums.onNext(reItems)
         selectedAlbums.onNext(selectedImage.values.elements)
     }
-    
-//    func getSelectedImages()async{
-//        Task{
-//            var images:[UIImage] = []
-//            for album in selectedImage.values{
-//                await selectedManager.requestImage(for: album.photoAsset, targetSize: PHImageManagerMaximumSize) { arg in
-//                    if let arg,let image = arg.image{
-//                        images.append(image)
-//                    }
-//                }
-//            }
-//        }
-//    }
 }

@@ -29,12 +29,16 @@ actor CachedImageManager {
         // Photokit에서 이미지 요청시 추가할 옵션들
         let options = PHImageRequestOptions()
         options.deliveryMode = .opportunistic
+        options.isNetworkAccessAllowed = true
         // 이미지 품질을 자동으로 조절한다.
         return options
     }()
     
     init() {
         imageManager.allowsCachingHighQualityImages = false
+    }
+    deinit{
+        print("이미지 캐시는 사라진다!")
     }
     init(isCachingHighQuality: Bool){
         imageManager.allowsCachingHighQualityImages = true
@@ -103,17 +107,19 @@ actor CachedImageManager {
     }
     func requestImage(for asset: PhotoAsset, targetSize: CGSize = PHImageManagerMaximumSize) async throws -> UIImage{
         guard let phAsset = asset.phAsset else { throw Err.FetchError.fetchEmpty   }
-        return try await  withCheckedThrowingContinuation{ continuation in
+        requestOptions.isSynchronous = targetSize == PHImageManagerMaximumSize
+        return try await withCheckedThrowingContinuation{ continuation in
             let id = imageManager.requestImage(for: phAsset, targetSize: targetSize, contentMode: imageContentMode, options: requestOptions) { image, info in
                 if let error: Error = info?[PHImageErrorKey] as? Error {
                     print("CachedImageManager requestImage error: \(error.localizedDescription)")
-                    continuation.resume(throwing: error as! Never)
+//                    continuation.resume(throwing: error)
                 } else if let cancelled = (info?[PHImageCancelledKey] as? NSNumber)?.boolValue, cancelled {
                     print("CachedImageManager request canceled")
                     continuation.resume(throwing: Err.FetchError.cancelled)
                 } else if let image = image {
                     continuation.resume(returning: image)
                 } else {
+                    print("Failed to find image")
                     continuation.resume(throwing: Err.FetchError.fetchEmpty)
                 }
             }

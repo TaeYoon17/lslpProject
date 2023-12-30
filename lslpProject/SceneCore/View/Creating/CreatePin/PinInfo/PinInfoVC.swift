@@ -39,7 +39,11 @@ final class PinInfoVC: BaseVC{
                 owner.navigationController?.pushViewController(vc, animated: true)
             }
         }.disposed(by: disposeBag)
-        
+        vm.isCreateAble.bind(to:navigationItem.rightBarButtonItem!.rx.isEnabled).disposed(by: disposeBag)
+        navigationItem.rightBarButtonItem?.rx.tap.bind(with: self, onNext: { owner, _ in
+            owner.vm.upload()
+            owner.dismiss(animated: true)
+        }).disposed(by: disposeBag)
     }
     let scrollView = UIScrollView()
     lazy var pinInfoView = PinInfoTitleView(vm: vm)
@@ -58,27 +62,15 @@ final class PinInfoVC: BaseVC{
         stView.spacing = 32
         return stView
     }()
-    lazy var bottomView = {
-        let v = BottomView()
-        v.vm = vm
-        return v
-    }()
     override func configureLayout() {
         view.addSubview(scrollView)
-        view.addSubview(bottomView)
         scrollView.addSubview(stackView)
     }
     override func configureConstraints() {
         scrollView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).inset(4)
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
-//            make.bottom.equalTo(bottomView.snp.top)
             make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
-        }
-        bottomView.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide)
-            make.height.equalTo(52)
         }
         stackView.snp.makeConstraints { make in
             make.edges.equalTo(scrollView.contentLayoutGuide)
@@ -90,6 +82,8 @@ final class PinInfoVC: BaseVC{
     }
     override func configureNavigation() {
         navigationItem.title = "Pin Info"
+        navigationItem.rightBarButtonItem = .init(systemItem: .done)
+        
     }
     
 }

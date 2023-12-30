@@ -14,7 +14,6 @@ final class PinInfoTitleView: UIStackView{
     weak var vm: CreatingPinInfoVM!{
         didSet{
             binding()
-            vm.images
         }
     }
     func binding(){

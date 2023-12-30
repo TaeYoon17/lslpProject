@@ -61,8 +61,15 @@ extension CreatingPinVC:UICollectionViewDelegate,UICollectionViewDataSourcePrefe
         }
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let itemIdentifier = dataSource.itemIdentifier(for: indexPath) else {return}
-        guard let item = vm.images.fetchByID(itemIdentifier) else {return}
+        print("이미지가 선택됨!!")
+        guard let itemIdentifier:AlbumItem.ID = dataSource.itemIdentifier(for: indexPath) else {
+            print("아이템을 찾지 못 함!!")
+            return
+        }
+        guard let item = vm.images.fetchByID(itemIdentifier) else {
+            print("이미지 아이템을 찾지 못함!!")
+            return
+        }
         vm.toggleCheckItem(item)
     }
 }

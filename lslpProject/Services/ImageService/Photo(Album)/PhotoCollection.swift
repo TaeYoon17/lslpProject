@@ -27,6 +27,7 @@ class PhotoCollection: NSObject{
     
     deinit{
         PHPhotoLibrary.shared().unregisterChangeObserver(self)
+        print("PhotoCollection은 집으로 갔다")
     }
     
     func load() async throws{

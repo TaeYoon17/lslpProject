@@ -8,7 +8,7 @@
 import Photos
 struct PhotoAsset: Identifiable {
     var id: String { identifier }
-    var identifier: String = UUID().uuidString
+    var identifier: String
     var index: Int?
     var phAsset: PHAsset?
     typealias MediaType = PHAssetMediaType
@@ -18,8 +18,8 @@ struct PhotoAsset: Identifiable {
     }
     init(phAsset: PHAsset, index: Int?) {
         self.phAsset = phAsset
-        self.index = index
         self.identifier = phAsset.localIdentifier
+        self.index = index
     }
     
     init(identifier: String) {

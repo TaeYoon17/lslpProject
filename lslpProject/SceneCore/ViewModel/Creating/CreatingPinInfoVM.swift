@@ -15,7 +15,7 @@ enum PinInfoDetail{
 }
 final class CreatingPinInfoVM{
     weak var imageCache: CachedImageManager!
-    var images: [PhotoAsset]
+    var images: [PhotoAsset] = []
     var pinPost = PinPost()
     let title = BehaviorSubject(value: "")
     let description = BehaviorSubject(value: "")
@@ -28,9 +28,9 @@ final class CreatingPinInfoVM{
     
     let detailSetting:PublishSubject<PinInfoDetail> = PublishSubject()
     init(_ superVM: CreatingPinVM){
-        imageCache = superVM.selectedImageCache
-        images = superVM.selectedImage.values.map(\.photoAsset)
-        Task{
+        self.imageCache = superVM.selectedImageCache
+        Task{@MainActor in
+            self.images = superVM.selectedImage.values.map(\.photoAsset)
             try await imageToData()
         }
         binding()
@@ -66,7 +66,8 @@ extension CreatingPinInfoVM{
     fileprivate func imageToData() async throws{
         let imgs = try await self.imageCache.requestImages(assets:images)
         let dataCounter = TaskCounter()
-        let cnt = 10.0 / CGFloat(imgs.count)
+        let cnt = CGFloat(10 / imgs.count)
+        print("cnt",cnt)
         let datas = try await dataCounter.run(imgs) {
             return try $0.jpegData(maxMB: cnt)
         }

@@ -27,12 +27,22 @@ final class PinInfoDataView: UIStackView{
             owner.boardPickLabel.text = boardName.isEmpty ? "보드를 선택하세요" : boardName
             owner.boardPickLabel.textColor = boardName.isEmpty ? UIColor.systemRed : .gray
         }.disposed(by: disposeBag)
+        vm.hashTags.bind(with: self) { owner, hashTags in
+            if hashTags.isEmpty{
+                owner.tagPickLabel.text = "해시 태그를 추가하세요"
+            }else{
+                let text = "#\(hashTags.first!)"
+                owner.tagPickLabel.text = String(text.prefix(8)) + (text.count > 8 ? "..." : "")
+            }
+            owner.tagPickLabel.textColor = hashTags.isEmpty ? .systemRed : .gray
+        }.disposed(by: disposeBag)
     }
     let descriptionTextField = PinInfoTextField(explain: "Description", placeholder: "Add a detailed description")
     let linkTextField = PinInfoTextField(explain: "Link", placeholder: "Add your link here",keyboard: .URL)
     let boardPickLabel = UILabel()
     lazy var boardPick = UIListContentView.getPinInfoListCell(text:"Pick a board",label: boardPickLabel)
-    lazy var tagTopic = UIListContentView.getPinInfoListCell(text: "Tag related topics")
+    let tagPickLabel = UILabel()
+    lazy var tagTopic = UIListContentView.getPinInfoListCell(text: "Tag related topics",label: tagPickLabel)
     
     init(vm: CreatingPinInfoVM){
         self.vm = vm
@@ -78,8 +88,9 @@ final class PinInfoDataView: UIStackView{
             make.height.equalTo(0.5)
             make.top.equalTo(boardPick.snp.bottom).offset(6)
             make.horizontalEdges.equalTo(boardPick)
-}
+        }
         
+        [boardPickLabel,tagPickLabel].forEach { $0.font = .systemFont(ofSize: 14, weight: .bold) }
     }
     @objc func tappedItem(_ action: UITapGestureRecognizer){
         guard let tag = action.view?.tag else {return}
