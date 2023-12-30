@@ -11,6 +11,8 @@ import RxSwift
 import RxCocoa
 final class AlbumNaviTitileButton: UIButton{
     let isTappedSubject = BehaviorSubject(value: false)
+    let isTappedAction = PublishSubject<Bool>()
+    let name = PublishSubject<String>()
     private var disposeBag = DisposeBag()
     let image = UIImage(systemName: "chevron.down",withConfiguration: UIImage.SymbolConfiguration(font: UIFont.boldSystemFont(ofSize: 8)))
     init(){
@@ -23,21 +25,26 @@ final class AlbumNaviTitileButton: UIButton{
         config.image = image
         config.baseBackgroundColor = .text
         self.configuration = config
-        isTappedSubject.bind(with: self) { owner, val in
-            UIView.animate(withDuration: 0.3, delay: 0) {
-                if val{
-                    let transform = CGAffineTransform(rotationAngle: .pi)
-                    owner.imageView?.transform = transform
-                }else{
-                    let transform = CGAffineTransform(rotationAngle: 0)
-                    owner.imageView?.transform = transform
+        isTappedSubject.subscribe(on: MainScheduler.asyncInstance).bind(with: self) { owner, val in
+            Task{@MainActor in
+                UIView.animate(withDuration: 0.3, delay: 0) {
+                    if val{
+                        let transform = CGAffineTransform(rotationAngle: .pi)
+                        owner.imageView?.transform = transform
+                    }else{
+                        let transform = CGAffineTransform(rotationAngle: 0)
+                        owner.imageView?.transform = transform
+                    }
                 }
             }
+        }.disposed(by: disposeBag)
+        name.subscribe(on: MainScheduler.asyncInstance).bind(with: self) { owner, name in
+            self.configuration?.attributedTitle = .init(name, attributes: .init([NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 17)]))
         }.disposed(by: disposeBag)
         self.rx.tap.bind(with: self) { owner, _ in
             var val = try! owner.isTappedSubject.value()
             val.toggle()
-            owner.isTappedSubject.onNext(val)
+            owner.isTappedAction.onNext(val)
         }.disposed(by: disposeBag)
     }
     required init?(coder: NSCoder) {

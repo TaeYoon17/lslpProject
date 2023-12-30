@@ -13,7 +13,8 @@ import RxCocoa
 
 final class PinInfoTagVC:UIHostingController<PinInfoTagView>{
     convenience init(vm: CreatingPinInfoVM) {
-        let pinInfoTagView = PinInfoTagView { tags  in
+        let hashTags:[Tag] = (try? vm.hashTags.value().map{Tag(text: $0)}) ?? []
+        let pinInfoTagView = PinInfoTagView(tags:hashTags) { tags  in
             vm.hashTags.onNext(tags)
         }
         self.init(rootView: pinInfoTagView)
@@ -28,8 +29,9 @@ final class PinInfoTagVC:UIHostingController<PinInfoTagView>{
 }
 struct PinInfoTagView:View{
     //    var dismiss:(()->Void)?
-    var changedTags:(([String]) -> Void)
     @MainActor @State var tags:[Tag] = []
+    var changedTags:(([String]) -> Void)
+    
     @MainActor @State private var usedHashTags:[Tag] = []
     @FocusState var focused:Bool
     @State private var tagName = ""

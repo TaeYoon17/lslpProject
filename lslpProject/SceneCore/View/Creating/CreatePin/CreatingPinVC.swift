@@ -16,7 +16,6 @@ final class CreatingPinVC: BaseVC{
     var dataSource: DataSource!
     override func viewDidLoad() {
         super.viewDidLoad()
-        albumSelector.backgroundColor = .systemRed
         vm.openAlbumSelector.debounce(.milliseconds(200), scheduler: MainScheduler.instance).bind(with: self) { owner, val in
                 UIView.animate(withDuration: 0.33) {
                     owner.albumSelectorDrawer(isOpen: val)
@@ -41,6 +40,7 @@ final class CreatingPinVC: BaseVC{
                 }
             }
         }.disposed(by: disposeBag)
+        vm.selectedAlbumModel.map{$0.name}.debounce(.microseconds(100), scheduler: MainScheduler.instance).bind(to: navigationItem.rx.title).disposed(by: disposeBag)
         //MARK: -- Right Navigation Item Action
         guard let rightItem = navigationItem.rightBarButtonItem else {return}
         rightItem.rx.tap.bind(with: self) { owner, _ in
@@ -82,7 +82,9 @@ final class CreatingPinVC: BaseVC{
         navigationItem.leftBarButtonItem = .init(systemItem: .cancel)
         navigationItem.leftBarButtonItem?.tintColor = .text
         let button = AlbumNaviTitileButton()
-        button.isTappedSubject.bind(to: vm.openAlbumSelector).disposed(by: disposeBag)
+        button.isTappedAction.bind(to: vm.openAlbumSelector).disposed(by: disposeBag)
+        vm.openAlbumSelector.bind(to: button.isTappedSubject).disposed(by: disposeBag)
+        vm.openAlbumName.bind(to: button.name).disposed(by: disposeBag)
         navigationItem.titleView = button
         navigationItem.leftBarButtonItem?.rx.tap.bind(with: self) { owner, _ in
             owner.closeAction()

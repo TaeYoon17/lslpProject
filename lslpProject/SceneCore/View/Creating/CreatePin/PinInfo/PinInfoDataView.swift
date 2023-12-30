@@ -31,7 +31,8 @@ final class PinInfoDataView: UIStackView{
             if hashTags.isEmpty{
                 owner.tagPickLabel.text = "해시 태그를 추가하세요"
             }else{
-                let text = "#\(hashTags.first!)"
+                let text = hashTags.map{"#\($0)"}.joined(separator: " ")
+//                "#\(hashTags.first!)"
                 owner.tagPickLabel.text = String(text.prefix(8)) + (text.count > 8 ? "..." : "")
             }
             owner.tagPickLabel.textColor = hashTags.isEmpty ? .systemRed : .gray

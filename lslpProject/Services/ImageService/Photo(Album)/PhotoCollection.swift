@@ -8,8 +8,14 @@
 import Foundation
 import Photos
 import RxSwift
-class PhotoCollection: NSObject{
+enum AlbumType:Identifiable,Hashable{
+    var id: String{ UUID().uuidString }
+    case custom(String)
+    case all
+}
+final class PhotoCollection: NSObject{
     @Published var photoAssets: PhotoAssetCollection = PhotoAssetCollection(PHFetchResult<PHAsset>())
+    
     var albumName: String?
     var smartAlbumType: PHAssetCollectionSubtype?
     
@@ -33,7 +39,13 @@ class PhotoCollection: NSObject{
     func load() async throws{
         PHPhotoLibrary.shared().register(self)
         // 스마트 앨범에서 접근하기
-        if let smartAlbumType = smartAlbumType{
+        try await getAlbumImages(type: .all)
+    }
+    func getAlbumImages(type:AlbumType) async throws{
+        // 스마트 앨범에서 접근하기
+        switch type{
+        case .all:
+            guard let smartAlbumType else {return}
             if let assetCollection = PhotoCollection.getSmartAlbum(subtype: smartAlbumType){
                 print("Loaded smart album of type: \(smartAlbumType.rawValue)")
                 self.assetCollection = assetCollection
@@ -43,20 +55,20 @@ class PhotoCollection: NSObject{
                 print("Unable to load smart album of type: : \(smartAlbumType.rawValue)")
                 throw PhotoCollectionError.unableToLoadSmartAlbum(smartAlbumType)
             }
-        }
-        // 앨범에서 접근하기
-        guard let name = albumName, !name.isEmpty else {
-            print("Unable to load an album without a name.")
-            throw PhotoCollectionError.missingAlbumName
-        }
-        if let assetCollection = PhotoCollection.getAlbum(named: name){
-            print("Loaded photo album named: \(name)")
-            self.assetCollection = assetCollection
-            await refreshPhotoAssets()
-            return
+        case .custom(let name):
+            // 앨범에서 접근하기
+//            guard let name = albumName, !name.isEmpty else {
+//                print("Unable to load an album without a name.")
+//                throw PhotoCollectionError.missingAlbumName
+//            }
+            if let assetCollection = PhotoCollection.getAlbum(named: name){
+                print("Loaded photo album named: \(name)")
+                self.assetCollection = assetCollection
+                await refreshPhotoAssets()
+                return
+            }
         }
     }
-    
     private static func getSmartAlbum(subtype: PHAssetCollectionSubtype) -> PHAssetCollection? {
         let fetchOptions = PHFetchOptions()
         let collections = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: subtype, options: fetchOptions)
@@ -102,6 +114,41 @@ extension PhotoCollection:PHPhotoLibraryChangeObserver{
         }
     }
 }
+struct AlbumModel:Identifiable,Hashable {
+    var id:String{ name }
+    let name:String
+    let count:Int
+    let albumType: AlbumType
+    init(name:String, count:Int, albumType: AlbumType) {
+      self.name = name
+      self.count = count
+        self.albumType = albumType
+    }
+  }
+
+extension PhotoCollection{
+    func listAlbums() -> [AlbumModel]{
+        var album:[AlbumModel] = [AlbumModel]()
+        let options = PHFetchOptions()
+        let userAlbums = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .smartAlbumUserLibrary, options: options)
+        userAlbums.enumerateObjects{ (object: AnyObject!, count: Int, stop: UnsafeMutablePointer) in
+            if object is PHAssetCollection {
+                let obj:PHAssetCollection = object as! PHAssetCollection
+                let fetchOptions = PHFetchOptions()
+                fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+                fetchOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
+                let newAlbum = AlbumModel(name: obj.localizedTitle!, count: obj.estimatedAssetCount,albumType: .custom(obj.localizedTitle!))
+                album.append(newAlbum)
+            }
+        }
+        album =  Array(Set(album))
+        let allPhotosCount = PHAsset.fetchAssets(with: .image, options: options).count
+        let newAlbum = AlbumModel(name: "All Photos", count: allPhotosCount,albumType: .all)
+        album.insert(newAlbum, at: 0)
+        return album
+    }
+}
+
 extension PhotoCollection{
 // 오류 및 오류 발생 이유를 설명하는 현지화된 메시지를 제공하는 특수 오류입니다.
     enum PhotoCollectionError: LocalizedError {

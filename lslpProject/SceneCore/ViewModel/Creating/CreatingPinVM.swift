@@ -26,8 +26,13 @@ final class CreatingPinVM{
     let limitedSelectCnt = 5
     
     let openAlbumSelector = BehaviorSubject(value: false)
+    let openAlbumName = BehaviorSubject(value: "All Photos")
     var cancellable = Set<AnyCancellable>()
     var disposeBag = DisposeBag()
+    
+    // 앨범 리스트 설정하기
+    let albumList: BehaviorSubject<[AlbumModel]> = .init(value: [])
+    let selectedAlbumModel: PublishSubject<AlbumModel> = .init()
     deinit{
         print("CreatingPinVM은 집에 간다...")
     }
@@ -54,6 +59,18 @@ final class CreatingPinVM{
                 self.selectedAlbums.onNext(values)
                 self.updatedAlbums.onNext(values)
         }.store(in: &cancellable)
+        albumList.onNext(self.photoCollection.listAlbums())
+        self.selectedAlbumModel.bind(with: self) { owner, model in
+            owner.openAlbumName.onNext(model.name)
+            owner.openAlbumSelector.onNext(false)
+            owner.selectedImage = .init()
+            owner.nowSelected = 0
+            owner.selectedAlbums.onNext([])
+            owner.updatedAlbums.onNext([])
+            Task{
+                try await owner.photoCollection.getAlbumImages(type: model.albumType)
+            }
+        }.disposed(by: disposeBag)
     }
     
     func loadPhotos(){
