@@ -60,19 +60,45 @@ extension NetworkService{
         }
         return pins.flatMap{$0}
     }
+    func getUserPins(next:String? = nil) async throws -> ([Pin],String?){
+        let postRead = PostRouter.read(next: next, limit: nil, productId: "Pin")
+        let (allPinDatas,nextCursor) = try await getUserPost(router: postRead)
+        var pins:[Pin] = []
+        for pinData in allPinDatas{
+            let pin = try await Pin(response: pinData)
+            pins.append(pin)
+        }
+        return (pins,nextCursor)
+    }
     private func makeRequest(_ tag:String)async throws -> [PostCheckResponse.CheckData]{
         let postRouter = PostRouter.hashTag(name: tag, next: nil, limit: nil, productId: "Pin")
+        return try await getPost(router: postRouter).0
+    }
+    private func getPost(router:PostRouter) async throws -> ([PostCheckResponse.CheckData],String){
         return try await withCheckedThrowingContinuation { continuation in
-            AF.request(postRouter,interceptor: baseAuthenticator).responseDecodable(of:PostCheckResponse.self){ result in
+            AF.request(router,interceptor: baseAuthenticator).responseDecodable(of:PostCheckResponse.self){ result in
                 switch result.result{
                 case .success(let success):
                     print("-----success------")
-                    continuation.resume(returning: success.data)
+                    continuation.resume(returning: (success.data,success.next_cursor))
                 case .failure(let error):
                     print(error)
                 }
             }
         }
-        
+    }
+    private func getUserPost(router:PostRouter) async throws ->  ([PostCheckResponse.CheckData],String){
+        return try await withCheckedThrowingContinuation { continuation in
+            AF.request(router,interceptor: baseAuthenticator).responseDecodable(of:PostCheckResponse.self){ result in
+                switch result.result{
+                case .success(let success):
+                    print("-----success------")
+                    let raws = success.data.filter {$0.creator._id == self.userID }
+                    continuation.resume(returning: (raws,success.next_cursor))
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
     }
 }

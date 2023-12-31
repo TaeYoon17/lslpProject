@@ -39,7 +39,9 @@ struct ProfileView: View{
                             if items[idx] == "Boards"{
                                 BoardListView().tag(idx).environmentObject(vm)
                             }else{
-                                AllPinView(gridType: $gridType).tag(idx)
+                                AllPinView(gridType: $gridType,pins:$vm.pins){
+                                    vm.userPin()
+                                }.tag(idx)
                             }
                         }.background(GeometryReader { makeHeight(proxy: $0) })
                     }headerView:{ selectedIdx,items in
@@ -128,6 +130,13 @@ extension ProfileView{
                     withAnimation(.easeInOut(duration: 0.4)) { self.scrollHeight = heights[selectedIdx] }
                 }
             })
+            .onChange(of: vm.pins) { oldValue, newValue in
+                Task{@MainActor in
+                    try await Task.sleep(for: .seconds(0.1))
+                    heights[selectedIdx] = max(800,proxy.frame(in: .local).height)
+                    withAnimation(.easeInOut(duration: 0.4)) { self.scrollHeight = heights[selectedIdx] }
+                }
+            }
     }
     var scrollObservingView: some View{
         GeometryReader { proxy in

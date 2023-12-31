@@ -15,12 +15,6 @@ struct DiscoverView:View{
     var body: some View{
         VStack(spacing:0){
             TopTabbar(tabbarItems: vm.boardItems.map{$0.boardName},selected: $selectedIdx)
-//                .background(GeometryReader{proxy in
-//                    Color.clear.onChange(of: vm.boardItems){ _ in
-//                    self.topHeight = proxy.frame(in: .local).height
-//                    print(topHeight)
-//                }
-//            })
             TabView(selection:$selectedIdx) {
                 ForEach(vm.boardItems.indices,id:\.self){ idx in
                     ScrollView{
@@ -32,7 +26,6 @@ struct DiscoverView:View{
                         
                 }
             }.tabViewStyle(.page(indexDisplayMode: .never)).ignoresSafeArea()
-                
                 .toolbar(.hidden, for: .navigationBar)
         }
         
@@ -55,7 +48,6 @@ struct PinListView: View{
             }else{
                 Image(systemName: "heart")
                     .aspectRatio(contentMode: .fit)
-//                    .background(.orange)
                     .clipShape(RoundedRectangle(cornerRadius: 16))
             }
         }.task {

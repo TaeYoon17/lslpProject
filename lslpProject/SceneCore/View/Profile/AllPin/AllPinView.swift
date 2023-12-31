@@ -9,18 +9,18 @@ import SwiftUI
 
 struct AllPinView: View {
     @Binding var gridType: GridType
-    let images = ["ARKit","AsyncSwift","Collections","lgWin","rabbits","macOS","Metal"]
+//    let images = ["ARKit","AsyncSwift","Collections","lgWin","rabbits","macOS","Metal"]
+    @Binding var pins:[Pin]
+    let nextAction:()->Void
     var body: some View {
         VStack{
-            StaggredGrid(columns: gridType.gridColumns, list: images) { image in
-                NavigationLink {
+            StaggredGrid(columns: gridType.gridColumns, list: pins) { pin in
 //                    PinView(image: image)
-                    Image(image)
-                } label: {
-                    Image(image).resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .background(.orange)
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                PinListView(pin: pin,columns: gridType.gridColumns).onAppear(){
+                    if pins.last == pin{
+                        print("wow world!!")
+                        nextAction()
+                    }
                 }
             }
             Spacer()
@@ -29,5 +29,7 @@ struct AllPinView: View {
 }
 
 #Preview {
-    AllPinView(gridType: .constant(.compact))
+    AllPinView(gridType: .constant(.compact),pins: .constant([]), nextAction: {
+        print("hello world!!")
+    })
 }

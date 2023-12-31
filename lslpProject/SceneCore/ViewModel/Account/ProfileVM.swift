@@ -14,9 +14,10 @@ final class ProfileVM:ObservableObject{
     @MainActor @Published var followers:[User] = []
     @MainActor @Published var following:[User] = []
     @MainActor @Published var boards:[Board] = []
-    @MainActor @Published var pins:[PinPost] = []
+    @MainActor @Published var pins:[Pin] = []
     @Published var imagePath:String = ""
     @MainActor @Published var profileImage: UIImage?
+    private var nextPin:String? = nil
     var imageData: Data?{
         didSet{
             Task{@MainActor in
@@ -40,17 +41,34 @@ final class ProfileVM:ObservableObject{
                     imageData = try await NetworkService.shared.getImageData(imagePath: profile)
                 }
                 self.userID = response._id
-                let boards = try await NetworkService.shared.getUserBoard()
-                App.Manager.shared.updateBoards(boards: boards)
                 await MainActor.run { [weak self] in
                     guard let self else {return}
                     self.user = response
-                    self.boards = boards
                     self.followers = response.followers
                     self.following = response.following
                 }
+                let boards = try await NetworkService.shared.getUserBoard()
+                let (pins,nextPin) = try await NetworkService.shared.getUserPins(next: nextPin)
+                App.Manager.shared.updateBoards(boards: boards)
+                await MainActor.run {[weak self] in
+                    guard let self else {return}
+                    self.boards = boards
+                    self.pins.append(contentsOf: pins)
+                    self.nextPin = nextPin
+                }
             }catch{
                 print(error)
+            }
+        }
+    }
+    func userPin(){
+        guard nextPin != "0" else {return}
+        Task{
+            let (pins,nextPin) = try await NetworkService.shared.getUserPins(next: nextPin)
+            await MainActor.run {[weak self] in
+                guard let self else {return}
+                self.pins.append(contentsOf: pins)
+                self.nextPin = nextPin
             }
         }
     }
