@@ -48,17 +48,13 @@ final class CreatingPinInfoVM{
             !$0.isEmpty && !$1.isEmpty && !$2.isEmpty
         }.bind(to: isCreateAble).disposed(by: disposeBag)
     }
-    func upload(){
-        print("upload!!")
-        Task{
-            print(pinPost)
-            do{
-//                let res = 
-                try await NetworkService.shared.post(pinPost: pinPost)
-//                print(res)
-            }catch{
-                print(error)
-            }
+    func upload() async {
+//        print("upload!!")
+        print(pinPost)
+        do{
+            try await NetworkService.shared.post(pinPost: pinPost)
+        }catch{
+            print(error)
         }
     }
 }
@@ -66,7 +62,7 @@ extension CreatingPinInfoVM{
     fileprivate func imageToData() async throws{
         let imgs = try await self.imageCache.requestImages(assets:images)
         let dataCounter = TaskCounter()
-        let cnt = CGFloat(10 / imgs.count)
+        let cnt = max(2,CGFloat(5 / imgs.count))
         print("cnt",cnt)
         let datas = try await dataCounter.run(imgs) {
             return try $0.jpegData(maxMB: cnt)

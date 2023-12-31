@@ -49,7 +49,7 @@ struct PinInfoTagView:View{
                         if !tags.isEmpty{ TagView($tags) }
                         HStack(spacing:4){
                             Text("#")
-                            TextField("Enter hash tags", text: $tagName).focused($focused)
+                            TextField("Enter hash tags", text: $tagName).focused($focused).keyboardType(.URL)
                             Button{
                                 guard !tagName.isEmpty else {return}
                                 guard !tags.map({$0.text}).contains(tagName) else {

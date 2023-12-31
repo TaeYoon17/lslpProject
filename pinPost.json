@@ -1,0 +1,137 @@
+{
+    "data": [
+        {
+            "likes": [],
+            "image": [
+                "uploads/posts/1704000491924.jpg"
+            ],
+            "hashTags": [
+                "도레미",
+                "모바일",
+                "케이크"
+            ],
+            "comments": [],
+            "_id": "6590fbec74946e5a20f2b922",
+            "creator": {
+                "_id": "655f3f6cc2c219175f83825b",
+                "nick": "휴주머니Flexed",
+                "profile": "uploads/profiles/1703958050111.jpg"
+            },
+            "time": "2023-12-31T05:28:12.052Z",
+            "title": "하이",
+            "content": "#도레미 #모바일 #케이크",
+            "content1": "",
+            "content2": "",
+            "content3": "658ba47a0619e65a1f0babf0",
+            "product_id": "Pin"
+        },
+        {
+            "likes": [],
+            "image": [
+                "uploads/posts/1704000349688.jpg",
+                "uploads/posts/1704000349802.jpg"
+            ],
+            "hashTags": [
+                "케이크",
+                "Toast",
+                "도레미"
+            ],
+            "comments": [],
+            "_id": "6590fb5e0619e65a1f0bcfbb",
+            "creator": {
+                "_id": "655f3f6cc2c219175f83825b",
+                "nick": "휴주머니Flexed",
+                "profile": "uploads/profiles/1703958050111.jpg"
+            },
+            "time": "2023-12-31T05:25:50.081Z",
+            "title": "얍얍",
+            "content": "#케이크 #Toast #도레미",
+            "content1": "",
+            "content2": "",
+            "content3": "658ba47a0619e65a1f0babf0",
+            "product_id": "Pin"
+        },
+        {
+            "likes": [],
+            "image": [
+                "uploads/posts/1704000134267.jpg",
+                "uploads/posts/1704000134429.jpg",
+                "uploads/posts/1704000134868.jpg",
+                "uploads/posts/1704000135228.jpg",
+                "uploads/posts/1704000135522.jpg"
+            ],
+            "hashTags": [
+                "케이크",
+                "도레미",
+                "Toast",
+                "모바일"
+            ],
+            "comments": [],
+            "_id": "6590fa870619e65a1f0bcfb1",
+            "creator": {
+                "_id": "655f3f6cc2c219175f83825b",
+                "nick": "휴주머니Flexed",
+                "profile": "uploads/profiles/1703958050111.jpg"
+            },
+            "time": "2023-12-31T05:22:15.705Z",
+            "title": "흐으음…",
+            "content": "#케이크 #도레미 #Toast #모바일",
+            "content1": "",
+            "content2": "",
+            "content3": "658bdfb074946e5a20f29b2b",
+            "product_id": "Pin"
+        },
+        {
+            "likes": [],
+            "image": [
+                "uploads/posts/1703999501996.jpg",
+                "uploads/posts/1703999502087.jpg",
+                "uploads/posts/1703999502134.jpg"
+            ],
+            "hashTags": [
+                "도레미",
+                "케이크"
+            ],
+            "comments": [],
+            "_id": "6590f80e4c3bd45a2348c769",
+            "creator": {
+                "_id": "655f3f6cc2c219175f83825b",
+                "nick": "휴주머니Flexed",
+                "profile": "uploads/profiles/1703958050111.jpg"
+            },
+            "time": "2023-12-31T05:11:42.626Z",
+            "title": "ㅜㅜㅡㅡㅡ",
+            "content": "#도레미 #케이크",
+            "content1": "",
+            "content2": "",
+            "content3": "658ba47a0619e65a1f0babf0",
+            "product_id": "Pin"
+        },
+        {
+            "likes": [],
+            "image": [
+                "uploads/posts/1703842214759.jpg",
+                "uploads/posts/1703842215371.jpg",
+                "uploads/posts/1703842215749.jpg"
+            ],
+            "hashTags": [
+                "Toast"
+            ],
+            "comments": [],
+            "_id": "658e91a874946e5a20f2a510",
+            "creator": {
+                "_id": "655f3f6cc2c219175f83825b",
+                "nick": "휴주머니Flexed",
+                "profile": "uploads/profiles/1703958050111.jpg"
+            },
+            "time": "2023-12-29T09:30:16.112Z",
+            "title": "Jtjgkg",
+            "content": "#Toast",
+            "content1": "",
+            "content2": "",
+            "content3": "658bdfb074946e5a20f29b2b",
+            "product_id": "Pin"
+        }
+    ],
+    "next_cursor": "658e91a874946e5a20f2a510"
+}

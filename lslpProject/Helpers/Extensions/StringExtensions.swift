@@ -8,11 +8,11 @@
 import Foundation
 extension Array where Element == String{
     func hashTagPost()->String{
-        self.map{"#\($0)"}.joined(separator: "-")
+        self.map{"#\($0)"}.joined(separator: " ")
     }
 }
 extension String{
     func hashTags()->[String]{
-        self.split(separator: "-").map{String($0).replacing("#", with: "")}
+        self.split(separator: " ").map{String($0).replacing("#", with: "")}
     }
 }

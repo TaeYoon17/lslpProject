@@ -97,7 +97,6 @@ final class CreatingPinVM{
         }else{ //false면 지워줘야하지
             nowSelected -= 1
             selectedImage.removeValue(forKey: item.id)
-//            let photoAsset = item.photoAsset
             item.selectedIdx = -1
             images.insertModel(item: item)
             reItems.append(item)

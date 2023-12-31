@@ -24,9 +24,11 @@ struct BoardSectionView: View{
                 let columns = [gridItem,gridItem]
                 LazyVGrid(columns: columns, spacing: 16,content: {
                     ForEach(board.pinnedImage.indices,id:\.self){ idx in
+//                        PinListView(pin: pin)
                         NavigationLink {
-                            PinView(image: board.pinnedImage[idx])
-                                .environmentObject(discoverVM)
+//                            PinView(image: board.pinnedImage[idx])
+//                                .environmentObject(discoverVM)
+                            Text("Hello world!!")
                         } label: {
                             DiscoverItemView(image: board.pinnedImage[idx])
                                 .frame(height: min(.greatestFiniteMagnitude, ratios[idx] * geometry.size.width / 2))

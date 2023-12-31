@@ -14,6 +14,7 @@ final class NetworkService{
     @DefaultsState(\.accessToken) var accessToken
     @DefaultsState(\.refreshToken) var refreshToken
     @DefaultsState(\.userID) var userID
+    let counter = TaskCounter()
     var errSubject:PublishSubject<ErrMsg>?
     var baseAuthenticator: AuthenticationInterceptor<MyAuthenticator>{
         let authenticator = MyAuthenticator()

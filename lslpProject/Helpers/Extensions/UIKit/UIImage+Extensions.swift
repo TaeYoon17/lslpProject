@@ -22,4 +22,20 @@ extension UIImage{
         }
         return image
     }
+    static func fetchBy(data: Data,size: CGSize) -> UIImage{
+        let scale = UIScreen.main.scale
+        let imageSourceOption = [kCGImageSourceShouldCache: false] as CFDictionary
+        let imageSource = CGImageSourceCreateWithData(data as CFData, imageSourceOption)!
+        let maxPixel = max(size.width, size.height) * scale
+        let downSampleOptions = [
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceShouldCacheImmediately: true,
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceThumbnailMaxPixelSize: maxPixel
+        ] as CFDictionary
+        
+        let downSampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downSampleOptions)!
+        
+        return UIImage(cgImage: downSampledImage)
+    }
 }

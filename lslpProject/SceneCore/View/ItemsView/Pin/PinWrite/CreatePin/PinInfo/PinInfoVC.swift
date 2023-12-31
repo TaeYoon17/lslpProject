@@ -41,8 +41,10 @@ final class PinInfoVC: BaseVC{
         }.disposed(by: disposeBag)
         vm.isCreateAble.bind(to:navigationItem.rightBarButtonItem!.rx.isEnabled).disposed(by: disposeBag)
         navigationItem.rightBarButtonItem?.rx.tap.bind(with: self, onNext: { owner, _ in
-            owner.vm.upload()
-            owner.dismiss(animated: true)
+            Task{
+                await owner.vm.upload()
+                owner.dismiss(animated: true)
+            }
         }).disposed(by: disposeBag)
     }
     let scrollView = UIScrollView()

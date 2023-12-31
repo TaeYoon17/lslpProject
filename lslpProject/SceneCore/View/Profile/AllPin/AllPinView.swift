@@ -14,7 +14,8 @@ struct AllPinView: View {
         VStack{
             StaggredGrid(columns: gridType.gridColumns, list: images) { image in
                 NavigationLink {
-                    PinView(image: image)
+//                    PinView(image: image)
+                    Image(image)
                 } label: {
                     Image(image).resizable()
                         .aspectRatio(contentMode: .fit)

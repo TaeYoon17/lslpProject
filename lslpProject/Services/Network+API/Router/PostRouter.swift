@@ -9,19 +9,21 @@ import Foundation
 import Alamofire
 enum PostRouter:URLRequestConvertible{
     case create(post:Post),read(next:String?,limit:Int?,productId:String?),update(id:String,post:Post),delete(id: String)
+    case hashTag(name:String,next:String?,limit:Int?,productId:String?)
     var endPoint: String{
         switch self{
         case .create: "/post"
         case .delete(let id): "/post/\(id)"
         case .read: "/post"
         case .update(let id,_): "/post/\(id)"
+        case .hashTag: "/post/hashtag"
         }
     }
     var method:HTTPMethod{
         switch self{
         case .create: .post
         case .delete: .delete
-        case .read: .get
+        case .read,.hashTag: .get
         case .update: .put
         }
     }
@@ -30,7 +32,7 @@ enum PostRouter:URLRequestConvertible{
         switch self{
         case .create,.update:
             headers["Content-Type"] = "multipart/form-data"
-        case .delete,.read: break
+        case .delete,.read,.hashTag: break
         }
         return headers
     }
@@ -42,6 +44,11 @@ enum PostRouter:URLRequestConvertible{
             if let limit { params["limit"] = "\(limit)" }
             if let next {params["next"] = next}
             if let productId {params["product_id"] = productId}
+        case .hashTag(name: let name,next: let next, limit: let limit, productId: let productId):
+            if let limit { params["limit"] = "\(limit)" }
+            if let next {params["next"] = next}
+            if let productId {params["product_id"] = productId}
+            params["hashTag"] = name
         default: break
         }
         return params
@@ -55,7 +62,7 @@ enum PostRouter:URLRequestConvertible{
         urlRequest.headers = headers
         switch self{
         case .create,.delete,.update: break
-        case .read:
+        case .read, .hashTag:
             let queryItems = parameters.map{URLQueryItem(name: $0.key, value: $0.value as? String ?? "")}
 //            url.append(queryItems: queryItems)
             urlRequest.url?.append(queryItems: queryItems)

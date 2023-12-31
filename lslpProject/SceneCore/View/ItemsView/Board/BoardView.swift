@@ -81,7 +81,7 @@ extension BoardView{
             VStack{
                 StaggredGrid(columns: GridType.def.gridColumns, list: images) { image in
                     NavigationLink {
-                        LazyView(PinView(image: image))
+                        LazyView(Image(image))
                     } label: {
                         Image(image).resizable()
                             .aspectRatio(contentMode: .fit)
